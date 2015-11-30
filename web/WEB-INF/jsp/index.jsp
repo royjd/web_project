@@ -38,7 +38,7 @@
 
             <label path="username">Enter your user-name</label>
 
-            <form:input id="username" name="username" path="username" /><br>
+            <input id="username" name="username" path="username" /><br>
 
             <label path="username">Please enter your password</label>
 

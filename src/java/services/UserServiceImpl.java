@@ -53,7 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isValidUser(String username, String password) {
-        return true;
+        
+            return this.userDao.findByUsername(username) != null;
+
     }
 
 }

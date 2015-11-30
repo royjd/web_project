@@ -7,6 +7,7 @@ package controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,14 +49,15 @@ public class UsersController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ModelAndView executeLogin(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView executeLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView model = null;
         try {
             boolean isValidUser = userService.isValidUser(request.getParameter("username"), request.getParameter("password"));
             if (isValidUser) {
                 System.out.println("User Login Successful");
                 model = new ModelAndView("index");
-                 model.addObject("username", request.getParameter("username"));
+                session.setAttribute("username", request.getParameter("username"));
+                model.addObject("sessionUsername",session.getAttribute("username"));
             } else {
                 model = new ModelAndView("index");
                 model.addObject("message", "Invalid credentials!!");
@@ -66,5 +68,11 @@ public class UsersController {
         }
 
         return model;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "index";
     }
 }

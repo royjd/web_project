@@ -22,7 +22,7 @@
             </fieldset>
         </form>
         <h2>${username}</h2>
-
+        <h2>${sessionUsername}</h2>
         <form method="post" action="sendMessage.htm">
             <fieldset>
                 Subject : <input type="text" name="subject" /><br />
@@ -32,20 +32,20 @@
             </fieldset>
         </form>
 
-        <form id="loginForm" method="post" action="login" modelAttribute="loginBean">
+        <form id="loginForm" method="post" action="login.htm" modelAttribute="loginBean">
+            <fieldset>
 
+                <label path="username">Enter your user-name</label>
 
+                <input id="username" name="username" path="username" /><br>
 
-            <label path="username">Enter your user-name</label>
+                <label path="username">Please enter your password</label>
 
-            <input id="username" name="username" path="username" /><br>
+                <password id="password" name="password" path="password" /><br>
 
-            <label path="username">Please enter your password</label>
-
-            <password id="password" name="password" path="password" /><br>
-
-            <input type="submit" value="Submit" />
-
+                <input type="submit" value="Submit" />
+            </fieldset>
         </form>
+        <a href="logout.htm" > Logout</a>
     </body>
 </html>

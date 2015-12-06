@@ -6,18 +6,27 @@
 package services;
 
 import dao.UserEntity;
+import java.util.List;
 
 /**
  *
  * @author Karl Lauret
  */
-public interface UserService{
-    
-    public boolean add(String username);
+public interface UserService {
+
+    public boolean add(String email,String password);
+
     public boolean delete(UserEntity u);
-    public boolean isValidUser(String username,String password);
+
+    public boolean isValidUser(String username, String password);
+
     public UserEntity findByID(Long id);
-    public UserEntity findByUsername(String username);
+
+    public UserEntity findByEmail(String email);
+
+    public boolean addFriend(Long ownerId, Long friendId);
+    public boolean removeFriend(Long friendId);
+
     
     
 }

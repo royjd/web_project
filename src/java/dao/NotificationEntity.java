@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package dao;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -14,14 +13,16 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue("Notification")
-public class NotificationEntity extends MessageEntity{
+public class NotificationEntity extends MessageEntity {
 
     private static final long serialVersionUID = 1L;
-    
-    public NotificationEntity(String content, String subject, UserEntity sendBy){
-        super(content,subject,sendBy);
+
+    public NotificationEntity() {
+        super();
     }
 
+    public NotificationEntity(String content, String subject, UserEntity sendBy) {
+        super(content, subject, sendBy);
+    }
 
-    
 }

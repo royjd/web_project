@@ -5,9 +5,11 @@
  */
 package dao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,13 +56,44 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserEntity findByUsername(String username) {
-        try{
-        return (UserEntity) this.em.createQuery("SELECT t FROM UserEntity t where t.username = :value1")
-                 .setParameter("value1", username).getSingleResult();
-        }catch(NoResultException e){
-             return null;
+    public UserEntity findByEmail(String email) {
+        try {
+            return (UserEntity) this.em.createQuery("SELECT t FROM UserEntity t where t.email = :value1")
+                    .setParameter("value1", email).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
     }
+
+    @Transactional
+    @Override
+    public void addMessageR(UserEntity u, MessageUserEntity mue) {
+
+        u.addMessageR(mue);
+        em.merge(u);
+    }
+
+    @Transactional
+    @Override
+    public void addFriend(UserEntity friend, UserEntity owner,FriendEntity fe) {
+        friend.addFriendedBy(fe);
+        owner.addFriend(fe);
+        this.em.merge(friend);
+        this.em.merge(owner);
+    }
+
+
+
+    @Transactional
+    @Override
+    public void removeFriend(UserEntity owner, UserEntity friend, FriendEntity fe) {
+        fe = this.em.merge(fe);
+        owner.removeFriend(fe);
+        friend.removeFriendedBy(fe);
+        this.em.merge(owner);
+        this.em.merge(friend);
+        this.em.remove(fe);
+    }
+
 
 }

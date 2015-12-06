@@ -9,12 +9,13 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(UserEntity.class)
 public abstract class UserEntity_ {
 
+	public static volatile SingularAttribute<UserEntity, String> password;
 	public static volatile ListAttribute<UserEntity, FriendEntity> friendedBy;
 	public static volatile ListAttribute<UserEntity, MessageEntity> messageS;
 	public static volatile SingularAttribute<UserEntity, Long> id;
+	public static volatile SingularAttribute<UserEntity, String> email;
 	public static volatile ListAttribute<UserEntity, MessageUserEntity> messageR;
 	public static volatile ListAttribute<UserEntity, FriendEntity> friends;
-	public static volatile SingularAttribute<UserEntity, String> username;
 
 }
 

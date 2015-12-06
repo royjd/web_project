@@ -28,11 +28,15 @@ public class MessageDAOImpl implements MessageDAO {
         this.em = em;
     }
 
-    @Transactional
     @Override
-    public void save(MessageEntity u) {
+    @Transactional
+    public MessageEntity save(MessageEntity u) {
         u = this.em.merge(u);
         this.em.persist(u);
+        UserEntity sendedBy = u.getSendBy();
+        sendedBy.addMessageS(u);
+        em.merge(sendedBy);
+        return u;
     }
 
     @Transactional
@@ -45,6 +49,18 @@ public class MessageDAOImpl implements MessageDAO {
     public void delete(MessageEntity u) {
         u = em.merge(u);
         em.remove(u);
+    }
+
+    @Override
+    public MessageEntity findByID(Long id) {
+        return (MessageEntity) this.em.find(MessageEntity.class, id);
+    }
+
+    @Transactional
+    @Override
+    public void addTarget(MessageEntity m,MessageUserEntity mue) {
+        m.addTarget(mue);
+        em.merge(m);
     }
 
 }

@@ -1,51 +1,29 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="fr">
 
-<html>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/bootstrap/css/bootstrap.css"/>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/library/bootstrap/js/bootstrap.js"></script>
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome to Spring Web MVC project</title>
+        <title>Fanfare</title>
     </head>
-
     <body>
-        <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
-        <p><i>To display a different welcome page for this project, modify</i>
-            <tt>index.jsp</tt> <i>, or create your own welcome page then change
-                the redirection in</i> <tt>redirect.jsp</tt> <i>to point to the new
-                welcome page and also update the welcome-file setting in</i>
-            <tt>web.xml</tt>.</p>
-        <form method="post" action="addUser.htm">
-            <fieldset>
-                Username* : <input type="text" name="username" /><br />
-                <input type="submit" name="action" value="Add User"/>
-            </fieldset>
-        </form>
-        <h2>${username}</h2>
-        <h2>${sessionUsername}</h2>
-        <form method="post" action="sendMessage.htm">
-            <fieldset>
-                Subject : <input type="text" name="subject" /><br />
-                Message : <input type="text" name="message" /><br />
-                Target : <input type="text" name="target" /><br />
-                <input type="submit" name="action" value="Add User"/>
-            </fieldset>
-        </form>
+        <div class="bg-primary">
+            <%@ include file="index/header.jsp" %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <%@ include file="index/info.jsp" %>
+                    </div>
+                    <div class="col-sm-6">
+                        <%@ include file="index/signUp.jsp" %>
+                    </div>
 
-        <form id="loginForm" method="post" action="login.htm" modelAttribute="loginBean">
-            <fieldset>
-
-                <label path="username">Enter your user-name</label>
-
-                <input id="username" name="username" path="username" /><br>
-
-                <label path="username">Please enter your password</label>
-
-                <password id="password" name="password" path="password" /><br>
-
-                <input type="submit" value="Submit" />
-            </fieldset>
-        </form>
-        <a href="logout.htm" > Logout</a>
+                </div>
+            </div>
+            <%@ include file="index/footer.jsp" %>
+        </div>
     </body>
 </html>

@@ -30,9 +30,10 @@ public class MessageUserDAOImpl implements MessageUserDAO {
 
     @Transactional
     @Override
-    public void save(MessageUserEntity u) {
+    public MessageUserEntity save(MessageUserEntity u) {
         u = this.em.merge(u);
         this.em.persist(u);
+        return u;
     }
 
     @Transactional
@@ -47,4 +48,8 @@ public class MessageUserDAOImpl implements MessageUserDAO {
         em.remove(u);
     }
 
+    @Override
+    public MessageUserEntity findByID(Long id) {
+        return (MessageUserEntity) this.em.find(MessageUserEntity.class, id);
+    }
 }

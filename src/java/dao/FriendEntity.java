@@ -35,6 +35,15 @@ public class FriendEntity implements Serializable {
     @JoinColumn(name = "user_friend_id")
     private UserEntity friend;
 
+    public FriendEntity(){
+        
+    }
+    
+    public FriendEntity(UserEntity owner, UserEntity friend) {
+        this.owner = owner;
+        this.friend = friend;
+    }
+
     public Long getId() {
         return id;
     }

@@ -30,9 +30,10 @@ public class FriendDAOImpl implements FriendDAO {
 
     @Transactional
     @Override
-    public void save(FriendEntity u) {
+    public FriendEntity save(FriendEntity u) {
         u = this.em.merge(u);
         this.em.persist(u);
+        return u;
     }
 
     @Transactional
@@ -41,10 +42,16 @@ public class FriendDAOImpl implements FriendDAO {
         this.em.merge(u);
     }
 
+    @Transactional
     @Override
     public void delete(FriendEntity u) {
         u = em.merge(u);
         em.remove(u);
+    }
+
+    @Override
+    public FriendEntity findByID(Long friendId) {
+        return (FriendEntity) this.em.find(FriendEntity.class, friendId);
     }
 
 }

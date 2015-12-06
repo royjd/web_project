@@ -30,14 +30,36 @@ public class UsersController {
         return "index";
     }
 
-    @RequestMapping(value = "addUser", method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String home() {
+        return "home";
+    }
+
+    @RequestMapping(value = "singUp", method = RequestMethod.POST)
+    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mv = new ModelAndView("index");
-        if (userService.add(request.getParameter("username"))) {
-            mv.addObject("user_id", userService.findByUsername((String) request.getParameter("username")).getId());
-            mv.addObject("username", userService.findByUsername((String) request.getParameter("username")).getUsername());
+        if (userService.add(request.getParameter("email"), request.getParameter("pwd"))) {
+            mv = new ModelAndView("home");
+            session.setAttribute("firstName", request.getParameter("firstName"));
+            session.setAttribute("lastName", request.getParameter("lastName"));
 
         }
+
+        return mv;
+    }
+
+    @RequestMapping(value = "addFriend", method = RequestMethod.GET)
+    public ModelAndView addFriend(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        ModelAndView mv = new ModelAndView("index");
+        userService.addFriend(userService.findByEmail((String) session.getAttribute("email")).getId(), new Long(2));
+
+        return mv;
+    }
+
+    @RequestMapping(value = "removeFriend", method = RequestMethod.GET)
+    public ModelAndView removeFriend(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        ModelAndView mv = new ModelAndView("index");
+        userService.removeFriend(new Long(1));
 
         return mv;
     }
@@ -52,12 +74,10 @@ public class UsersController {
     public ModelAndView executeLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView model = null;
         try {
-            boolean isValidUser = userService.isValidUser(request.getParameter("username"), request.getParameter("password"));
+            boolean isValidUser = userService.isValidUser(request.getParameter("email"), request.getParameter("pwd"));
             if (isValidUser) {
-                System.out.println("User Login Successful");
-                model = new ModelAndView("index");
-                session.setAttribute("username", request.getParameter("username"));
-                model.addObject("sessionUsername",session.getAttribute("username"));
+                model = new ModelAndView("home");
+                session.setAttribute("firstName", request.getParameter("email"));
             } else {
                 model = new ModelAndView("index");
                 model.addObject("message", "Invalid credentials!!");

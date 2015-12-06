@@ -11,9 +11,11 @@ package dao;
  */
 public interface MessageUserDAO {
 
-    public void save(MessageUserEntity u);
+    public MessageUserEntity save(MessageUserEntity u);
 
     public void update(MessageUserEntity u);
 
     public void delete(MessageUserEntity u);
+    
+    public MessageUserEntity findByID(Long id);
 }

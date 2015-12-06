@@ -8,11 +8,13 @@ package dao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,13 +47,17 @@ public class MessageEntity implements Serializable {
     @Column
     private String subject;
 
-    @OneToMany(mappedBy = "message")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "message", cascade = CascadeType.ALL)
     private List<MessageUserEntity> target = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity sendBy;
-
+    
+    public MessageEntity() {
+        
+    }
+  
     public MessageEntity(String content, String subject, UserEntity sendBy) {
         this.content = content;
         this.subject = subject;

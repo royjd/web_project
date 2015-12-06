@@ -5,6 +5,9 @@
  */
 package controllers;
 
+import dao.MessageEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +23,18 @@ import services.MessageService;
  */
 @Controller
 public class MessagesController {
-
+    
+    @Autowired
+    private MessageService messageService;
+    
     @RequestMapping(value = "sendMessage", method = RequestMethod.POST)
     public ModelAndView send(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView model = new ModelAndView("index");
+        
+        List<Long> lr = new ArrayList<>();
+        lr.add(Long.parseLong(request.getParameter("targets")));
+        MessageEntity mId = this.messageService.add(request.getParameter("message"), request.getParameter("subject"), Long.parseLong(request.getParameter("sender")));
+        this.messageService.send(mId, lr );
         return model;
     }
 

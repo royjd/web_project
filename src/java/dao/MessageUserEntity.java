@@ -38,12 +38,18 @@ public class MessageUserEntity implements Serializable {
 
     @Column(name = "new_message")
     private boolean newMessage;
+    
+    public MessageUserEntity(){
+    
+    }
 
     public MessageUserEntity(MessageEntity m,UserEntity receiver){
         this.user = receiver;
         this.message = m;
         this.newMessage = false;
     }
+    
+    
     public Long getId() {
         return id;
     }

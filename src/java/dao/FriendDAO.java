@@ -11,9 +11,11 @@ package dao;
  */
 public interface FriendDAO {
 
-    public void save(FriendEntity u);
+    public FriendEntity save(FriendEntity u);
 
     public void update(FriendEntity u);
 
     public void delete(FriendEntity u);
+
+    public FriendEntity findByID(Long friendId);
 }

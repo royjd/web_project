@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.List;
+
 /**
  *
  * @author Karl Lauret
@@ -19,5 +21,12 @@ public interface UserDAO {
 
     public UserEntity findByID(Long id);
 
-    public UserEntity findByUsername(String username);
+    public void addMessageR(UserEntity u, MessageUserEntity mue);
+
+    public UserEntity findByEmail(String email);
+
+    public void addFriend(UserEntity friend, UserEntity owner, FriendEntity fe);
+
+
+    public void removeFriend(UserEntity owner, UserEntity friend, FriendEntity fe);
 }

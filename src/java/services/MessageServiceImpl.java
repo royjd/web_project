@@ -13,7 +13,9 @@ import dao.UserDAO;
 import dao.UserEntity;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  *
@@ -32,30 +34,31 @@ public class MessageServiceImpl implements MessageService {
     MessageUserDAO mgUserDao;
 
     @Override
-    public boolean add(String content, String subject, Long sender_id) {
+    public MessageEntity add(String content, String subject, Long sender_id) {
         UserEntity tmpS = userDao.findByID(sender_id);
         if (tmpS != null) {
             MessageEntity me = new MessageEntity(content, subject, tmpS);
-            mgDao.save(me);
-            return true;
+            me = mgDao.save(me);
+            return me;
         }
-        return false;
+        return null;
     }
 
     @Override
     public boolean send(MessageEntity m, List<Long> r) {
+        MessageEntity me = mgDao.findByID(m.getId());
         for (Long receiver : r) {
             UserEntity tmpR = userDao.findByID(receiver);
             if (tmpR != null) {
                 MessageUserEntity tmpMUE = new MessageUserEntity(m, tmpR);
-                mgUserDao.save(tmpMUE);
-                tmpR.addMessageR(tmpMUE);
-                m.addTarget(tmpMUE);
+                tmpMUE = mgUserDao.save(tmpMUE);
+                tmpMUE = mgUserDao.findByID(tmpMUE.getId());
+                mgDao.addTarget(me, tmpMUE);
+                userDao.addMessageR(tmpR,tmpMUE);
             }
         }
-        mgDao.save(m);
 
         return true;
     }
-
+    
 }

@@ -5,7 +5,9 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -75,14 +77,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Transactional
     @Override
-    public void addFriend(UserEntity friend, UserEntity owner,FriendEntity fe) {
+    public void addFriend(UserEntity friend, UserEntity owner, FriendEntity fe) {
         friend.addFriendedBy(fe);
         owner.addFriend(fe);
         this.em.merge(friend);
         this.em.merge(owner);
     }
-
-
 
     @Transactional
     @Override
@@ -95,5 +95,28 @@ public class UserDAOImpl implements UserDAO {
         this.em.remove(fe);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserEntity> findBysearch(String param) {
+        try {
+    
+            //List<UserEntity> userEntities = new ArrayList<>();
+
+            List<UserEntity> userEntities = this.em.createQuery("SELECT t FROM UserEntity t where t.email LIKE :value1")
+                    .setParameter("value1", "%" + param + "%").getResultList();
+            /*for (Map row : rows) {
+                UserEntity customer = new UserEntity();
+                customer.setId((Long) (row.get("ID")));
+                customer.setEmail((String) row.get("EMAIL"));
+                userEntities.add(customer);
+            }*/
+
+            return userEntities;
+
+        } catch (NoResultException e) {
+            return null;
+        }
+
+    }
 
 }

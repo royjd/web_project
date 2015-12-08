@@ -27,6 +27,8 @@ public interface UserService {
     public boolean addFriend(Long ownerId, Long friendId);
     public boolean removeFriend(Long friendId);
 
+    public List<UserEntity> search(String param);
+
     
     
 }

@@ -47,7 +47,7 @@ public class MessageEntity implements Serializable {
     @Column
     private String subject;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "message", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "message")
     private List<MessageUserEntity> target = new ArrayList<>();
 
     @ManyToOne

@@ -119,6 +119,11 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public List<UserEntity> search(String param) {
+        return this.userDao.findBysearch(param);
+    }
+
 
 
 }

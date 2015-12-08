@@ -19,7 +19,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -40,17 +43,22 @@ public class UserEntity implements Serializable {
 
     @Column
     private String password;
+    
+    @OneToOne(mappedBy= "profileOwner")
+    private ProfileEntity profile;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+    @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageUserEntity> messageR = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sendBy", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "sendBy")
+    @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageEntity> messageS = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
     private List<FriendEntity> friends = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "friend", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "friend")
     private List<FriendEntity> friendedBy = new ArrayList<>();
 
     public UserEntity() {
@@ -175,4 +183,13 @@ public class UserEntity implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public ProfileEntity getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileEntity profile) {
+        this.profile = profile;
+    }
+    
 }

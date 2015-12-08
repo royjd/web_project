@@ -1,6 +1,7 @@
 <html lang="fr">
 
     <meta charset="utf-8">
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/bootstrap/css/bootstrap.css"/>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
@@ -16,11 +17,12 @@
             <%@ include file="home/header.jsp" %>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <%@ include file="home/info.jsp" %>
+                    <div class="col-sm-2">
+                        <%@ include file="home/sideBar.jsp" %>
                     </div>
-                    <div class="col-sm-6">
-                        <%@ include file="home/signUp.jsp" %>
+                    <div class="col-sm-10">
+                        ${message}
+                        <jsp:include page="home/${content}.jsp" flush="true" />
                     </div>
 
                 </div>

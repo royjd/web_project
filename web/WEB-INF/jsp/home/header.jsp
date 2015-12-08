@@ -8,7 +8,7 @@
         <div class="col-sm-6">
             <form method="post" class="navbar-form" role="form" action="search.htm">
 
-                <input type="text" name="search" class="form-control" id="friendSearch" placeholder="Search...">
+                <input type="text" name="searchParam" class="form-control" id="friendSearch" placeholder="Search...">
 
                 <button type="submit" class="btn btn-success">Go</button>
             </form>

@@ -10,6 +10,7 @@ public abstract class FriendEntity_ {
 
 	public static volatile SingularAttribute<FriendEntity, UserEntity> owner;
 	public static volatile SingularAttribute<FriendEntity, UserEntity> friend;
+	public static volatile SingularAttribute<FriendEntity, Boolean> accepted;
 	public static volatile SingularAttribute<FriendEntity, Long> id;
 
 }

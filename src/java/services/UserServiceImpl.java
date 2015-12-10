@@ -5,6 +5,7 @@
  */
 package services;
 
+import commun.PasswordManager;
 import dao.ExperienceDAO;
 import dao.ExperienceEntity;
 import dao.FriendDAO;
@@ -35,22 +36,28 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     FriendDAO friendDao;
-    
+
     @Resource
     ProfileDAO profileDao;
-    
+
     @Resource
     ExperienceDAO experienceDao;
 
     @Override
-    public boolean add(UserEntity u  , ProfileEntity p) {
+    public boolean add(UserEntity u, ProfileEntity p) {
         if (this.userDao.findByEmail(u.getEmail()) == null) {
-            Long userId = userDao.save(u);
-            u.setId(userId);
-            p.setProfileOwner(u);
-            Long profileId = profileDao.save(p);
-            p.setId(profileId);
-            return true;
+            try {
+                u.setPassword(PasswordManager.createHash(u.getPassword()));
+                Long userId = userDao.save(u);
+                u.setId(userId);
+                p.setProfileOwner(u);
+                Long profileId = profileDao.save(p);
+                p.setId(profileId);
+                return true;
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
         } else {
             return false;
         }
@@ -166,10 +173,11 @@ public class UserServiceImpl implements UserService {
         UserEntity from = this.userDao.findByID(deniedFrom);
         if (by != null && from != null && from.hasFriend(by)) {
             FriendEntity fe = from.getFriend(by);
-            if(fe!=null)
+            if (fe != null) {
                 this.userDao.removeFriend(from, by, fe);
-            else 
+            } else {
                 return false;
+            }
             return true;
         }
         return false;

@@ -21,7 +21,7 @@
 
                 <button type="submit" class="btn btn-success">Sign Up</button>
             </form>-->
-            <%@ include file="../commun/sideBar/profileHeader.jsp" %>
+            <%@ include file="../commun/sideBar/photoProfile.jsp" %>
             <%@ include file="../commun/sideBar/physical.jsp" %>
             <%@ include file="../commun/sideBar/experience.jsp" %>
            

@@ -11,6 +11,7 @@ public abstract class UserEntity_ {
 
 	public static volatile SingularAttribute<UserEntity, String> password;
 	public static volatile ListAttribute<UserEntity, FriendEntity> friendedBy;
+	public static volatile SingularAttribute<UserEntity, ProfileEntity> profile;
 	public static volatile ListAttribute<UserEntity, MessageEntity> messageS;
 	public static volatile SingularAttribute<UserEntity, Long> id;
 	public static volatile SingularAttribute<UserEntity, String> email;

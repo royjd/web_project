@@ -5,9 +5,7 @@
 --%>
 <div class="row">
     <div class="col-sm-12 bg-success">
-        <h2>Sign Up</h2>
-        <div class="col-sm-12">
-            <form method="post" class="form-horizontal" role="form" action="singUp.htm">
+            <!--<form method="post" class="form-horizontal" role="form" action="singUp.htm">
                 <div class="form-group">
                     <input class="form-control" name="firstName" id="firstName" placeholder="First Name">
                 </div>
@@ -18,11 +16,14 @@
                     <input type="email" class="form-control" name="email" id="email" placeholder="E-Mail">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="pwd" id="pwd" placeholder="password">
+                    <input type="password" class="form-control" name="password" id="pwd" placeholder="password">
                 </div>
 
                 <button type="submit" class="btn btn-success">Sign Up</button>
-            </form>
-        </div>
+            </form>-->
+            <%@ include file="../commun/sideBar/profileHeader.jsp" %>
+            <%@ include file="../commun/sideBar/physical.jsp" %>
+            <%@ include file="../commun/sideBar/experience.jsp" %>
+           
     </div>
 </div>

@@ -32,27 +32,13 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String init() {
-        return "index";
-    }
+    
 
-    @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String home(HttpSession session, Model m) {
 
-        m.addAttribute("content", "info");
-        UserEntity ue = userService.findByEmail((String) session.getAttribute("email"));
-        List<UserEntity> fta = this.userService.getFriendToAccept(ue.getId());
-        m.addAttribute("friendToAccept", fta);
-        List<FriendEntity> friends = ue.getFriends();
-        friends.addAll(ue.getFriendedBy());
-        m.addAttribute("friends", friends);
-        return "home";
-    }
 
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mv = new ModelAndView("home");
+        ModelAndView mv = new ModelAndView("page");
         mv.addObject("content", "search");
         List<UserEntity> lue = this.userService.search((String) request.getParameter("searchParam"));
         mv.addObject("searchResult", lue);
@@ -60,15 +46,15 @@ public class UsersController {
     }
 
     @RequestMapping(value = "singUp", method = RequestMethod.POST)
-    public ModelAndView addUser( @ModelAttribute("user") UserEntity user, 
+    public ModelAndView addUser(@ModelAttribute("user") UserEntity user,
             @ModelAttribute("profile") ProfileEntity profile, HttpSession session) {
-        
+
         ModelAndView mv = new ModelAndView("index");
-        if (userService.add(user,profile)) {
+        if (userService.add(user, profile)) {
             mv = new ModelAndView("redirect:/home.htm");
-            mv.addObject("content","info");
-           // session.setAttribute("lastName", request.getParameter("lastName"));
-            session.setAttribute("lastName", request.getParameter("email"));
+            // session.setAttribute("lastName", request.getParameter("lastName"));
+            // session.setAttribute("lastName", request.getParameter("email"));
+            session.setAttribute("user", user);
 
         }
 
@@ -78,7 +64,8 @@ public class UsersController {
     @RequestMapping(value = "addFriend", method = RequestMethod.GET)
     public ModelAndView addFriend(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam("id") Long id) {
         ModelAndView mv = new ModelAndView("redirect:/home.htm");
-        if (userService.addFriend(userService.findByEmail((String) session.getAttribute("email")).getId(), id)) {
+
+        if (userService.addFriend(((UserEntity) session.getAttribute("user")).getId(), id)) {
             mv.addObject("message", "Friend request sended");
         } else {
             mv.addObject("message", "Already friend or friend requested");
@@ -103,19 +90,15 @@ public class UsersController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ModelAndView executeLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView model = null;
-        try {
-            boolean isValidUser = userService.isValidUser(request.getParameter("email"), request.getParameter("pwd"));
-            if (isValidUser) {
-                model = new ModelAndView("redirect:/home.htm");
-                session.setAttribute("email", request.getParameter("email"));
-            } else {
-                model = new ModelAndView("index");
-                model.addObject("message", "Invalid credentials!!");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean isValidUser = userService.isValidUser(request.getParameter("email"), request.getParameter("pwd"));
+        if (isValidUser) {
+            model = new ModelAndView("redirect:/home.htm");
+            session.setAttribute("user", this.userService.findByEmail(request.getParameter("email")));
+        } else {
+            model = new ModelAndView("index");
+            model.addObject("message", "Invalid credentials!!");
         }
+
         return model;
     }
 
@@ -128,7 +111,8 @@ public class UsersController {
     @RequestMapping(value = "acceptFriendship", method = RequestMethod.GET)
     public ModelAndView acceptFriendship(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam("id") Long id) {
         ModelAndView mv = new ModelAndView("redirect:/home.htm");
-        if (userService.acceptFriendship(userService.findByEmail((String) session.getAttribute("email")).getId(), id)) {
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        if (userService.acceptFriendship(ue.getId(), id)) {
             mv.addObject("message", "Friend Added");
         } else {
             mv.addObject("message", "Already friend");
@@ -139,7 +123,8 @@ public class UsersController {
     @RequestMapping(value = "deniedFriendship", method = RequestMethod.GET)
     public ModelAndView deniedFriendship(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam("id") Long id) {
         ModelAndView mv = new ModelAndView("redirect:/home.htm");
-        if (userService.deniedFriendship(userService.findByEmail((String) session.getAttribute("email")).getId(), id)) {
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        if (userService.deniedFriendship(ue.getId(), id)) {
             mv.addObject("message", "Friend denied");
         } else {
             mv.addObject("message", "not your friend or bug or i don't know :D");

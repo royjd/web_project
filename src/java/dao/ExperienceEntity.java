@@ -38,7 +38,16 @@ public class ExperienceEntity extends WebMvcConfigurerAdapter implements Seriali
     
     @OneToOne(mappedBy = "experience")
     private LocalisationEntity localisation;
-            
+
+    public ExperienceEntity() {
+    
+    }
+        
+    public ExperienceEntity(String title, String description) {
+        this.title = title;
+        this.description = description;
+    } 
+    
     public Long getId() {
         return id;
     }

@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import dao.ProfileEntity;
 import dao.UserEntity;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,14 +50,15 @@ public class UsersController {
     }
 
     @RequestMapping(value = "singUp", method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelAndView addUser( @ModelAttribute("user") UserEntity user, 
+            @ModelAttribute("profile") ProfileEntity profile, HttpSession session) {
+        
         ModelAndView mv = new ModelAndView("index");
-        if (userService.add(request.getParameter("email"), request.getParameter("pwd"))) {
-            mv = new ModelAndView("home");
+        if (userService.add(user,profile)) {
+            mv = new ModelAndView("redirect:/");
             mv.addObject("content","info");
-            session.setAttribute("firstName", request.getParameter("firstName"));
-            session.setAttribute("lastName", request.getParameter("lastName"));
-            session.setAttribute("lastName", request.getParameter("email"));
+           // session.setAttribute("lastName", request.getParameter("lastName"));
+          //  session.setAttribute("lastName", request.getParameter("email"));
 
         }
 

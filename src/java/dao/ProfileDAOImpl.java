@@ -47,7 +47,6 @@ public class ProfileDAOImpl implements ProfileDAO{
     @Transactional
     @Override
     public void delete(ProfileEntity p) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         p = this.em.merge(p);
         this.em.remove(p);
     }
@@ -55,7 +54,7 @@ public class ProfileDAOImpl implements ProfileDAO{
     @Override
     public ProfileEntity findByUserId(Long userId) {
         try{
-            return (ProfileEntity) this.em.createQuery("SELECT p FROM ProfileEntity p where p.user.id = :userId")
+            return (ProfileEntity) this.em.createQuery("SELECT p FROM ProfileEntity p where p.profileOwner.id = :userId")
                  .setParameter("userId", userId).getSingleResult();
         }catch(NoResultException e){
              return null;

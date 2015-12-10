@@ -6,6 +6,7 @@
 package dao;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,13 +36,17 @@ public class FriendEntity implements Serializable {
     @JoinColumn(name = "user_friend_id")
     private UserEntity friend;
 
+    @Column(name = "accepted")
+    private Boolean accepted;
+    
     public FriendEntity(){
-        
+        this.accepted = false;
     }
     
     public FriendEntity(UserEntity owner, UserEntity friend) {
         this.owner = owner;
         this.friend = friend;
+        this.accepted =false;
     }
 
     public Long getId() {
@@ -91,6 +96,14 @@ public class FriendEntity implements Serializable {
 
     public void setFriend(UserEntity friend) {
         this.friend = friend;
+    }
+
+    public Boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
     }
 
 }

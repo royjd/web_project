@@ -43,29 +43,29 @@ public class UserEntity implements Serializable {
 
     @Column
     private String password;
-    
-    @OneToOne(mappedBy= "profileOwner")
+
+    @OneToOne(mappedBy = "profileOwner")
     private ProfileEntity profile;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageUserEntity> messageR = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "sendBy")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sendBy")
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageEntity> messageS = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     private List<FriendEntity> friends = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "friend")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "friend")
     private List<FriendEntity> friendedBy = new ArrayList<>();
 
     public UserEntity() {
         this.email = null;
     }
 
-    public UserEntity(String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
+    public UserEntity(String email, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         this.email = email;
 
         this.password = PasswordManager.createHash(password);
@@ -191,5 +191,39 @@ public class UserEntity implements Serializable {
     public void setProfile(ProfileEntity profile) {
         this.profile = profile;
     }
-    
+
+    public boolean hasFriend(UserEntity friend) {
+        for (FriendEntity fe : this.friends) {
+            if (fe.getFriend().equals(friend)) {
+                return true;
+            }
+        }
+        for (FriendEntity fe : this.friendedBy) {
+            if (fe.getOwner().equals(friend)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<UserEntity> getFriendToAccept() {
+        List<UserEntity> lue = new ArrayList<>();
+        for (FriendEntity fe : this.friendedBy) {
+            if (!fe.getAccepted()) {
+                lue.add(fe.getOwner());
+            }
+        }
+        return lue;
+
+    }
+
+    public FriendEntity getFriend(UserEntity friend) {
+        for (FriendEntity fe : this.friends) {
+            if (fe.getFriend().equals(friend)) {
+                return fe;
+            }
+        }
+        return null;
+    }
+
 }

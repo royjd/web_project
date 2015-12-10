@@ -1,7 +1,6 @@
 <html lang="fr">
 
     <meta charset="utf-8">
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/bootstrap/css/bootstrap.css"/>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
@@ -18,11 +17,14 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
-                        <%@ include file="home/sideBar.jsp" %>
+                        <%@ include file="home/leftSideBar.jsp" %>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-8">
                         ${message}
                         <jsp:include page="home/${content}.jsp" flush="true" />
+                    </div>
+                    <div class="col-sm-2">
+                        <jsp:include page="home/rightSideBar.jsp" flush="true"/>
                     </div>
 
                 </div>

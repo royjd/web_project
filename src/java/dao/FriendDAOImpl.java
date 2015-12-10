@@ -54,4 +54,10 @@ public class FriendDAOImpl implements FriendDAO {
         return (FriendEntity) this.em.find(FriendEntity.class, friendId);
     }
 
+    @Override
+    public void acceptFriendship(FriendEntity fe) {
+        fe.setAccepted(Boolean.TRUE);
+       
+    }
+
 }

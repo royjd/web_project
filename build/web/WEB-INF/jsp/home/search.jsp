@@ -13,12 +13,12 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        
-    <c:forEach items="${searchResult}" var="tier" >
-        ${tier.email}      
-        
-    <a href="addFriend.htm?id=${tier.id}"> Add_Friend </a>
-    </c:forEach>   
 
-</body>
+        <c:forEach items="${searchResult}" var="tier" >
+            ${tier.email}      
+
+            <a href="addFriend.htm?id=${tier.id}" class="bg-info"> Add_Friend </a>
+        </c:forEach>   
+
+    </body>
 </html>

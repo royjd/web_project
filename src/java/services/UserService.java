@@ -5,6 +5,7 @@
  */
 package services;
 
+import dao.FriendEntity;
 import dao.UserEntity;
 import java.util.List;
 
@@ -28,6 +29,11 @@ public interface UserService {
     public boolean removeFriend(Long friendId);
 
     public List<UserEntity> search(String param);
+
+    public List<UserEntity> getFriendToAccept(Long id);
+
+    public boolean acceptFriendship(Long acceptedBy, Long acceptedFrom);
+    public boolean deniedFriendship(Long deniedBy, Long deniedFrom);
 
     
     

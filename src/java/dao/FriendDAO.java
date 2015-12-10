@@ -18,4 +18,6 @@ public interface FriendDAO {
     public void delete(FriendEntity u);
 
     public FriendEntity findByID(Long friendId);
+
+    public void acceptFriendship(FriendEntity fe);
 }

@@ -5,8 +5,12 @@
  */
 package services;
 
+import dao.ExperienceDAO;
+import dao.ExperienceEntity;
 import dao.FriendDAO;
 import dao.FriendEntity;
+import dao.ProfileDAO;
+import dao.ProfileEntity;
 import dao.UserDAO;
 import dao.UserEntity;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,21 +35,22 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     FriendDAO friendDao;
+    
+    @Resource
+    ProfileDAO profileDao;
+    
+    @Resource
+    ExperienceDAO experienceDao;
 
     @Override
-    public boolean add(String email, String password) {
-        if (this.userDao.findByEmail(email) == null) {
-            try {
-                UserEntity u = new UserEntity(email, password);
-                userDao.save(u);
-                return true;
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            } catch (InvalidKeySpecException ex) {
-                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            }
+    public boolean add(UserEntity u  , ProfileEntity p) {
+        if (this.userDao.findByEmail(u.getEmail()) == null) {
+            Long userId = userDao.save(u);
+            u.setId(userId);
+            p.setProfileOwner(u);
+            Long profileId = profileDao.save(p);
+            p.setId(profileId);
+            return true;
         } else {
             return false;
         }

@@ -6,6 +6,7 @@
 package services;
 
 import dao.FriendEntity;
+import dao.ProfileEntity;
 import dao.UserEntity;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    public boolean add(String email,String password);
+    public boolean add(UserEntity u , ProfileEntity p);
 
     public boolean delete(UserEntity u);
 

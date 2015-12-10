@@ -35,9 +35,10 @@ public class UserDAOImpl implements UserDAO {
 
     @Transactional
     @Override
-    public void save(UserEntity u) {
+    public Long save(UserEntity u) {
         u = this.em.merge(u);
         this.em.persist(u);
+        return u.getId();
     }
 
     @Transactional

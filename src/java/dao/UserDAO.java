@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    public void save(UserEntity u);
+    public Long save(UserEntity u);
 
     public void update(UserEntity u);
 

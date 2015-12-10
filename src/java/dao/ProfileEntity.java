@@ -35,10 +35,10 @@ public class ProfileEntity implements Serializable {
     private Long id;
     
     @Column
-    private String firstname;
+    private String firstName;
     
     @Column
-    private String lastname;
+    private String lastName;
     
     @Column
     private String phone;
@@ -52,23 +52,31 @@ public class ProfileEntity implements Serializable {
     
     @OneToOne(mappedBy = "profile")
     private PhysicalEntity physical;
-    
-    public String getFirstname() {
-        return firstname;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
+    public UserEntity getProfileOwner() {
+        return profileOwner;
+    }
+
+    public void setProfileOwner(UserEntity profileOwner) {
+        this.profileOwner = profileOwner;
+    }
+   
     public String getPhone() {
         return phone;
     }
@@ -77,15 +85,6 @@ public class ProfileEntity implements Serializable {
         this.phone = phone;
     }
 
-    public UserEntity getUser() {
-        return profileOwner;
-    }
-
-    public void setUser(UserEntity user) {
-        this.profileOwner = user;
-    }
-            
-    
     public Long getId() {
         return id;
     }

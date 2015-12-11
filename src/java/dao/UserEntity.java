@@ -43,6 +43,9 @@ public class UserEntity implements Serializable {
 
     @Column
     private String password;
+    
+    @Column(unique = true)
+    private String username;
 
     @OneToOne(mappedBy = "profileOwner")
     private ProfileEntity profile;
@@ -224,6 +227,14 @@ public class UserEntity implements Serializable {
             }
         }
         return null;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

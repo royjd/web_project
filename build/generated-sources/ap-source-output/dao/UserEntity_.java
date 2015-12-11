@@ -17,6 +17,7 @@ public abstract class UserEntity_ {
 	public static volatile SingularAttribute<UserEntity, String> email;
 	public static volatile ListAttribute<UserEntity, MessageUserEntity> messageR;
 	public static volatile ListAttribute<UserEntity, FriendEntity> friends;
+	public static volatile SingularAttribute<UserEntity, String> username;
 
 }
 

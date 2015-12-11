@@ -54,6 +54,10 @@ public class MessageEntity implements Serializable {
     @JoinColumn(name = "user_id")
     private UserEntity sendBy;
     
+    
+    @Column(name = "group_name")
+    private String groupName;
+    
     public MessageEntity() {
         
     }
@@ -131,6 +135,14 @@ public class MessageEntity implements Serializable {
 
     public void setSendBy(UserEntity sendBy) {
         this.sendBy = sendBy;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
 }

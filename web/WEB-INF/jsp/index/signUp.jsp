@@ -9,6 +9,9 @@
         <div class="col-sm-12">
             <form method="post" class="form-horizontal" role="form" action="singUp.htm">
                 <div class="form-group">
+                    <input class="form-control" name="username" id="firstName" placeholder="username">
+                </div>
+                <div class="form-group">
                     <input class="form-control" name="firstName" id="firstName" placeholder="First Name">
                 </div>
                 <div class="form-group">

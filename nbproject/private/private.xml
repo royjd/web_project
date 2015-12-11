@@ -3,38 +3,33 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/UserService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/web/WEB-INF/jsp/home/header.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/controllers/UsersController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/MessageEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/UserDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/LocalisationDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/LocalisationEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/PhysicalService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/ProfileEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/ProfileServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/LocalisationService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/ExperienceDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/web/WEB-INF/jsp/home.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/UserServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/PhysicalEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/ProfileDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/LocalisationDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/PhysicalServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/ExperienceDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/web/WEB-INF/jsp/home/search.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/PhysicalDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/ExperienceEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/web/WEB-INF/jsp/home/sideBar.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/PhysicalDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/ProfileService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/LocalisationServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/ExperienceService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/MessageUserEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/UserDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/services/ExperienceServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/ProfileDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web_project/src/java/dao/UserEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/AppController.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall/navBar.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/UserServiceImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/MessagesController.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/UsersController.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/index/signUp.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home/rightSideBar.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/page.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/message.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/header.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/sideBar/friendList.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/UserEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/index.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/sideBar/friendRequest.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home/leftSideBar.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall/header.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageDAO.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageServiceImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageService.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/conf/persistence.xml</file>
         </group>
     </open-files>
 </project-private>

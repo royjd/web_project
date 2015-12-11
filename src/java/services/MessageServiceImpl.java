@@ -47,18 +47,25 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public boolean send(MessageEntity m, List<Long> r) {
         MessageEntity me = mgDao.findByID(m.getId());
+        //send it to the sender too 
+        MessageUserEntity mue = new MessageUserEntity(me, me.getSendBy());
+        mue = mgUserDao.save(mue);
+        mue = mgUserDao.findByID(mue.getId());
+        mgDao.addTarget(me, mue);
+        userDao.addMessageR(me.getSendBy(), mue);
+        //send it to all the targets
         for (Long receiver : r) {
             UserEntity tmpR = userDao.findByID(receiver);
             if (tmpR != null) {
-                MessageUserEntity tmpMUE = new MessageUserEntity(m, tmpR);
+                MessageUserEntity tmpMUE = new MessageUserEntity(me, tmpR);
                 tmpMUE = mgUserDao.save(tmpMUE);
                 tmpMUE = mgUserDao.findByID(tmpMUE.getId());
                 mgDao.addTarget(me, tmpMUE);
-                userDao.addMessageR(tmpR,tmpMUE);
+                userDao.addMessageR(tmpR, tmpMUE);
             }
         }
 
         return true;
     }
-    
+
 }

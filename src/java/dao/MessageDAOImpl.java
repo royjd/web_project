@@ -60,6 +60,10 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public void addTarget(MessageEntity m,MessageUserEntity mue) {
         m.addTarget(mue);
+        if(m.getGroupName() == null)
+            m.setGroupName("");
+        String tmp = m.getGroupName() + mue.getUser().getId();
+        m.setGroupName(tmp);
         em.merge(m);
     }
 

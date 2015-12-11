@@ -7,7 +7,7 @@
             <div class="col-sm-6">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="home.htm" class="glyphicon glyphicon-home"></a></li>
-                    <li><a href="username.htm" class="">WALL</a></li>
+                    <li><a href="${user.username}.htm" class="">WALL</a></li>
                     <li><a href="message.htm" class="glyphicon glyphicon-envelope"></a></li>
                     <li><a href="notification.htm" class="glyphicon glyphicon-bell"></a></li>
                 </ul>
@@ -18,7 +18,7 @@
                     <li class="dropdown pull-right">
                         <a class="dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li> <a href="${user.email}.htm"> ${user.email} </a></li>
+                            <li> <a href="${user.username}.htm"> ${user.username} </a></li>
                             <li> <a href="logout.htm"> Logout </a></li>
                         </ul>
                     </li>

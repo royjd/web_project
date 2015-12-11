@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <form method="post" class="form-horizontal" role="form" action="sendMessage.htm">
+            <form method="post" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/sendMessage.htm">
                 <div class="form-group">
                     <input type="TEXT" class="form-control" name="message" id="message" placeholder="message">
                 </div>
@@ -21,7 +21,7 @@
                 <c:forEach items="${groupMessage.value}" var="tier" >
                     ${tier.user.email}
                 </c:forEach>
-                 <a href="/fanfare/message/${groupMessage.key}.htm">See messages</a>
+                 <a href="${pageContext.request.contextPath}/message/${groupMessage.key}.htm">See messages</a>
             </c:forEach>
             <c:forEach items="${messages}" var="tier" >
                 ${tier.content}

@@ -6,7 +6,7 @@
             <a class="navbar-brand" href="#">FanFare</a>
         </div>
         <div class="col-sm-6">
-            <form method="post" class="navbar-form" role="form" action="login.htm">
+            <form method="post" class="navbar-form" role="form" action="${pageContext.request.contextPath}/login.htm">
 
                 <input type="email" name="email" class="form-control" id="email" placeholder="E-Mail">
 

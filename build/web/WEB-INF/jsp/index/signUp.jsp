@@ -7,7 +7,7 @@
     <div class="col-sm-12 bg-success">
         <h2>Sign Up</h2>
         <div class="col-sm-12">
-            <form method="post" class="form-horizontal" role="form" action="singUp.htm">
+            <form method="post" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/singUp.htm">
                 <div class="form-group">
                     <input class="form-control" name="username" id="firstName" placeholder="username">
                 </div>

@@ -61,9 +61,9 @@ public class MessagesController {
         List<MessageUserEntity> fta = ue.getMessageR();
         HashMap<String, List<MessageUserEntity>> hmmue = new HashMap<>();
         for (MessageUserEntity mue : fta) {
-
-            hmmue.putIfAbsent(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
-
+            if(!hmmue.containsKey(mue.getMessage().getGroupName()))
+                hmmue.put(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
+            
         }
 
         //List<FriendEntity> friends = ue.getFriends();
@@ -85,7 +85,8 @@ public class MessagesController {
             if(mue.getMessage().getGroupName().equals(groupMessage)){
                 me.add(mue.getMessage());
             }
-            hmmue.putIfAbsent(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
+            if(!hmmue.containsKey(mue.getMessage().getGroupName()))
+                hmmue.put(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
 
         }
 

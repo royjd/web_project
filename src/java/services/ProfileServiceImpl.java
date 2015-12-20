@@ -22,19 +22,16 @@ public class ProfileServiceImpl implements ProfileService {
     
     @Override
     public Long save(ProfileEntity p) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return profileDao.save(p);
     }
 
     @Override
     public void update(ProfileEntity p) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         profileDao.update(p);
     }
 
     @Override
     public ProfileEntity findByUserId(Long userId) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return profileDao.findByUserId(userId);
     }
 

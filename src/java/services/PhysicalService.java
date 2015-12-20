@@ -15,5 +15,5 @@ public interface PhysicalService {
     public Long save(PhysicalEntity p);
     public void update(PhysicalEntity p);
     public void delete(PhysicalEntity p);
-    public PhysicalEntity findByUserId(Long profileId);
+    public PhysicalEntity findByProfileId(Long profileId);
 }

@@ -32,8 +32,7 @@ public class ProfileDAOImpl implements ProfileDAO{
     @Transactional
     @Override
     public Long save(ProfileEntity p) {
-        p = this.em.merge(p);
-        
+        p = this.em.merge(p);    
         this.em.persist(p);
         return p.getId();
     }

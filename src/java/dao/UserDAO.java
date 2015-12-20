@@ -24,6 +24,8 @@ public interface UserDAO {
     public void addMessageR(UserEntity u, MessageUserEntity mue);
 
     public UserEntity findByEmail(String email);
+    
+    public UserEntity findByUsername(String username);
 
     public void addFriend(UserEntity friend, UserEntity owner, FriendEntity fe);
 

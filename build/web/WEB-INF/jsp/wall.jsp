@@ -6,13 +6,7 @@
 <%@ include file="wall/header.jsp" %>
 <%@ include file="wall/navBar.jsp" %>
 <div class="container">
-    <div class="col-sm-2">
-        <%@ include file="wall/leftSideBar.jsp" %>
-    </div>
-    <div class="col-sm-8">
-        <jsp:include page="wall/info.jsp" flush="true" />
-    </div>
-    <div class="col-sm-2">
-        <jsp:include page="wall/rightSideBar.jsp" flush="true"/>
+    <div class="col-sm-12">
+        <jsp:include page="wall/${wallContent}.jsp" flush="true" />
     </div>
 </div>

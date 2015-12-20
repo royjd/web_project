@@ -67,6 +67,15 @@ public class UserDAOImpl implements UserDAO {
             return null;
         }
     }
+    @Override
+    public UserEntity findByUsername(String username) {
+        try {
+            return (UserEntity) this.em.createQuery("SELECT t FROM UserEntity t where t.username = :value1")
+                    .setParameter("value1", username).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     @Transactional
     @Override

@@ -10,6 +10,8 @@ import dao.ExperienceDAO;
 import dao.ExperienceEntity;
 import dao.FriendDAO;
 import dao.FriendEntity;
+import dao.PhysicalDAO;
+import dao.PhysicalEntity;
 import dao.ProfileDAO;
 import dao.ProfileEntity;
 import dao.UserDAO;
@@ -42,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     ExperienceDAO experienceDao;
+    
+    @Resource
+    PhysicalDAO physicalDao;
 
     @Override
     public boolean add(UserEntity u, ProfileEntity p) {
@@ -53,6 +58,10 @@ public class UserServiceImpl implements UserService {
                 p.setProfileOwner(u);
                 Long profileId = profileDao.save(p);
                 p.setId(profileId);
+                u.setProfile(p);
+                PhysicalEntity physic = new PhysicalEntity(); // Physic vide au debut
+                physic.setProfile(p);
+                physicalDao.save(physic);
                 return true;
             } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,9 +78,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity findByUsername(String username){
+        return userDao.findByUsername(username);
+    }
+    
+    @Override
     public UserEntity findByEmail(String email) {
         return userDao.findByEmail(email);
     }
+    
 
     @Override
     public boolean delete(UserEntity u) {

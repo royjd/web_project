@@ -14,6 +14,7 @@
         <li class="active"><a href="#">Wall</a></li>
         <li><a href="#">Friends</a></li>
         <li><a href="#">Medias</a></li>
+        <li><a href="${pageContext.request.contextPath}/${user.username}/profile.htm">About Me</a></li>  
       </ul>
     </div>
   </div>

@@ -36,8 +36,8 @@ public class PhysicalServiceImpl implements PhysicalService{
     }
 
     @Override
-    public PhysicalEntity findByUserId(Long profileId) {
-       return physicalDao.findByUserId(profileId);
+    public PhysicalEntity findByProfileId(Long profileId) {
+       return physicalDao.findByProfileId(profileId);
     }
     
 }

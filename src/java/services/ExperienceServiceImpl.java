@@ -7,6 +7,8 @@ package services;
 
 import dao.ExperienceDAO;
 import dao.ExperienceEntity;
+import dao.LocalisationDAO;
+import dao.LocalisationEntity;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,16 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Resource
     ExperienceDAO experienceDao;
     
+    @Resource
+    LocalisationDAO localisationDao;
+    
     @Override
-    public Long save(ExperienceEntity e){
-        return experienceDao.save(e);
+    public boolean save(ExperienceEntity e){
+        LocalisationEntity localisation = e.getLocalisation();
+        Long id = localisationDao.save(localisation);
+        localisation.setId(id);   
+        experienceDao.save(e);
+        return true;
     }
 
     @Override
@@ -38,6 +47,11 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     public void delete(ExperienceEntity e){
         experienceDao.delete(e);
+    }
+
+    @Override
+    public ExperienceEntity findById(Long id) {
+        return experienceDao.findById(id);
     }
     
 }

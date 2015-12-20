@@ -7,7 +7,7 @@
     <div class="col-sm-12">
         <div class="bg-primary">
             <h3>Physical</h3>
-                
+            
         </div>
 
     </div>

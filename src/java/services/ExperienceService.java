@@ -13,9 +13,10 @@ import java.util.List;
  * @author zakaridia
  */
 public interface ExperienceService {
-    public Long save(ExperienceEntity e);
+    public boolean save(ExperienceEntity e);
     public void update(ExperienceEntity e);
     public void delete(ExperienceEntity e);
+    public ExperienceEntity findById(Long id);
     public List<ExperienceEntity> findExperiencesForProfil(Long profileId);
     
 }

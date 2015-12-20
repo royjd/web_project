@@ -5,8 +5,8 @@
 --%>
 <div class="row">
     <div class="col-sm-12">
-        <div class="bg-primary">
-            <h3>EXPERIENCE</h3>
+        <div class="bg-prim${pageContext.request.contextPath}/ary">
+            <h3><a href="${pageContext.request.contextPath}/${user.username}/experience.htm">Experience</a></h3>
                 
         </div>
 

@@ -36,7 +36,8 @@ public class ExperienceEntity extends WebMvcConfigurerAdapter implements Seriali
     @JoinColumn(name="profile_fk")
     private ProfileEntity profile;
     
-    @OneToOne(mappedBy = "experience")
+    @OneToOne
+    @JoinColumn(name="localisation_id")
     private LocalisationEntity localisation;
 
     public ExperienceEntity() {

@@ -42,6 +42,9 @@ public class ProfileEntity implements Serializable {
     
     @Column
     private String phone;
+    
+    @Column
+    private String description;
 
     @OneToOne
     @JoinColumn(name="user_id")
@@ -53,6 +56,12 @@ public class ProfileEntity implements Serializable {
     @OneToOne(mappedBy = "profile")
     private PhysicalEntity physical;
 
+    public void setData(ProfileEntity p){
+        this.description = p.getDescription();
+        this.firstName = p.getFirstName();
+        this.lastName = p.getLastName();
+        this.phone = p.getPhone();
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -85,6 +94,14 @@ public class ProfileEntity implements Serializable {
         this.phone = phone;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     public Long getId() {
         return id;
     }

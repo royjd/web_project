@@ -58,6 +58,11 @@ public class ExperienceDAOImpl implements ExperienceDAO {
         q.setParameter(1,profileId);
         return q.getResultList();
     }
+
+    @Override
+    public ExperienceEntity findById(Long id) {
+        return this.em.find(ExperienceEntity.class, id);
+    }
     
     
 }

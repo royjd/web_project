@@ -30,12 +30,21 @@ public class PhysicalEntity implements Serializable {
     
     private Integer weight;
     
-    private char gender;
+    private String gender;
     
     @OneToOne
     @JoinColumn(name="profile_fk")
     private ProfileEntity profile;
 
+    public PhysicalEntity(){
+        
+    }
+    
+    public void setData(PhysicalEntity p){
+        this.gender = p.getGender();
+        this.height = p.getHeight();
+        this.weight = p.getWeight();
+    }
     public Integer getHeight() {
         return height;
     }
@@ -52,11 +61,11 @@ public class PhysicalEntity implements Serializable {
         this.weight = weight;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

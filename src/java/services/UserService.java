@@ -25,6 +25,7 @@ public interface UserService {
     public UserEntity findByID(Long id);
 
     public UserEntity findByEmail(String email);
+    public UserEntity findByUsername(String username);
 
     public boolean addFriend(Long ownerId, Long friendId);
     public boolean removeFriend(Long friendId);

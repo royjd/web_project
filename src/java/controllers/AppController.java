@@ -39,6 +39,7 @@ public class AppController {
     public ModelAndView displayLogin(HttpServletRequest request, HttpServletResponse response, @PathVariable String username) {
         ModelAndView model = new ModelAndView("page");
         model.addObject("content", "wall");
+        model.addObject("wallContent", "info");
         return model;
     }
 

@@ -35,8 +35,7 @@ public class LocalisationEntity implements Serializable {
     
     private String zipcode;
     
-    @OneToOne
-    @JoinColumn(name="experience_fk")
+    @OneToOne(mappedBy = "localisation")
     private ExperienceEntity experience;
 
     public String getCity() {

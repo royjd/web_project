@@ -51,7 +51,7 @@ public class PhysicalDAOImpl implements PhysicalDAO{
     }
 
     @Override
-    public PhysicalEntity findByUserId(Long profileId) {
+    public PhysicalEntity findByProfileId(Long profileId) {
         try{
             return (PhysicalEntity) this.em.createQuery("SELECT p FROM PhysicalEntity p where p.profile.id = :profileId")
                  .setParameter("profileId", profileId).getSingleResult();

@@ -5,22 +5,34 @@
  */
 package controllers;
 
+import commun.ExperienceValidator;
+import commun.UserValidator;
 import dao.ExperienceEntity;
+import dao.LocalisationEntity;
 import dao.PhysicalDAO;
 import dao.PhysicalEntity;
 import dao.ProfileEntity;
 import dao.UserEntity;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ExperienceService;
 import services.LocalisationService;
 import services.PhysicalService;
@@ -35,6 +47,12 @@ import services.UserService;
 public class ProfileController {
 
     @Autowired
+    UserValidator userValidator;
+
+    @Autowired
+    ExperienceValidator experienceValidator;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -45,11 +63,25 @@ public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
-    
+
     @Autowired
     private LocalisationService localisationService;
 
     private static final String repertoryName = "profile/";
+
+    // To add attribute in all model in this controllers
+    @ModelAttribute
+    public void common(Model mv) {
+        mv.addAttribute("wallContent", repertoryName + "profile");
+        mv.addAttribute("content", "wall");
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        //binder.registerCustomEditor(Date.class, "ProfileEntity", new CustomDateEditor(dateFormat, true));
+        //binder.registerCustomEditor(Date.class, "ExperienceEntity", new CustomDateEditor(dateFormat, true));
+    }
 
     @RequestMapping(value = "{username}/profile", method = RequestMethod.GET)
     public ModelAndView init(@PathVariable String username, HttpSession session) {
@@ -61,7 +93,7 @@ public class ProfileController {
         if (u != null) {
 
             UserEntity user = (UserEntity) session.getAttribute("user");
-            List<ExperienceEntity> l = experienceService.findExperiencesForProfil(u.getProfile().getId());
+            List<ExperienceEntity> l = experienceService.findExperiencesForProfil(u.getProfile().getId() , 3);
 
             if (user == null || !Objects.equals(user.getId(), u.getId())) {  // Je visite le mur d'un autre utilisateur
                 mv.addObject("user", u);
@@ -71,8 +103,6 @@ public class ProfileController {
                 mv.addObject("canModify", true);
                 user.getProfile().setExperiences(l);
             }
-            mv.addObject("content", "wall");
-            mv.addObject("wallContent", repertoryName + "profile");
             mv.addObject("profileContent", "displayProfile");
         } else {   // L'utilisateur n'existe pas dans la base de données.
 
@@ -89,9 +119,8 @@ public class ProfileController {
             UserEntity user = (UserEntity) session.getAttribute("user");
             // On peut editer
             if (user != null && Objects.equals(user.getId(), u.getId())) {
-                mv.addObject("content", "wall");
                 mv.addObject("editUser", user);
-                mv.addObject("wallContent", repertoryName + "profile");
+                mv.addObject("msg", "");
                 mv.addObject("profileContent", "edit");
             }
         }
@@ -99,27 +128,33 @@ public class ProfileController {
         return mv;
     }
 
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ModelAndView editProfile1(@ModelAttribute("editUser") UserEntity editUser, HttpSession session) {
+    @RequestMapping(value = "{username}/profile/edit", method = RequestMethod.POST)
+    public ModelAndView editProfile(@ModelAttribute("editUser") @Validated UserEntity editUser, BindingResult result,
+            HttpSession session, RedirectAttributes redirectAttributes) {
 
+        userValidator.validate(editUser, result);
+
+        if (result.hasErrors()) {
+            ModelAndView mv = new ModelAndView("page");
+            mv.addObject("profileContent", "edit");
+            mv.addObject("msg", "There some erros, fix them");
+            return mv;
+
+        }
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         // Edit profile 
-        ProfileEntity profile = user.getProfile();
-        profile.setData(editUser.getProfile());
-        profileService.update(profile);
+        ProfileEntity profileUser = user.getProfile();
+        profileUser.setData(editUser.getProfile());
+        profileService.update(profileUser);
 
         //Edit physical
-        PhysicalEntity physical = profile.getPhysical();
-        physical.setData(editUser.getProfile().getPhysical());
-        physicalService.update(physical);
+        PhysicalEntity physicalUser = profileUser.getPhysical();
+        physicalUser.setData(editUser.getProfile().getPhysical());
+        physicalService.update(physicalUser);
 
-        ModelAndView mv = new ModelAndView("page");
-        mv.addObject("content", "wall");
-        mv.addObject("wallContent", repertoryName + "profile");
-        mv.addObject("profileContent", "edit");
-        mv.addObject("editUser", editUser);
-
+        ModelAndView mv = new ModelAndView("redirect:/" + user.getUsername() + "/profile.htm");
+        redirectAttributes.addFlashAttribute("msg", "Modifications are saved");
         return mv;
     }
 
@@ -141,8 +176,6 @@ public class ProfileController {
             List<ExperienceEntity> experiences = experienceService.findExperiencesForProfil(u.getProfile().getId());
             mv.addObject("experiences", experiences);
             mv.addObject("username", username);
-            mv.addObject("content", "wall");
-            mv.addObject("wallContent", repertoryName + "profile");
             mv.addObject("profileContent", "displayExperience");
         } else {   // L'utilisateur n'existe pas dans la base de données.
 
@@ -150,88 +183,95 @@ public class ProfileController {
         return mv;
     }
 
-    @RequestMapping(value = "{username}/experience/add", method = RequestMethod.GET)
-    public ModelAndView addExperience(@PathVariable String username, HttpSession session) {
+    @RequestMapping(value = "{username}/experience/manage/{id}", method = RequestMethod.GET)
+    public ModelAndView manageExperience(@PathVariable String username, @PathVariable Long id, HttpSession session) {
         UserEntity u = userService.findByUsername(username);
         ModelAndView mv = new ModelAndView("page");
         if (u != null) {
             UserEntity user = (UserEntity) session.getAttribute("user");
-
             if (user != null && Objects.equals(user.getId(), u.getId())) {
-                mv.addObject("content", "wall");
-                mv.addObject("wallContent", repertoryName + "profile");
-                mv.addObject("profileContent", "addExperience");
-                mv.addObject("newExperience", new ExperienceEntity());
+                
+                mv.addObject("msg", "");
+                if (id == 0) { // We want to add
+                    ExperienceEntity e = new ExperienceEntity();
+                    e.setLocalisation(new LocalisationEntity());
+                    mv.addObject("newExperience", e);
+                    mv.addObject("submitValue", "Save experience");
+                    mv.addObject("Title", "Add an experience");
+                    
+                } else {
+                    ExperienceEntity experience = experienceService.findById(id);
+                    
+                    if (experience != null) {
+                        mv.addObject("profileContent", "editExperience");
+                        mv.addObject("newExperience", experience);
+                        mv.addObject("submitValue", "Save Changes");
+                        mv.addObject("Title", "Edit your experience");
+                    }
+                    else{
+                        
+                    }
+                }
+                mv.addObject("profileContent", "manageExperience");
+
             }
         }
 
         return mv;
     }
 
-    @RequestMapping(value = "{username}/experience/add", method = RequestMethod.POST)
-    public ModelAndView addExperience(@ModelAttribute("newExperience") ExperienceEntity newExperience, HttpSession session) {
+    @RequestMapping(value = "{username}/experience/manage", method = RequestMethod.POST)
+    public ModelAndView manageExperience(@ModelAttribute("newExperience") @Validated ExperienceEntity newExperience, BindingResult result,
+            HttpSession session, RedirectAttributes redirectAttributes) {
 
+        experienceValidator.validate(newExperience, result);
+        if (result.hasErrors()) {
+
+            ModelAndView mv = new ModelAndView("page");
+            mv.addObject("profileContent", "manageExperience");
+            mv.addObject("msg", "There some erros, fix them");
+            if(newExperience.getId() == null){
+                mv.addObject("submitValue", "Add experience");
+                mv.addObject("Title", "Add an experience");
+            }
+            else{
+                mv.addObject("submitValue", "Save Changes");
+                mv.addObject("Title", "Edit your experience");
+            }
+            return mv;
+        }
         UserEntity user = (UserEntity) session.getAttribute("user");
         newExperience.setProfile(user.getProfile());
-        experienceService.save(newExperience);
-        ModelAndView mv = new ModelAndView("page");
-        mv.addObject("content", "wall");
-        mv.addObject("wallContent", repertoryName + "profile");
-        mv.addObject("profileContent", "displayProfile");
-        //mv.addObject("newExperience", newExperience);
+        if (newExperience.getId() == null) {
+            experienceService.save(newExperience);
+            redirectAttributes.addFlashAttribute("msg", "Experience is added");
+        } else {
+            experienceService.update(newExperience);
+            localisationService.update(newExperience.getLocalisation());
+            redirectAttributes.addFlashAttribute("msg", "Modifications are saved");
+        }
+        ModelAndView mv = new ModelAndView("redirect:/" + user.getUsername() + "/experience.htm");
+        mv.addObject("profileContent", "displayExperience");
         return mv;
     }
 
-    @RequestMapping(value = "{username}/experience/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editExperience(@PathVariable String username, @PathVariable Long id, HttpSession session) {
-        ModelAndView mv = new ModelAndView("page");
-        UserEntity user = (UserEntity) session.getAttribute("user");
-        if (user != null && Objects.equals(user.getUsername(), username)) {
-            ExperienceEntity experience = experienceService.findById(id);
-            if (experience != null) {
-                mv.addObject("wallContent", repertoryName + "profile");
-                mv.addObject("profileContent", "editExperience");
-                mv.addObject("content", "wall");
-                mv.addObject("experience", experience);
-            }
-            //mv.addObject("newExperience", new ExperienceEntity());
-        }
-        return mv;
-    }
-
-    @RequestMapping(value = "{username}/experience/edit", method = RequestMethod.POST)
-    public ModelAndView editExperience(@ModelAttribute("experience") ExperienceEntity experience, HttpSession session) {
-        ModelAndView mv = new ModelAndView("page");
-        UserEntity user = (UserEntity) session.getAttribute("user");
-        if (user != null) {
-            experience.setProfile(user.getProfile());
-            experienceService.update(experience);
-            localisationService.update(experience.getLocalisation());
-            mv.addObject("wallContent", repertoryName + "profile");
-            mv.addObject("profileContent", "editExperience");
-            mv.addObject("content", "wall");
-            mv.addObject("experience", experience);
-            //mv.addObject("newExperience", new ExperienceEntity());
-        }
-        return mv;
-    }
-    
     @RequestMapping(value = "{username}/experience/delete/{id}", method = RequestMethod.GET)
     public ModelAndView deleteExperience(@PathVariable Long id, HttpSession session) {
-        ModelAndView mv = new ModelAndView("page");
         UserEntity user = (UserEntity) session.getAttribute("user");
         if (user != null) {
-            
-            
-            mv.addObject("wallContent", repertoryName + "profile");
-            mv.addObject("profileContent", "displayExperience");
-            mv.addObject("content", "wall");
+            ExperienceEntity experience = experienceService.findById(id);
+            if(experience != null){
+                experienceService.delete(experience);
+                ModelAndView mv = new ModelAndView("redirect:/" + user.getUsername() + "/experience.htm");
+                return mv;
+            }
+            else{
+                
+            }
 
-            //mv.addObject("newExperience", new ExperienceEntity());
+        } else {
+
         }
-        else{
-            
-        }
-        return mv;
+        return null;
     }
 }

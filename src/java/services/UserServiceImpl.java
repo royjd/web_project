@@ -61,7 +61,9 @@ public class UserServiceImpl implements UserService {
                 u.setProfile(p);
                 PhysicalEntity physic = new PhysicalEntity(); // Physic vide au debut
                 physic.setProfile(p);
-                physicalDao.save(physic);
+                Long physicalId = physicalDao.save(physic);
+                physic.setId(physicalId);
+                p.setPhysical(physic);
                 return true;
             } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

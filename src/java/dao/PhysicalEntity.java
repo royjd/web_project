@@ -26,9 +26,9 @@ public class PhysicalEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private Integer height;
+    private Double height;
     
-    private Integer weight;
+    private Double weight;
     
     private String gender;
     
@@ -45,19 +45,19 @@ public class PhysicalEntity implements Serializable {
         this.height = p.getHeight();
         this.weight = p.getWeight();
     }
-    public Integer getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

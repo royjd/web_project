@@ -6,6 +6,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -29,6 +32,10 @@ public class ExperienceEntity extends WebMvcConfigurerAdapter implements Seriali
     private Long id;
 
     private String title;
+    
+    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date realisationDate;
     
     private String description;
     
@@ -57,6 +64,15 @@ public class ExperienceEntity extends WebMvcConfigurerAdapter implements Seriali
         this.id = id;
     }
 
+    public Date getRealisationDate() {
+        return realisationDate;
+    }
+
+    public void setRealisationDate(Date realisationDate) {
+        this.realisationDate = realisationDate;
+    }
+
+    
     public String getTitle() {
         return title;
     }

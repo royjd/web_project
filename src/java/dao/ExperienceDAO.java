@@ -17,4 +17,5 @@ public interface ExperienceDAO {
     public void delete(ExperienceEntity e);
     public ExperienceEntity findById(Long id);
     public List<ExperienceEntity> findExperiencesForProfil(Long profileId);
+    public List<ExperienceEntity> findExperiencesForProfil(Long profileId , int limit);
 }

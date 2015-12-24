@@ -5,13 +5,11 @@
  */
 package dao;
 
-import dao.UserEntity;
 import dao.PhysicalEntity;
-import dao.ExperienceEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,48 +18,61 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author zakaridia
  */
 @Entity
-@Table(name="profiles")
+@Table(name = "profiles")
 public class ProfileEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column
+
     private String firstName;
-    
-    @Column
+
     private String lastName;
+
     
-    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthDay;
+
     private String phone;
-    
-    @Column
+
     private String description;
 
     @OneToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity profileOwner;
 
     @OneToMany(mappedBy = "profile")
     private List<ExperienceEntity> experiences = new ArrayList<>();
-    
+
     @OneToOne(mappedBy = "profile")
     private PhysicalEntity physical;
 
-    public void setData(ProfileEntity p){
+    public void setData(ProfileEntity p) {
         this.description = p.getDescription();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.phone = p.getPhone();
     }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -85,7 +96,7 @@ public class ProfileEntity implements Serializable {
     public void setProfileOwner(UserEntity profileOwner) {
         this.profileOwner = profileOwner;
     }
-   
+
     public String getPhone() {
         return phone;
     }
@@ -101,7 +112,7 @@ public class ProfileEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -117,16 +128,15 @@ public class ProfileEntity implements Serializable {
     public void setExperiences(List<ExperienceEntity> experiences) {
         this.experiences = experiences;
     }
-    
-    public void addExperience(ExperienceEntity e){
+
+    public void addExperience(ExperienceEntity e) {
         this.experiences.add(e);
     }
-    
-    public void RemoveExperience(ExperienceEntity e){
+
+    public void RemoveExperience(ExperienceEntity e) {
         this.experiences.remove(e);
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -159,5 +169,5 @@ public class ProfileEntity implements Serializable {
     public void setPhysical(PhysicalEntity physical) {
         this.physical = physical;
     }
-    
+
 }

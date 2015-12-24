@@ -33,7 +33,7 @@ public class LocalisationEntity implements Serializable {
     
     private String street;
     
-    private String zipcode;
+    private Integer zipcode;
     
     @OneToOne(mappedBy = "localisation")
     private ExperienceEntity experience;
@@ -62,11 +62,11 @@ public class LocalisationEntity implements Serializable {
         this.street = street;
     }
 
-    public String getZipcode() {
+    public Integer getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
+    public void setZipcode(Integer zipcode) {
         this.zipcode = zipcode;
     }
 

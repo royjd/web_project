@@ -3,7 +3,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/bootstrap/css/css.css"/>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/resources/library/bootstrap/js/bootstrap.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.css"/>

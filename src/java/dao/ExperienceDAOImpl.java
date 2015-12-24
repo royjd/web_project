@@ -63,6 +63,15 @@ public class ExperienceDAOImpl implements ExperienceDAO {
     public ExperienceEntity findById(Long id) {
         return this.em.find(ExperienceEntity.class, id);
     }
+
+    @Override
+    public List<ExperienceEntity> findExperiencesForProfil(Long profileId, int limit) {
+        Query q;
+        q = this.em.createQuery("SELECT e FROM ExperienceEntity e WHERE e.profile.id = ?");
+        q.setParameter(1,profileId);
+        q.setMaxResults(limit);
+        return q.getResultList();
+    }
     
     
 }

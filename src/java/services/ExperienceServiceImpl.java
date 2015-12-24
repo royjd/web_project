@@ -47,11 +47,17 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     public void delete(ExperienceEntity e){
         experienceDao.delete(e);
+        localisationDao.delete(e.getLocalisation());
     }
 
     @Override
     public ExperienceEntity findById(Long id) {
         return experienceDao.findById(id);
+    }
+
+    @Override
+    public List<ExperienceEntity> findExperiencesForProfil(Long profileId, int limit) {
+        return experienceDao.findExperiencesForProfil(profileId, limit);
     }
     
 }

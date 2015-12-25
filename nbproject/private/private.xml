@@ -2,34 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/AppController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall/navBar.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/UserServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/MessagesController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/UsersController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/index/signUp.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home/rightSideBar.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/page.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/message.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/header.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/sideBar/friendList.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/UserEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/index.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/sideBar/friendRequest.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home/leftSideBar.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall/header.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/conf/persistence.xml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

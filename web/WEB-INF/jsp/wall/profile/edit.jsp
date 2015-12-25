@@ -117,5 +117,5 @@
 
 </div>
 <div class="col-sm-3">
-
+${editUser.profile.physical.id}
 </div>

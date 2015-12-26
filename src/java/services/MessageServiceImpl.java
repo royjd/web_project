@@ -11,7 +11,10 @@ import dao.MessageUserDAO;
 import dao.MessageUserEntity;
 import dao.UserDAO;
 import dao.UserEntity;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -45,25 +48,32 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public boolean send(MessageEntity m, List<Long> r) {
+    public boolean send(MessageEntity m, List<String> r) {
         MessageEntity me = mgDao.findByID(m.getId());
-        //send it to the sender too 
-        MessageUserEntity mue = new MessageUserEntity(me, me.getSendBy());
-        mue = mgUserDao.save(mue);
-        mue = mgUserDao.findByID(mue.getId());
-        mgDao.addTarget(me, mue);
-        userDao.addMessageR(me.getSendBy(), mue);
-        //send it to all the targets
-        for (Long receiver : r) {
-            UserEntity tmpR = userDao.findByID(receiver);
+        String tmpMessageGroup = "";
+        //remove all duplicate
+        r = new ArrayList<>(new HashSet<>(r));
+        //test the sender is in the list if not add him
+        if (!r.contains(me.getSendBy().getEmail())) {
+            r.add(me.getSendBy().getEmail());
+        }
+        java.util.Collections.sort(r);
+        for (String receiver : r) {
+
+            UserEntity tmpR = userDao.findByEmail(receiver);
             if (tmpR != null) {
+                tmpMessageGroup += tmpR.getId();
                 MessageUserEntity tmpMUE = new MessageUserEntity(me, tmpR);
                 tmpMUE = mgUserDao.save(tmpMUE);
                 tmpMUE = mgUserDao.findByID(tmpMUE.getId());
                 mgDao.addTarget(me, tmpMUE);
                 userDao.addMessageR(tmpR, tmpMUE);
             }
+
         }
+
+        me.setGroupName(tmpMessageGroup);
+        mgDao.update(me);
 
         return true;
     }

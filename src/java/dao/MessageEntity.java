@@ -53,15 +53,14 @@ public class MessageEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity sendBy;
-    
-    
+
     @Column(name = "group_name")
     private String groupName;
-    
+
     public MessageEntity() {
-        
+
     }
-  
+
     public MessageEntity(String content, String subject, UserEntity sendBy) {
         this.content = content;
         this.subject = subject;
@@ -143,6 +142,15 @@ public class MessageEntity implements Serializable {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public void updateGroupName() {
+        this.setGroupName("");
+        String tmp = "";
+        for (MessageUserEntity ue : this.getTarget()) {
+            tmp += ue.getUser().getId();
+        }
+        this.setGroupName(tmp);
     }
 
 }

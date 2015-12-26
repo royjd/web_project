@@ -20,5 +20,7 @@ public interface MessageDAO {
     public MessageEntity findByID(Long id);
 
     public void addTarget(MessageEntity m, MessageUserEntity mue);
+    
+    public MessageEntity findByMessageGroup(String messageGroup);
 
 }

@@ -6,6 +6,7 @@
 package dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,11 +61,16 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public void addTarget(MessageEntity m,MessageUserEntity mue) {
         m.addTarget(mue);
-        if(m.getGroupName() == null)
-            m.setGroupName("");
-        String tmp = m.getGroupName() + mue.getUser().getId();
-        m.setGroupName(tmp);
+        //m.updateGroupName();
         em.merge(m);
     }
-
+    @Override
+    public MessageEntity findByMessageGroup(String messageGroup) {
+        try {
+            return (MessageEntity) this.em.createQuery("SELECT t FROM MessageEntity t where t.groupName = :value1")
+                    .setParameter("value1", messageGroup).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

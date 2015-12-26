@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/bootstrap/css/css.css"/>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/resources/library/bootstrap/js/bootstrap.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.css"/>
-    <script src="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.css"/>
+    <script src="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.js"></script>
 
     <head>
         <title>Fanfare</title>

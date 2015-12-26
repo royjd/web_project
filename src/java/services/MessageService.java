@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface MessageService{
     
-    public boolean send(MessageEntity m, List<Long> r);
+    public boolean send(MessageEntity m, List<String> r);
     public MessageEntity add(String content,String subject,Long sender_id);
 
 }

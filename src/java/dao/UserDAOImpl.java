@@ -112,7 +112,7 @@ public class UserDAOImpl implements UserDAO {
     
             //List<UserEntity> userEntities = new ArrayList<>();
 
-            List<UserEntity> userEntities = this.em.createQuery("SELECT t FROM UserEntity t where t.email LIKE :value1")
+            List<UserEntity> userEntities = this.em.createQuery("SELECT t FROM UserEntity t where t.email LIKE :value1 OR t.username LIKE :value1")
                     .setParameter("value1", "%" + param + "%").getResultList();
             /*for (Map row : rows) {
                 UserEntity customer = new UserEntity();

@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(LocalisationEntity.class)
 public abstract class LocalisationEntity_ {
 
-	public static volatile SingularAttribute<LocalisationEntity, String> zipcode;
+	public static volatile SingularAttribute<LocalisationEntity, Integer> zipcode;
 	public static volatile SingularAttribute<LocalisationEntity, String> stat;
 	public static volatile SingularAttribute<LocalisationEntity, String> city;
 	public static volatile SingularAttribute<LocalisationEntity, String> street;

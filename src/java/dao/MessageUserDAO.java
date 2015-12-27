@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.List;
+
 /**
  *
  * @author Karl Lauret
@@ -18,4 +20,6 @@ public interface MessageUserDAO {
     public void delete(MessageUserEntity u);
     
     public MessageUserEntity findByID(Long id);
+
+    public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(UserEntity ue, String groupMessage);
 }

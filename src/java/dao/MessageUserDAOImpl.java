@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -51,5 +52,11 @@ public class MessageUserDAOImpl implements MessageUserDAO {
     @Override
     public MessageUserEntity findByID(Long id) {
         return (MessageUserEntity) this.em.find(MessageUserEntity.class, id);
+    }
+
+    @Override
+    public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(UserEntity ue, String groupMessage) {
+       return /* List<MessageUserEntity> messageUserEntities = */this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1 AND t.newMessage = true AND t.message.groupName = :value2")
+                .setParameter("value1", ue.getId()).setParameter("value2" , groupMessage).getResultList();
     }
 }

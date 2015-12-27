@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -11,7 +12,9 @@ public abstract class ProfileEntity_ {
 
 	public static volatile SingularAttribute<ProfileEntity, String> firstName;
 	public static volatile SingularAttribute<ProfileEntity, String> lastName;
+	public static volatile SingularAttribute<ProfileEntity, Date> birthDay;
 	public static volatile SingularAttribute<ProfileEntity, String> phone;
+	public static volatile SingularAttribute<ProfileEntity, String> description;
 	public static volatile SingularAttribute<ProfileEntity, UserEntity> profileOwner;
 	public static volatile SingularAttribute<ProfileEntity, Long> id;
 	public static volatile SingularAttribute<ProfileEntity, PhysicalEntity> physical;

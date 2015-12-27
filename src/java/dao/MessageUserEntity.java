@@ -47,7 +47,7 @@ public class MessageUserEntity implements Serializable {
     public MessageUserEntity(MessageEntity m, UserEntity receiver) {
         this.user = receiver;
         this.message = m;
-        this.newMessage = false;
+        this.newMessage = true;
     }
 
     public Long getId() {

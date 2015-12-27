@@ -78,4 +78,13 @@ public class MessageServiceImpl implements MessageService {
         return true;
     }
 
+    @Override
+    public void messageRead(UserEntity ue, String groupMessage) {
+        List<MessageUserEntity> mues = mgUserDao.findNewMessageForUserAndGroupMessage(ue,groupMessage);
+        for(MessageUserEntity mue : mues){
+            mue.setNewMessage(false);
+            mgUserDao.update(mue);
+        }
+    }
+
 }

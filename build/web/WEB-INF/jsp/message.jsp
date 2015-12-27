@@ -14,7 +14,7 @@
 
                     <c:choose> 
                         <c:when test="${groupMessage.key == currentGroupMessage}"> 
-                            <h3 id="${groupMessage.key}" class="bg-primary">
+                            <h3 id="activeGroupMessage" class="bg-primary">
                                 <div class="emails" style="display:none;">
                                     <c:forEach items="${groupMessage.value}" var="tier" >
                                         <c:if test="${tier.user.email != user.email || fn:length(groupMessage.value) == 1}"> 
@@ -31,7 +31,14 @@
                             <h4 id="${groupMessage.key}" class="bg-danger"> 
                                 <c:forEach items="${groupMessage.value}" var="tier" >
                                     -${tier.user.username}
+
                                 </c:forEach>
+                                <c:if test="${newMessageGroupList[groupMessage.key]}"> 
+                                    *
+                                </c:if> 
+
+
+
                             </h4>
                         </c:otherwise>
                     </c:choose>
@@ -43,14 +50,38 @@
 
         </div>
         <div class="col-xs-8 bg-danger">
-            <c:forEach items="${messages}" var="tier" >
-                <div class="col-xs-12 h4">${tier.sendBy.email}</div>
-                <p class="col-xs-12">${tier.content}</p>
-                <div class="col-xs-12 bg-primary"></div>
-            </c:forEach>
-            <!-- Trigger the modal with a button -->
-            <button dateId="${currentGroupMessage}" type="button" class="btn btn-info btn-lg messageReply" data-toggle="modal" data-target="#myModal">Reply</button>
+            <div class="row">
+                <c:forEach items="${messages}" var="tier" >
 
+                    <div class="col-xs-12 h4">${tier.sendBy.email}</div>
+                    <p class="col-xs-12">${tier.content}</p>
+                    <div class="col-xs-12 bg-primary"></div>
+                </c:forEach>
+            </div>
+            <!-- Trigger the modal with a button -->
+            <c:if test="${fn:length(messages) > 0}">
+                <div class="row">
+                    <form method="post" class="form-horizontal" role="form" id="replyForm" action="${pageContext.request.contextPath}/sendMessage.htm">
+                        <div class="form-group"  style="display:none;">
+                            <label class="control-label col-sm-2" for="emails">Email:</label>
+                            <div class="col-sm-10 ui-front"><!-- need the ui-front here or the uatocompletion won't work-->
+                                <input type="TEXT" class="form-control" name="emails" id="replyEmail" placeholder="To">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="message">Message:</label>
+                            <div class="col-sm-10">
+                                <textarea  type="TEXT" class="form-control" name="message" rows="5" id="replyMessage" placeholder="message"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">        
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="replyFormSubmit" type="submit" class="btn btn-success pull-right" action="${pageContext.request.contextPath}/sendMessage.htm">Reply</button>
+                            </div>
+                        </div>
+                    </form
+                </div>
+            </c:if>
         </div>
 
 
@@ -66,7 +97,7 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" class="form-horizontal" role="form" id="sendMessageForm" action="${pageContext.request.contextPath}/sendMessage.htm">
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <label class="control-label col-sm-2" for="emails">Email:</label>
                                 <div class="col-sm-10 ui-front"><!-- need the ui-front here or the uatocompletion won't work-->
                                     <input type="TEXT" class="form-control" name="emails" id="emails" placeholder="To">
@@ -86,7 +117,7 @@
                             </div>
                             <div class="form-group">        
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button id="sendMessageSubmit" type="submit" class="btn btn-success" action="${pageContext.request.contextPath}/sendMessage.htm">Submit</button>
+                                    <button id="sendMessageSubmit" type="submit" class="btn btn-success pull-right" action="${pageContext.request.contextPath}/sendMessage.htm">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -148,10 +179,7 @@
              });*/
         });
     });
-    $('.messageReply').click(function () {
-        $('.modal-title').html("Reply");
-        $('#emails').val($('#' + $(this).attr('dateId') + '>.emails').html().replace(/ /g, ''));
-    });
+    $('#replyEmail').val($('#activeGroupMessage >.emails').html().replace(/ /g, ''));
     $('.messageNew').click(function () {
         $('.modal-title').html("New Message");
         $('#emails').val("");

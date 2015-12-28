@@ -8,7 +8,6 @@ package commun;
 import dao.UserEntity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static jdk.nashorn.internal.objects.NativeString.trim;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -50,7 +49,7 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         UserEntity user = (UserEntity) o;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "profile.firstName", "NotEmpty.editUser.profile.lastName", "Can not be empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "profile.firstName", "NotEmpty.editUser.profile.firstName", "Can not be empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "profile.lastName", "NotEmpty.editUser.profile.lastName", "Can not be empty");
 
         String phone = user.getProfile().getPhone();

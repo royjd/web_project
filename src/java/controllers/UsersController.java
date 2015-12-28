@@ -8,7 +8,9 @@ package controllers;
 import dao.FriendEntity;
 import dao.ProfileEntity;
 import dao.UserEntity;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,9 +76,9 @@ public class UsersController {
         return mv;
     }
 
-    @RequestMapping(value = "removeFriend", method = RequestMethod.GET)
-    public ModelAndView removeFriend(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam("id") Long id) {
-        ModelAndView mv = new ModelAndView("redirect:/home.htm");
+    @RequestMapping(value = "{username}/removeFriend", method = RequestMethod.GET)
+    public ModelAndView removeFriend(@PathVariable String username , HttpSession session, @RequestParam("id") Long id) {
+        ModelAndView mv = new ModelAndView("redirect:/{username}/friends.htm");
         userService.removeFriend(id);
 
         return mv;
@@ -131,4 +134,34 @@ public class UsersController {
         }
         return mv;
     }
+    
+    //========
+    @RequestMapping(value="{username}/friends" , method = RequestMethod.GET)
+    public ModelAndView displayFriends(@PathVariable String username , HttpSession session ){
+        UserEntity user = (UserEntity)session.getAttribute("user");
+        if( Objects.equals(user, null) ){
+            return new ModelAndView("redirect:/index.htm") ;
+        }
+        Boolean canRemove = true;
+        ModelAndView mv = new ModelAndView("page");
+        mv.addObject("content", "wall");
+        if( !user.getUsername().equals(username)){ // I want to see friends of a user
+            
+            user = userService.findByUsername(username);
+            if(Objects.equals(user, null)){ // Bad username
+                mv.addObject("wallContent","friend/error");            
+                return mv; 
+            }
+            canRemove = false;
+            
+        }
+        List<FriendEntity> friends= new ArrayList<>();
+        friends.addAll(user.getFriends());
+        friends.addAll(user.getFriendedBy());
+        mv.addObject("friends", friends); 
+        mv.addObject("wallContent", "friend/friend");
+        mv.addObject("canRemove", canRemove);
+        return mv;
+    }
+
 }

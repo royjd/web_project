@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -33,7 +32,6 @@ public class ExperienceEntity extends WebMvcConfigurerAdapter implements Seriali
 
     private String title;
     
-    @DateTimeFormat(pattern = "dd/mm/yyyy")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date realisationDate;
     

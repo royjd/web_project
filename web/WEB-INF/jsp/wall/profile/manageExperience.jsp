@@ -100,6 +100,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-success pull-right">${submitValue}</button>
+                <a href="${pageContext.request.contextPath}/${user.username}/experience.htm"  class="btn btn-primary" role="button">Cancel</a>
             </div>
         </div>
     </form:form>

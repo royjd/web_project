@@ -7,6 +7,8 @@
     <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/resources/library/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/comment.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/post.css"/>
     <script src="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.js"></script>
 
     <head>

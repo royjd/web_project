@@ -53,6 +53,21 @@ public class AppController {
         model.addObject("newComment", ce);
         return model;
     }
+    
+    @RequestMapping(value = "{username}/recommendation", method = RequestMethod.GET)
+    public ModelAndView recommendation(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
+        ModelAndView model = new ModelAndView("page");
+        model.addObject("content", "wall");
+        model.addObject("wallContent", "recommendation/recommendation");
+        UserEntity ue = userService.findByUsername(username);
+        model.addObject("username", username);
+        List<PostEntity> po = new ArrayList<>();
+        po.addAll(ue.getPostsR());
+        model.addObject("post", po);
+        CommentEntity ce = new CommentEntity();
+        model.addObject("newComment", ce);
+        return model;
+    }
 
     /*
     @RequestMapping(value = "{username}/test", method = RequestMethod.GET)

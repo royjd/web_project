@@ -1,3 +1,6 @@
 dao/NewsEntity_.java
 dao/AlbumEntity_.java
 dao/CommentEntity_.java
+dao/RecomendationEntity_.java
+dao/UserEntity_.java
+dao/MediaEntity_.java

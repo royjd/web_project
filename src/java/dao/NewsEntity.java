@@ -42,8 +42,7 @@ public class NewsEntity extends PostEntity {
 
     @Override
     public String getHomeBootstrapDisplay() {
-        return  "<div class='col-xs-12'>"+
-                "<div class='h2'>"+this.getTitle()+ "--Time:" + this.getCreatedTime()+"--Date:" + this.getCreatedDate()+"</div>"+
+        return  "<div>"+this.getWallBootstrapHeaderDisplay()+
                 "<p>"+this.getBody() + "<p>"+
                 "</div>";
                 

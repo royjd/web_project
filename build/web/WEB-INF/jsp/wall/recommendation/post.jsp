@@ -7,37 +7,37 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="row">
-    <h2>Add a news</h2>
-    <form method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/${username}/addNews.htm">
-        <div class="form-group">
-            <div class="col-sm-12">
-                <input  type="TEXT" class="form-control" name="title" rows="5" id="title" placeholder="Title here"></input>
+    <c:if test="${user.username != username}"> 
+        <form method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/${username}/recommendation/addRecommentdation.htm">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input  type="TEXT" class="form-control" name="title" rows="5" id="title" placeholder="Title here"></input>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <textarea  type="TEXT" class="form-control" name="body" rows="5" id="body" placeholder="Type your message here"></textarea>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <textarea  type="TEXT" class="form-control" name="body" rows="5" id="body" placeholder="Type your message here"></textarea>
+                </div>
+            </div> 
+            <div class="form-group">        
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                </div>
             </div>
-        </div> 
-        <div class="form-group">        
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success pull-right">Submit</button>
-            </div>
-        </div>
-    </form>
-
+        </form>
+    </c:if> 
 
     <c:forEach var="i" begin="1" end="${post.size()}" step="1">
         <c:set var="tier" value="${post[post.size()-i]}" />
 
-        <c:if test="${tier.getClass().name != 'dao.CommentEntity'}"> 
+        <c:if test="${tier.getClass().name == 'dao.RecomendationEntity'}"> 
             <div class="post col-sm-12 bg-success">
                 ${tier.homeBootstrapDisplay}
             </div>
             <div class="post col-sm-12 bg-danger">
                 ${tier.wallBootstrapCommentDisplay} 
             </div>
-            <form:form action="${pageContext.request.contextPath}/${username}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">
+            <form:form action="${pageContext.request.contextPath}/${username}/recommendation/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">
 
                 <spring:bind path="postMain.id">
                     <form:hidden path="postMain.id" id="postMainId" value="${tier.id}"/>
@@ -79,7 +79,7 @@
             $('.repplyCommentInput').remove();
             $(this).after(
                     '<div class="row repplyCommentInput">'+
-                    '<form action="${pageContext.request.contextPath}/${username}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">' +
+                    '<form action="${pageContext.request.contextPath}/${username}/recommendation/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">' +
                     '<input style="display:none" path="postMain.id" name="postMainId" id="postMainId" value="' + $(this).attr("mainid") + '"/>' +
                     '<input style="display:none" path="postParent.id" name="postParentId" id="postParentId" value="' + $(this).attr("parentid") + '"/>' +
                     '<div class="col-xs-12">' +
@@ -94,7 +94,6 @@
                     '</div>'
 
                     );
-
         });
     });
 </script>

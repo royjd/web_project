@@ -9,6 +9,7 @@ import dao.CommentEntity;
 import dao.MessageEntity;
 import dao.NewsEntity;
 import dao.PostEntity;
+import dao.RecomendationEntity;
 import dao.UserEntity;
 import java.sql.Date;
 import java.sql.Time;
@@ -56,9 +57,29 @@ public class PostsController {
         return model;
     }
 
-    @RequestMapping(value = {"{username}/addComment"}, method = RequestMethod.POST)
-    public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
-        ModelAndView model = new ModelAndView("redirect:/" + username + ".htm");
+    @RequestMapping(value = "{username}/recommendation/addRecommentdation", method = RequestMethod.POST)
+    public ModelAndView addRecomendation(@ModelAttribute RecomendationEntity recom, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
+        ModelAndView model = new ModelAndView("redirect:/" + username + "/recommendation.htm");
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        UserEntity target = userService.findByUsername(username);
+        Calendar c = Calendar.getInstance();
+        recom.setCreatedDate(new Date(c.getTimeInMillis()));
+        recom.setCreatedTime(new Time(c.getTimeInMillis()));
+        recom.setAuthor(ue);
+        recom.setTarget(target);
+        postService.createPost(recom);
+        return model;
+    }
+    
+    @RequestMapping(value = {"{username}/addComment","{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
+    public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username,@PathVariable String pathVar) {
+        ModelAndView model;
+        if(!pathVar.isEmpty()){
+            model = new ModelAndView("redirect:/" + username + "/"+pathVar+".htm");
+        }else{
+            model = new ModelAndView("redirect:/" + username +".htm");
+        }
+         
         UserEntity ue = (UserEntity) session.getAttribute("user");
         PostEntity parent;
         PostEntity main;

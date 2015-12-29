@@ -131,36 +131,68 @@ public class PostEntity implements Serializable {
         return "POST";
     }
 
-    public String gethomeBootstrapDisplayComments() {
+    public String getWallBootstrapHeaderDisplay() {
+        if (this.title == null) {
+            this.title = "";
+        }
+        return "<div class='row postHeader'>"
+                + "<div class=\"col-md-12\">"
+                + "<div class=\"col-md-1 bg-primary \" style=\"padding:0;margin:0;height:52px;width:52px\">PHOTO </div>"
+                + " <div class=\"col-md-7\">"
+                + "    <div class=\"row\">"
+                + "         <div class=\"col-md-12 \">" + this.title + "</div>"
+                + "         <div class=\"col-md-12 \">" + this.author.getUsername() + "</div>"
+                + "    </div>"
+                + " </div>"
+                + " <div class=\"col-md-4\">"
+                + "     <div class=\"row\">"
+                + "         <div class=\"col-md-12  text-right\">" + this.getCreatedDate() + "</div>"
+                + "         <div class=\"col-md-12  text-right\">" + this.getCreatedTime() + "</div>"
+                + "     </div>"
+                + " </div>"
+                + " </div>"
+                + " </div>";
+    }
+
+    public String getWallBootstrapCommentDisplay() {
         String tmp = "";
-        tmp += "<div class='bg-danger col-xs-12'>";
-        for (CommentEntity ce : this.comments) {
-            tmp += "<p>" + ce.getBody() + "--Time:" + ce.getCreatedTime()+"--Date:" + ce.getCreatedDate()+ "<p>";
-            tmp += "<button class='btn btn-xs btn-primary repplyCommentBtn' parentId='" + ce.getId() + "' mainId='" + ce.getPostMain() + "'>Repply</button>";
-            if (!ce.getComments().isEmpty()) {
-                tmp += ce.gethomeBootstrapDisplayComments("&nbsp;&nbsp;");
+
+        if (!this.comments.isEmpty()) {
+            tmp += "<div id=\"post"+this.getId()+"\" class='col-xs-12 postComments'>";//TODO make the system better
+            for (CommentEntity ce : this.comments) {
+
+                tmp += "   <div class='row postComment'>"
+                        + "     <div class=\"col-xs-12\">"
+                        + "         <div class=\"col-xs-1 bg-primary \" style=\"padding:0;margin:0;height:52px;width:52px\">PHOTO </div>"
+                        + "         <div class=\"col-xs-7\">"
+                        + "             <div class=\"row\">"
+                        + "                 <div class=\"col-xs-12 \">" 
+                        +                      ce.getAuthor().getUsername() + ": " + ce.getBody() 
+                        + "                 </div>"
+                        + "                 <div class=\"col-xs-12 \">" 
+                        + "                     <button class='pull-left btn btn-xs btn-primary repplyCommentBtn' parentId='" + ce.getId() + "' mainId='" + ce.getPostMain() + "'>Repply</button>"
+                        + "                 </div>"
+                        + "             </div>"
+                        + "         </div>"
+                        + "         <div class=\"col-xs-4\">"
+                        + "             <div class=\"row\">"
+                        + "                 <div class=\"col-xs-12  text-right\">" + ce.getCreatedDate() + "</div>"
+                        + "                 <div class=\"col-xs-12  text-right\">" + ce.getCreatedTime() + "</div>"
+                        + "             </div>"
+                        + "         </div>"
+                        + "     </div>"
+                        + " </div>";
+                if (!ce.getComments().isEmpty()) {
+                    tmp += ce.getWallBootstrapCommentDisplay();
+                }
+                
             }
-
+            tmp += "</div>";
         }
-        tmp += "</div>";
         return tmp;
-
     }
 
-    public String gethomeBootstrapDisplayComments(String s) {
-        String tmp = s;
-        tmp += "<div class='bg-primary h6 col-xs-12'>";
-        for (CommentEntity ce : this.comments) {
-            tmp += "<p>" + ce.getBody() + "--Time:" + ce.getCreatedTime()+"--Date:" + ce.getCreatedDate()+ "<p>";
-            tmp += "<button class='btn btn-xs btn-primary repplyCommentBtn' parentId='" + ce.getId() + "' mainId='" + ce.getPostMain() + "'>Repply</button>";
-            if (!ce.getComments().isEmpty()) {
-                tmp += ce.gethomeBootstrapDisplayComments(s + "&nbsp;&nbsp;");
-            }
-        }
-        tmp += "</div>";
-        return tmp;
 
-    }
 
     public Date getCreatedDate() {
         return createdDate;
@@ -178,7 +210,6 @@ public class PostEntity implements Serializable {
         this.createdTime = createdTime;
     }
 
-
     public Date getModifiedDate() {
         return modifiedDate;
     }
@@ -194,7 +225,6 @@ public class PostEntity implements Serializable {
     public void setModifiedTime(Time modifiedTime) {
         this.modifiedTime = modifiedTime;
     }
-
 
     public String getBody() {
         return body;

@@ -25,6 +25,8 @@ public class RecomendationEntity extends PostEntity {
     }
     @Override
     public String getHomeBootstrapDisplay() {
-        return "Recommendation : " + this.getBody();
+        return "<div>"+this.getWallBootstrapHeaderDisplay()+
+                "<p>"+this.getBody() + "<p>"+
+                "</div>";
     }
 }

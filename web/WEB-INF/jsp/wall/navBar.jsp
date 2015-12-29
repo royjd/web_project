@@ -12,7 +12,7 @@
     </div>
     <div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Wall</a></li>
+        <li class="active"><a href="${pageContext.request.contextPath}/${username}.htm">Wall</a></li>
         <li><a href="${pageContext.request.contextPath}/${username}/friends.htm">Friends</a></li>
         <li><a href="#">Medias</a></li>
         <li><a href="${pageContext.request.contextPath}/${username}/profile.htm">About Me</a></li>  

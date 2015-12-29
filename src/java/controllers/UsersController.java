@@ -138,7 +138,7 @@ public class UsersController {
     //========
     @RequestMapping(value="{username}/friends" , method = RequestMethod.GET)
     public ModelAndView displayFriends(@PathVariable String username , HttpSession session ){
-        UserEntity user = (UserEntity)session.getAttribute("user");
+        UserEntity user = userService.findByID(((UserEntity)session.getAttribute("user")).getId());
         if( Objects.equals(user, null) ){
             return new ModelAndView("redirect:/index.htm") ;
         }

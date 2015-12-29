@@ -15,24 +15,32 @@
     <div class="panel-content">
 
         <c:forEach items="${friends}" var="var">
-
+            <c:choose> 
+                <c:when test="${var.friend.username == username}"> 
+                    <c:set var="friend" scope="session" value="${var.owner}"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="friend" scope="session" value="${var.friend}"/>
+                </c:otherwise>
+            </c:choose>
             <div class="panel panel-default" id="friend">
                 <div class="col-sm-4 btn-info">
                     <br><br><br>Photo de profile<br><br><br><br>
                 </div>
                 <div class="col-sm-8">
                     <h3> 
-                        <a href="${pageContext.request.contextPath}/${var.friend.username}.htm"  class="" >${var.friend.profile.firstName} ${var.friend.profile.lastName}</a><br/>
-                        <a href="${pageContext.request.contextPath}/${var.friend.username}.htm"  class="" ><small>@${var.friend.username}</small></a>
+                        <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="" >${friend.profile.firstName} ${friend.profile.lastName}</a><br/>
+                        <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="" ><small>@${friend.username}</small></a>
 
                     </h3>
                     <p class="text-muted">
-                        
-                        <% int nbFriend = 0 ; request.setAttribute("nbFriend", nbFriend);%>
+
+                        <% int nbFriend = 0;
+                            request.setAttribute("nbFriend", nbFriend);%>
                         <c:forEach items="${var.friend.friends}" var="aFriend">
                             <c:forEach items="${user.friends}" var="me">
                                 <c:if test="${me.friend.id == aFriend.friend.id}">
-                                    <% nbFriend += 1 ; %>
+                                    <% nbFriend += 1;%>
                                 </c:if>
                             </c:forEach>
                         </c:forEach>

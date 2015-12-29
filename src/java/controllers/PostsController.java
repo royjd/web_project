@@ -16,6 +16,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -70,16 +71,16 @@ public class PostsController {
         postService.createPost(recom);
         return model;
     }
-    
-    @RequestMapping(value = {"{username}/addComment","{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
-    public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username,@PathVariable String pathVar) {
+
+    @RequestMapping(value = {"{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
+    public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
-        if(!pathVar.isEmpty()){
-            model = new ModelAndView("redirect:/" + username + "/"+pathVar+".htm");
-        }else{
-            model = new ModelAndView("redirect:/" + username +".htm");
+
+        if (pathVariables.containsKey("pathVar")) {
+            model = new ModelAndView("redirect:/" + username + "/" + pathVariables.get("pathVar") + ".htm");
+        } else {
+            model = new ModelAndView("redirect:/" + username + ".htm");
         }
-         
         UserEntity ue = (UserEntity) session.getAttribute("user");
         PostEntity parent;
         PostEntity main;

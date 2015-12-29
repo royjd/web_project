@@ -11,7 +11,7 @@
             <button type="button" class="btn btn-info btn-lg messageNew" data-toggle="modal" data-target="#myModal">New Message</button>
             <c:forEach items="${groupList}" var="groupMessage">
                 <a href="${pageContext.request.contextPath}/message/${groupMessage.key}.htm">
-
+                     
                     <c:choose> 
                         <c:when test="${groupMessage.key == currentGroupMessage}"> 
                             <h3 id="activeGroupMessage" class="bg-primary">
@@ -19,6 +19,7 @@
                                     <c:forEach items="${groupMessage.value}" var="tier" >
                                         <c:if test="${tier.user.email != user.email || fn:length(groupMessage.value) == 1}"> 
                                             ${tier.user.email},
+                                          
                                         </c:if> 
                                     </c:forEach>
                                 </div>
@@ -31,7 +32,7 @@
                             <h4 id="${groupMessage.key}" class="bg-danger"> 
                                 <c:forEach items="${groupMessage.value}" var="tier" >
                                     -${tier.user.username}
-
+                                <!--${tier.user.getClass().name}-->
                                 </c:forEach>
                                 <c:if test="${newMessageGroupList[groupMessage.key]}"> 
                                     *
@@ -52,7 +53,6 @@
         <div class="col-xs-8 bg-danger">
             <div class="row">
                 <c:forEach items="${messages}" var="tier" >
-
                     <div class="col-xs-12 h4">${tier.sendBy.email}</div>
                     <p class="col-xs-12">${tier.content}</p>
                     <div class="col-xs-12 bg-primary"></div>
@@ -79,7 +79,7 @@
                                 <button id="replyFormSubmit" type="submit" class="btn btn-success pull-right" action="${pageContext.request.contextPath}/sendMessage.htm">Reply</button>
                             </div>
                         </div>
-                    </form
+                    </form>
                 </div>
             </c:if>
         </div>

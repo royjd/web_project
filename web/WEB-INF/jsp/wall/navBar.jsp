@@ -7,7 +7,7 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="${user.username}.htm">${user.username}</a>
+      <a class="navbar-brand" href="${target.username}.htm">${target.username}</a>
     </div>
     <div>
       <ul class="nav navbar-nav">

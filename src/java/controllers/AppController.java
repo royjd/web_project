@@ -5,8 +5,11 @@
  */
 package controllers;
 
+import dao.CommentEntity;
 import dao.FriendEntity;
+import dao.PostEntity;
 import dao.UserEntity;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,14 +39,19 @@ public class AppController {
     }
 
     @RequestMapping(value = "{username}", method = RequestMethod.GET)
-    public ModelAndView displayLogin(HttpServletRequest request, HttpServletResponse response, @PathVariable String username) {
+    public ModelAndView displayLogin(HttpServletRequest request, HttpServletResponse response, @PathVariable String username,HttpSession session) {
         ModelAndView model = new ModelAndView("page");
         model.addObject("content", "wall");
-        model.addObject("wallContent", "info");
+        model.addObject("wallContent", "post");
+        UserEntity ue = userService.findByUsername(username);
+        model.addObject("target", ue);
+        List<PostEntity> po = new ArrayList<>();
+        po.addAll(ue.getPostsR());
+        model.addObject("post", po);
+        CommentEntity ce = new CommentEntity();
+        model.addObject("newComment", ce);
         return model;
     }
-
-
 
     /*
     @RequestMapping(value = "{username}/test", method = RequestMethod.GET)
@@ -58,11 +66,14 @@ public class AppController {
 
         m.addAttribute("content", "home");
         UserEntity ue = (UserEntity) session.getAttribute("user");
+        ue = userService.findByID(ue.getId());
         List<UserEntity> fta = this.userService.getFriendToAccept(ue.getId());
         m.addAttribute("friendToAccept", fta);
-        List<FriendEntity> friends = ue.getFriends();
+        List<FriendEntity> friends = new ArrayList<>();
+        friends.addAll(ue.getFriends());
         friends.addAll(ue.getFriendedBy());
         m.addAttribute("friends", friends);
+
         return "page";
     }
 }

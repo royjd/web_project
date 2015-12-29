@@ -9,6 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(UserEntity.class)
 public abstract class UserEntity_ {
 
+	public static volatile ListAttribute<UserEntity, PostEntity> postsS;
 	public static volatile SingularAttribute<UserEntity, String> password;
 	public static volatile ListAttribute<UserEntity, FriendEntity> friendedBy;
 	public static volatile SingularAttribute<UserEntity, ProfileEntity> profile;
@@ -18,6 +19,7 @@ public abstract class UserEntity_ {
 	public static volatile ListAttribute<UserEntity, MessageUserEntity> messageR;
 	public static volatile ListAttribute<UserEntity, FriendEntity> friends;
 	public static volatile SingularAttribute<UserEntity, String> username;
+	public static volatile ListAttribute<UserEntity, PostEntity> postsR;
 
 }
 

@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +42,7 @@ public class UserEntity implements Serializable {
 
     @Column
     private String password;
-    
+
     @Column(unique = true)
     private String username;
 
@@ -63,6 +62,15 @@ public class UserEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "friend")
     private List<FriendEntity> friendedBy = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
+    @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
+    private List<PostEntity> postsS = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "target" )
+    @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
+    private List<PostEntity> postsR = new ArrayList<>();
+
 
     public UserEntity() {
         this.email = null;
@@ -84,6 +92,19 @@ public class UserEntity implements Serializable {
 
     public void addFriend(FriendEntity fe) {
         this.friends.add(fe);
+    }
+
+    public void addPost(PostEntity pe) {
+        if (pe instanceof NewsEntity) {
+            if (pe.getAuthor().getId().equals(this.getId())) {
+                this.postsS.add(pe);
+            } else {
+                this.postsR.add(pe);
+            }
+        } else{
+            this.postsS.add( pe);
+        }
+        
     }
 
     public void addFriendedBy(FriendEntity fe) {
@@ -236,5 +257,22 @@ public class UserEntity implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public List<PostEntity> getPostsS() {
+        return postsS;
+    }
+
+    public void setPostsS(List<PostEntity> postsS) {
+        this.postsS = postsS;
+    }
+
+    public List<PostEntity> getPostsR() {
+        return postsR;
+    }
+
+    public void setPostsR(List<PostEntity> postsR) {
+        this.postsR = postsR;
+    }
+
 
 }

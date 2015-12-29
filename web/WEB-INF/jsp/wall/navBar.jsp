@@ -7,14 +7,18 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
+<<<<<<< HEAD
       <a class="navbar-brand" href="${target.username}.htm">${target.username}</a>
+=======
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/${username}/profile.htm">${username}</a>
+>>>>>>> origin/master
     </div>
     <div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Wall</a></li>
-        <li><a href="#">Friends</a></li>
+        <li><a href="${pageContext.request.contextPath}/${username}/friends.htm">Friends</a></li>
         <li><a href="#">Medias</a></li>
-        <li><a href="${pageContext.request.contextPath}/${user.username}/profile.htm">About Me</a></li>  
+        <li><a href="${pageContext.request.contextPath}/${username}/profile.htm">About Me</a></li>  
       </ul>
     </div>
   </div>

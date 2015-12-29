@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dao.PhysicalEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +19,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -39,14 +37,17 @@ public class ProfileEntity implements Serializable {
     private String firstName;
 
     private String lastName;
-
     
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date birthDay;
 
     private String phone;
 
     private String description;
+    
+    private String country;
+    
+    private String city;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -63,6 +64,9 @@ public class ProfileEntity implements Serializable {
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.phone = p.getPhone();
+        this.country = p.getCountry();
+        this.city = p.getCity();
+        this.birthDay = p.getBirthDay();
     }
 
     public Date getBirthDay() {
@@ -136,6 +140,24 @@ public class ProfileEntity implements Serializable {
     public void RemoveExperience(ExperienceEntity e) {
         this.experiences.remove(e);
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+    
+    
 
     @Override
     public int hashCode() {

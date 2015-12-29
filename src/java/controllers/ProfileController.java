@@ -9,24 +9,17 @@ import commun.ExperienceValidator;
 import commun.UserValidator;
 import dao.ExperienceEntity;
 import dao.LocalisationEntity;
-import dao.PhysicalDAO;
 import dao.PhysicalEntity;
 import dao.ProfileEntity;
 import dao.UserEntity;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,17 +63,11 @@ public class ProfileController {
     private static final String repertoryName = "profile/";
 
     // To add attribute in all model in this controllers
-    @ModelAttribute
-    public void common(Model mv) {
+    @ModelAttribute(value = "{username}")
+    public void common(Model mv , @PathVariable String username) {
         mv.addAttribute("wallContent", repertoryName + "profile");
+        mv.addAttribute("username", username);
         mv.addAttribute("content", "wall");
-    }
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-        //binder.registerCustomEditor(Date.class, "ProfileEntity", new CustomDateEditor(dateFormat, true));
-        //binder.registerCustomEditor(Date.class, "ExperienceEntity", new CustomDateEditor(dateFormat, true));
     }
 
     @RequestMapping(value = "{username}/profile", method = RequestMethod.GET)
@@ -121,7 +108,7 @@ public class ProfileController {
             if (user != null && Objects.equals(user.getId(), u.getId())) {
                 mv.addObject("editUser", user);
                 mv.addObject("msg", "");
-                mv.addObject("profileContent", "edit");
+                mv.addObject("profileContent", "editProfile");
             }
         }
 
@@ -136,7 +123,7 @@ public class ProfileController {
 
         if (result.hasErrors()) {
             ModelAndView mv = new ModelAndView("page");
-            mv.addObject("profileContent", "edit");
+            mv.addObject("profileContent", "editProfile");
             mv.addObject("msg", "There some erros, fix them");
             return mv;
 

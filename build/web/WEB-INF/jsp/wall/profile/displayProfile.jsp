@@ -3,8 +3,6 @@
     Created on : 19 déc. 2015, 10:56:28
     Author     : zakaridia
 --%>
-<%@page import="dao.UserEntity"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="col-sm-7">
@@ -46,6 +44,20 @@
         Weight : <small>${ empty user.profile.physical.weight ? "Not define" : user.profile.physical.weight}</small>
     </h3>
 
+    <h3>
+        Live in : 
+        <small>
+            <c:choose>
+                <c:when test="${empty user.profile.country && empty user.profile.city}">
+                    Not define
+                </c:when>
+                <c:otherwise>
+                    ${user.profile.city} ${not empty user.profile.city && not empty user.profile.country ? " / " : ""}${user.profile.country}
+                </c:otherwise>
+            </c:choose>
+        </small> 
+    </h3>
+
     <hr>
     <h3>Brief Description</h3>
     <p class="well">
@@ -65,13 +77,13 @@
     <h3>Experiences</h3>
     <hr>
 
-        <c:forEach items="${user.profile.experiences}" var="experience" >
+    <c:forEach items="${user.profile.experiences}" var="experience" >
         <div class="media">
             <div class="media-body">
                 <h3 class="media-heading">${experience.title}</h3>
 
-                    ${experience.description}
-                    <p class="text-muted">
+                ${experience.description}
+                <p class="text-muted">
                     <small>
                         On ${experience.realisationDate}<br>
 
@@ -80,7 +92,7 @@
                         </c:if>
                         ${experience.localisation.zipcode} ${experience.localisation.city} - ${experience.localisation.stat} 
                     </small>
-                    </p>
+                </p>
             </div>
 
             <c:if test="${canModify}">

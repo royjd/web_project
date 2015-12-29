@@ -7,11 +7,8 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-<<<<<<< HEAD
-      <a class="navbar-brand" href="${target.username}.htm">${target.username}</a>
-=======
       <a class="navbar-brand" href="${pageContext.request.contextPath}/${username}/profile.htm">${username}</a>
->>>>>>> origin/master
+
     </div>
     <div>
       <ul class="nav navbar-nav">

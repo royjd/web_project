@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<form method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/${target.username}/addNews.htm">
+<form method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/${username}/addNews.htm">
     <div class="form-group">
         <label class="control-label col-sm-2" for="message">Title:</label>
         <div class="col-sm-10">
@@ -36,7 +36,7 @@
                 ${tier.homeBootstrapDisplay}
                 ${tier.homeBootstrapDisplayComments} 
             </p>
-            <form:form action="${pageContext.request.contextPath}/${target.username}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">
+            <form:form action="${pageContext.request.contextPath}/${username}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">
 
                 <spring:bind path="postMain.id">
                     <form:hidden path="postMain.id" id="postMainId" value="${tier.id}"/>
@@ -77,7 +77,7 @@
     $(document).ready(function () {
         $('.repplyCommentBtn').click(function () {
             $(this).after(
-            '<form action="${pageContext.request.contextPath}/${user.username}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">'+
+            '<form action="${pageContext.request.contextPath}/${username}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">'+
 
                     '<input style="display:none" path="postMain.id" name="postMainId" id="postMainId" value="'+$(this).attr("mainid")+'"/>'+
 

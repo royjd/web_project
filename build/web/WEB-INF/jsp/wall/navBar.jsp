@@ -7,7 +7,6 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-
       <a class="navbar-brand" href="${pageContext.request.contextPath}/${username}/profile.htm">${username}</a>
 
     </div>

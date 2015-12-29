@@ -25,7 +25,7 @@ public class NewsEntity extends PostEntity {
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "news")
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SELECT)//lol
     private List<MediaEntity> medias = new ArrayList<>();
 
     public NewsEntity() {

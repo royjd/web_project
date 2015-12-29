@@ -13,7 +13,9 @@ public abstract class ProfileEntity_ {
 	public static volatile SingularAttribute<ProfileEntity, String> firstName;
 	public static volatile SingularAttribute<ProfileEntity, String> lastName;
 	public static volatile SingularAttribute<ProfileEntity, Date> birthDay;
+	public static volatile SingularAttribute<ProfileEntity, String> country;
 	public static volatile SingularAttribute<ProfileEntity, String> phone;
+	public static volatile SingularAttribute<ProfileEntity, String> city;
 	public static volatile SingularAttribute<ProfileEntity, String> description;
 	public static volatile SingularAttribute<ProfileEntity, UserEntity> profileOwner;
 	public static volatile SingularAttribute<ProfileEntity, Long> id;

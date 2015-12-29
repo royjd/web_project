@@ -24,7 +24,7 @@ public class MediaEntity extends PostEntity {
 
     @ManyToOne
     @JoinColumn(name = "media_news_id")
-    private AlbumEntity news;
+    private NewsEntity news;
 
     public MediaEntity() {
         super();
@@ -47,12 +47,14 @@ public class MediaEntity extends PostEntity {
         this.album = album;
     }
 
-    public AlbumEntity getNews() {
+    public NewsEntity getNews() {
         return news;
     }
 
-    public void setNews(AlbumEntity news) {
+    public void setNews(NewsEntity news) {
         this.news = news;
     }
+
+
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(MediaEntity.class)
 public abstract class MediaEntity_ extends dao.PostEntity_ {
 
-	public static volatile SingularAttribute<MediaEntity, AlbumEntity> news;
+	public static volatile SingularAttribute<MediaEntity, NewsEntity> news;
 	public static volatile SingularAttribute<MediaEntity, AlbumEntity> album;
 
 }

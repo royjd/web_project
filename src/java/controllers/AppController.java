@@ -11,6 +11,7 @@ import dao.PostEntity;
 import dao.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -68,7 +69,27 @@ public class AppController {
         model.addObject("newComment", ce);
         return model;
     }
-
+    @RequestMapping(value = {"{username}/media", "{username}/media/{varPath}"}, method = RequestMethod.GET)
+    public ModelAndView media(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session,@PathVariable Map<String, String> pathVariables) {
+        
+        ModelAndView model = new ModelAndView("page");
+        if (pathVariables.containsKey("varPath")) {
+            model.addObject("mediaContent",pathVariables.get("varPath"));
+        } else {
+            model.addObject("mediaContent","photo");
+        }
+        
+        model.addObject("content", "wall");
+        model.addObject("wallContent", "media/media");
+        UserEntity ue = userService.findByUsername(username);
+        model.addObject("username", username);
+        List<PostEntity> po = new ArrayList<>();
+        po.addAll(ue.getPostsR());
+        model.addObject("post", po);
+        CommentEntity ce = new CommentEntity();
+        model.addObject("newComment", ce);
+        return model;
+    }
     /*
     @RequestMapping(value = "{username}/test", method = RequestMethod.GET)
     public ModelAndView test(HttpServletRequest request, HttpServletResponse response, @PathVariable String username) {

@@ -15,7 +15,7 @@
         <li class="active"><a href="${pageContext.request.contextPath}/${username}.htm">Wall</a></li>
         <li><a href="${pageContext.request.contextPath}/${username}/recommendation.htm">Recommendation</a></li>
         <li><a href="${pageContext.request.contextPath}/${username}/friends.htm">Friends</a></li>
-        <li><a href="#">Medias</a></li>
+        <li><a href="${pageContext.request.contextPath}/${username}/media.htm">Medias</a></li>
         <li><a href="${pageContext.request.contextPath}/${username}/profile.htm">About Me</a></li>  
       </ul>
     </div>

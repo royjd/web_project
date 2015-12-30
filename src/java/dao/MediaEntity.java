@@ -36,7 +36,26 @@ public class MediaEntity extends PostEntity {
 
     @Override
     public String getHomeBootstrapDisplay() {
-        return "Média : " + this.getBody();
+        
+        return  "<div>"+this.getWallBootstrapHeaderDisplay()
+                +"<p>"+this.getBody() + "<p>"
+                +"<a href=\"#\">"
+                +"            <div class=\"img-overlay\">"
+                + "                <img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/>"
+                + "            </div>"
+                + "</a>"
+                +"</div>";
+        
+    }
+
+    public String getPhotoDisplay() {
+        return "            <div class=\"img-overlay\">"
+                + "                     <a href=\"#\"><img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/></a>"
+                +"                      <div class=\"text project-overlay\" style=\"text-align:center;display:none;\">"
+                + "                         <a href=\"#\"><h4>this.getAlbum().getTitle()</h4></a>"
+                + "                         <p>" + this.getBody() + "</p>"
+                + "                     </div>"
+                + "            </div>";
     }
 
     public AlbumEntity getAlbum() {
@@ -54,7 +73,5 @@ public class MediaEntity extends PostEntity {
     public void setNews(NewsEntity news) {
         this.news = news;
     }
-
-
 
 }

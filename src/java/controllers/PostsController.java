@@ -5,16 +5,15 @@
  */
 package controllers;
 
+import dao.AlbumEntity;
 import dao.CommentEntity;
-import dao.MessageEntity;
+import dao.MediaEntity;
 import dao.NewsEntity;
 import dao.PostEntity;
 import dao.RecomendationEntity;
 import dao.UserEntity;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,6 +70,47 @@ public class PostsController {
         return model;
     }
 
+    @RequestMapping(value = "{username}/media/addPhoto", method = RequestMethod.POST)
+    public ModelAndView addPhoto(@ModelAttribute MediaEntity media, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
+        ModelAndView model = new ModelAndView("redirect:/" + username + "/media/photo.htm");
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        Calendar c = Calendar.getInstance();
+        media.setCreatedDate(new Date(c.getTimeInMillis()));
+        media.setCreatedTime(new Time(c.getTimeInMillis()));
+        media.setAuthor(ue);
+        media.setTarget(ue);
+        postService.createPost(media);
+        return model;
+    }
+    
+    @RequestMapping(value = "{username}/media/addVideo", method = RequestMethod.POST)
+    public ModelAndView addVideo(@ModelAttribute MediaEntity media, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
+        ModelAndView model = new ModelAndView("redirect:/" + username + "/media/video.htm");
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        Calendar c = Calendar.getInstance();
+        media.setCreatedDate(new Date(c.getTimeInMillis()));
+        media.setCreatedTime(new Time(c.getTimeInMillis()));
+        media.setAuthor(ue);
+        media.setTarget(ue);
+        postService.createPost(media);
+        return model;
+    }
+    
+    @RequestMapping(value = "{username}/media/addAlbum", method = RequestMethod.POST)
+    public ModelAndView addMedia(@ModelAttribute AlbumEntity album, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
+        ModelAndView model = new ModelAndView("redirect:/" + username + "/media/album.htm");
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        Calendar c = Calendar.getInstance();
+        album.setCreatedDate(new Date(c.getTimeInMillis()));
+        album.setCreatedTime(new Time(c.getTimeInMillis()));
+        album.setAuthor(ue);
+        album.setTarget(ue);
+        postService.createPost(album);
+        return model;
+    }
+    
+    
+
     @RequestMapping(value = {"{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
     public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
@@ -104,4 +143,5 @@ public class PostsController {
         postService.createPost(comment);
         return model;
     }
+
 }

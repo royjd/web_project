@@ -48,9 +48,26 @@ public class AlbumEntity extends PostEntity {
 
     @Override
     public String getHomeBootstrapDisplay() {
-        return "Album : " + this.getBody();
+        
+        return  "<div>"+this.getWallBootstrapHeaderDisplay()
+                +"<p>"+this.getBody() + "<p>"
+                +"<a href=\"#\">"
+                +"            <div class=\"img-overlay\">"
+                + "                <img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/>"
+                + "            </div>"
+                + "</a>"
+                +"</div>";
+        
     }
-
+    public String getAlbumDisplay(){
+        return    "            <div class=\"img-overlay\">"
+                + "                <img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/>"
+                + "            </div>"
+                + "            <div class=\"text\" style=\"text-align:center;\">"
+                + "                <h4>"+this.getTitle()+"</h4>"
+                + "                <p>"+this.getBody()+"</p>"
+                + "            </div>";
+    }
     public MediaEntity getCover() {
         return cover;
     }

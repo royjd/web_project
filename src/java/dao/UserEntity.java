@@ -49,25 +49,25 @@ public class UserEntity implements Serializable {
     @OneToOne(mappedBy = "profileOwner")
     private ProfileEntity profile;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageUserEntity> messageR = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sendBy")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sendBy")//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageEntity> messageS = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")//super heavy useless to charge it all the time
     private List<FriendEntity> friends = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "friend")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "friend")//super heavy useless to charge it all the time
     private List<FriendEntity> friendedBy = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<PostEntity> postsS = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "target" )
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "target" )//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<PostEntity> postsR = new ArrayList<>();
 

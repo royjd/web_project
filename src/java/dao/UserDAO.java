@@ -33,4 +33,5 @@ public interface UserDAO {
     public void removeFriend(UserEntity owner, UserEntity friend, FriendEntity fe);
 
     public List<UserEntity> findBysearch(String param);
+
 }

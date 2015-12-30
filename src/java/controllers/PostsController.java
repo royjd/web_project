@@ -47,12 +47,7 @@ public class PostsController {
         ModelAndView model = new ModelAndView("redirect:/" + username + ".htm");
         UserEntity ue = (UserEntity) session.getAttribute("user");
         UserEntity target = userService.findByUsername(username);
-        Calendar c = Calendar.getInstance();
-        news.setCreatedDate(new Date(c.getTimeInMillis()));
-        news.setCreatedTime(new Time(c.getTimeInMillis()));
-        news.setAuthor(ue);
-        news.setTarget(target);
-        postService.createPost(news);
+        postService.createNews(news, ue, target);
         return model;
     }
 
@@ -61,12 +56,7 @@ public class PostsController {
         ModelAndView model = new ModelAndView("redirect:/" + username + "/recommendation.htm");
         UserEntity ue = (UserEntity) session.getAttribute("user");
         UserEntity target = userService.findByUsername(username);
-        Calendar c = Calendar.getInstance();
-        recom.setCreatedDate(new Date(c.getTimeInMillis()));
-        recom.setCreatedTime(new Time(c.getTimeInMillis()));
-        recom.setAuthor(ue);
-        recom.setTarget(target);
-        postService.createPost(recom);
+        postService.createRecommendation(recom, ue, target);
         return model;
     }
 
@@ -74,73 +64,42 @@ public class PostsController {
     public ModelAndView addPhoto(@ModelAttribute MediaEntity media, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
         ModelAndView model = new ModelAndView("redirect:/" + username + "/media/photo.htm");
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        Calendar c = Calendar.getInstance();
-        media.setCreatedDate(new Date(c.getTimeInMillis()));
-        media.setCreatedTime(new Time(c.getTimeInMillis()));
-        media.setAuthor(ue);
-        media.setTarget(ue);
-        postService.createPost(media);
+        postService.createPhoto(media, ue);
         return model;
     }
-    
+
     @RequestMapping(value = "{username}/media/addVideo", method = RequestMethod.POST)
     public ModelAndView addVideo(@ModelAttribute MediaEntity media, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
         ModelAndView model = new ModelAndView("redirect:/" + username + "/media/video.htm");
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        Calendar c = Calendar.getInstance();
-        media.setCreatedDate(new Date(c.getTimeInMillis()));
-        media.setCreatedTime(new Time(c.getTimeInMillis()));
-        media.setAuthor(ue);
-        media.setTarget(ue);
-        postService.createPost(media);
+        postService.createVideao(media, ue);
         return model;
     }
-    
+
     @RequestMapping(value = "{username}/media/addAlbum", method = RequestMethod.POST)
     public ModelAndView addMedia(@ModelAttribute AlbumEntity album, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
         ModelAndView model = new ModelAndView("redirect:/" + username + "/media/album.htm");
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        Calendar c = Calendar.getInstance();
-        album.setCreatedDate(new Date(c.getTimeInMillis()));
-        album.setCreatedTime(new Time(c.getTimeInMillis()));
-        album.setAuthor(ue);
-        album.setTarget(ue);
-        postService.createPost(album);
+        postService.createAlbum(album, ue);
         return model;
     }
-    
-    
 
     @RequestMapping(value = {"{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
     public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
-
         if (pathVariables.containsKey("pathVar")) {
             model = new ModelAndView("redirect:/" + username + "/" + pathVariables.get("pathVar") + ".htm");
         } else {
             model = new ModelAndView("redirect:/" + username + ".htm");
         }
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        PostEntity parent;
-        PostEntity main;
         if (comment.getPostMain() == null) {
-            Long parentId = Long.valueOf(request.getParameter("postParentId")).longValue();
-            Long mainId = Long.valueOf(request.getParameter("postMainId")).longValue();
-            parent = postService.findByID(parentId);
-            main = postService.findByID(mainId);
-            comment.setBody(request.getParameter("bodyCommet"));
-        } else {
-            parent = postService.findByID(comment.getPostParent().getId());
-            main = postService.findByID(comment.getPostMain().getId());
+            postService.createComment(request.getParameter("bodyCommet"), ue,Long.valueOf(request.getParameter("postParentId")).longValue(),Long.valueOf(request.getParameter("postMainId")).longValue());
+
+        }else{
+            postService.createComment(comment, ue);
         }
-        comment.setAuthor(ue);
-        Calendar c = Calendar.getInstance();
-        comment.setCreatedDate(new Date(c.getTimeInMillis()));
-        comment.setCreatedTime(new Time(c.getTimeInMillis()));
-        comment.setTarget(parent.getAuthor());
-        comment.setPostParent(parent);
-        comment.setPostMain(main);
-        postService.createPost(comment);
+        
         return model;
     }
 

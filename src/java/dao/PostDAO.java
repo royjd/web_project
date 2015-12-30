@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.List;
+
 /**
  *
  * @author Karl Lauret
@@ -18,5 +20,7 @@ public interface PostDAO {
     public void delete(PostEntity p);
 
     public PostEntity findByPostId(Long postId);
+
+    public List<PostEntity> findByUsernameAndType(String username, String type);
 
 }

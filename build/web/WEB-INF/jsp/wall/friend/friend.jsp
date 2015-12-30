@@ -46,9 +46,9 @@
                         </c:forEach>
                         <%= nbFriend%> friend(s) on common
                     </p>
-                    <a href="${pageContext.request.contextPath}/${var.friend.username}.htm"  class="btn btn-info" >See wall</a>
+                    <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="btn btn-info" >See wall</a>
                     <c:if test="${canRemove}">
-                        <a href="${pageContext.request.contextPath}/${user.username}/removeFriend.htm?id=${var.id}"  class="pull-right btn btn-danger" >Remove</a>
+                        <a href="${pageContext.request.contextPath}/${friend.username}/removeFriend.htm?id=${friend.id}"  class="pull-right btn btn-danger" >Remove</a>
                     </c:if>
                 </div>
 

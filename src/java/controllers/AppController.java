@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import services.PostService;
 import services.UserService;
 
 /**
@@ -35,81 +36,69 @@ public class AppController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PostService postService;
+
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String init() {
         return "index";
     }
 
     @RequestMapping(value = "{username}", method = RequestMethod.GET)
-    public ModelAndView displayLogin(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
+    public ModelAndView wallHome(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
         ModelAndView model = new ModelAndView("page");
         model.addObject("content", "wall");
         model.addObject("wallContent", "post");
-        UserEntity ue = userService.findByUsername(username);
         model.addObject("username", username);
-        List<PostEntity> po = new ArrayList<>();
-        po.addAll(ue.getPostsR());
-        model.addObject("post", po);
+        model.addObject("post", postService.getPostFromUserAndType(username,"post")); 
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
         return model;
     }
-    
+
     @RequestMapping(value = "{username}/recommendation", method = RequestMethod.GET)
     public ModelAndView recommendation(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
         ModelAndView model = new ModelAndView("page");
+        
         model.addObject("content", "wall");
         model.addObject("wallContent", "recommendation/recommendation");
-        UserEntity ue = userService.findByUsername(username);
         model.addObject("username", username);
-        List<PostEntity> po = new ArrayList<>();
-        po.addAll(ue.getPostsR());
-        model.addObject("post", po);
-        CommentEntity ce = new CommentEntity();
+        model.addObject("post", postService.getPostFromUserAndType(username,"recommendation")); 
+        
+        CommentEntity ce = new CommentEntity();//userfull for the form:form object in jtsl //jsp
         model.addObject("newComment", ce);
+        
         return model;
     }
+
     @RequestMapping(value = {"{username}/media", "{username}/media/{varPath}"}, method = RequestMethod.GET)
-    public ModelAndView media(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session,@PathVariable Map<String, String> pathVariables) {
-        
+    public ModelAndView media(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session, @PathVariable Map<String, String> pathVariables) {
+
         ModelAndView model = new ModelAndView("page");
         if (pathVariables.containsKey("varPath")) {
-            model.addObject("mediaContent",pathVariables.get("varPath"));
+            model.addObject("mediaContent", pathVariables.get("varPath"));
+            model.addObject("post", postService.getPostFromUserAndType(username,pathVariables.get("varPath")));       
         } else {
-            model.addObject("mediaContent","photo");
+            model.addObject("mediaContent", "photo");
+            model.addObject("post", postService.getPostFromUserAndType(username,"photo"));   
         }
-        
+
         model.addObject("content", "wall");
         model.addObject("wallContent", "media/media");
-        UserEntity ue = userService.findByUsername(username);
+        
         model.addObject("username", username);
-        List<PostEntity> po = new ArrayList<>();
-        po.addAll(ue.getPostsR());
-        model.addObject("post", po);
-        CommentEntity ce = new CommentEntity();
+        CommentEntity ce = new CommentEntity();//userfull for the form:form object in jtsl //jsp
         model.addObject("newComment", ce);
         return model;
     }
-    /*
-    @RequestMapping(value = "{username}/test", method = RequestMethod.GET)
-    public ModelAndView test(HttpServletRequest request, HttpServletResponse response, @PathVariable String username) {
-        ModelAndView model = new ModelAndView("page");
-        model.addObject("content", "message");
-        return model;
-    }
-     */
+
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public String home(HttpSession session, Model m) {
-
         m.addAttribute("content", "home");
         UserEntity ue = (UserEntity) session.getAttribute("user");
         ue = userService.findByID(ue.getId());
-        List<UserEntity> fta = this.userService.getFriendToAccept(ue.getId());
-        m.addAttribute("friendToAccept", fta);
-        List<FriendEntity> friends = new ArrayList<>();
-        friends.addAll(ue.getFriends());
-        friends.addAll(ue.getFriendedBy());
-        m.addAttribute("friends", friends);
+        m.addAttribute("friendToAccept", this.userService.getFriendToAccept(ue));
+        m.addAttribute("friends", this.userService.getFriends(ue));
 
         return "page";
     }

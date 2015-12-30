@@ -37,6 +37,14 @@ public interface UserService {
     public boolean acceptFriendship(Long acceptedBy, Long acceptedFrom);
     public boolean deniedFriendship(Long deniedBy, Long deniedFrom);
 
+    public List<FriendEntity> getFriends(Long id);
+
+    public List<UserEntity> getFriendToAccept(UserEntity ue);
+
+    public List<FriendEntity> getFriends(UserEntity ue);
+
+    public UserEntity getUserSessionInfo(String email);
+
     
     
 }

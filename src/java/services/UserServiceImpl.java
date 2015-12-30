@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     ExperienceDAO experienceDao;
-    
+
     @Resource
     PhysicalDAO physicalDao;
 
@@ -80,15 +81,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findByUsername(String username){
+    public UserEntity findByUsername(String username) {
         return userDao.findByUsername(username);
     }
-    
+
     @Override
     public UserEntity findByEmail(String email) {
         return userDao.findByEmail(email);
     }
-    
 
     @Override
     public boolean delete(UserEntity u) {
@@ -140,11 +140,6 @@ public class UserServiceImpl implements UserService {
     public boolean removeFriend(Long friendId) {
         FriendEntity fe = this.friendDao.findByID(friendId);
         if (fe != null) {
-            /*UserEntity friend = this.userDao.findByID(fe.getFriend().getId());
-            UserEntity owner = this.userDao.findByID(fe.getOwner().getId());
-            fe.setFriend(friend);
-            fe.setOwner(owner);
-            this.friendDao.delete(fe);*/
             UserEntity friend = this.userDao.findByID(fe.getFriend().getId());
             UserEntity owner = this.userDao.findByID(fe.getOwner().getId());
             this.userDao.removeFriend(owner, friend, fe);
@@ -199,6 +194,54 @@ public class UserServiceImpl implements UserService {
         }
         return false;
 
+    }
+
+    @Override
+    @Transactional
+    public List<FriendEntity> getFriends(Long id) {
+        UserEntity ue = this.userDao.findByID(id);
+        if (ue.getId() != null) {
+            List<FriendEntity> friends = new ArrayList<>();
+            friends.addAll(ue.getFriends());
+            friends.addAll(ue.getFriendedBy());
+            return friends;
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public List<UserEntity> getFriendToAccept(UserEntity ue) {
+        ue.getFriendToAccept().size();
+        if (ue.getId() != null && ue.getFriendToAccept() != null) {
+
+            return ue.getFriendToAccept();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<FriendEntity> getFriends(UserEntity ue) {
+        if (ue.getId() != null) {
+            List<FriendEntity> friends = new ArrayList<>();
+            friends.addAll(ue.getFriends());
+            friends.addAll(ue.getFriendedBy());
+            return friends;
+        }
+        return null;
+    }
+
+    @Override
+    public UserEntity getUserSessionInfo(String email) {
+        UserEntity ue = userDao.findByEmail(email);
+        UserEntity tmpUe = new UserEntity();
+        tmpUe.setProfile(ue.getProfile());
+        tmpUe.setEmail(ue.getEmail());
+        tmpUe.setId(ue.getId());
+        tmpUe.setUsername(ue.getUsername());
+        return tmpUe;
     }
 
 }

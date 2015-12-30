@@ -74,4 +74,8 @@ public class MediaEntity extends PostEntity {
         this.news = news;
     }
 
+    public boolean isPhoto() {
+        return true;
+    }
+
 }

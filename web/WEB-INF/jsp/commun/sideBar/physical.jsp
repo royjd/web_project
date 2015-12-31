@@ -5,9 +5,9 @@
 --%>
 <div class="row">
     <div class="col-sm-12">
-        <div class="bg-primary">
-            <h3>Physical</h3>
-            
+        <div class="">
+            <h3><a href="${pageContext.request.contextPath}/${user.username}/profile.htm">Physical</a></h3>
+            ${physical}
         </div>
 
     </div>

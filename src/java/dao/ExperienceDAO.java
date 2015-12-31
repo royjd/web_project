@@ -18,4 +18,8 @@ public interface ExperienceDAO {
     public ExperienceEntity findById(Long id);
     public List<ExperienceEntity> findExperiencesForProfil(Long profileId);
     public List<ExperienceEntity> findExperiencesForProfil(Long profileId , int limit);
+
+    public ExperienceEntity findLastExperienceForUser(Long userID);
+
+    public ExperienceEntity findLastExperienceForProfile(Long profileID);
 }

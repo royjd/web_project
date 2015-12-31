@@ -67,7 +67,7 @@ public class UserEntity implements Serializable {
     //@Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<PostEntity> postsS = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "target" )//super heavy useless to charge it all the time
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "target" )//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<PostEntity> postsR = new ArrayList<>();
 

@@ -103,10 +103,10 @@ public class UserServiceImpl implements UserService {
         UserEntity ue = this.userDao.findByEmail(email);
         if (ue != null) {
             try {
-                if(ue.isValidPassword(password)){
+                if (ue.isValidPassword(password)) {
                     return ue;
                 }
-                    return null;
+                return null;
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
         if (acceptedBy.equals(acceptedFrom)) {
             return false;
         }
-        FriendEntity fe = this.friendDao.findByFriendShip(acceptedBy,acceptedFrom );
+        FriendEntity fe = this.friendDao.findByFriendShip(acceptedBy, acceptedFrom);
         if (fe != null) {
             fe.setAccepted(Boolean.TRUE);
             this.friendDao.update(fe);
@@ -186,8 +186,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<FriendEntity> getFriends(Long userID) {
+    public List<FriendEntity> getFriendsListFriendByUserID(Long userID) {
         return this.friendDao.findFriendsByUserID(userID);
+    }
+
+    @Override
+    public List<UserEntity> getFriendsListUserByUserID(Long userID) {
+        List<UserEntity> lue = new ArrayList<>();
+        List<FriendEntity> lfe = this.friendDao.findFriendsByUserID(userID);
+        for(FriendEntity fe : lfe){
+            if(fe.getFriend().getId().equals(userID)){
+                lue.add(fe.getOwner());
+            }else{
+                lue.add(fe.getFriend());
+            }
+        }
+        return lue;
+                
     }
 
     @Override

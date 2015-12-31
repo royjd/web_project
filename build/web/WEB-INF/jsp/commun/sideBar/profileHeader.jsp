@@ -6,9 +6,10 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="bg-primary">
-            <h3>PROFILE HEADER</h3>
-                
+        <div class="">
+            <a href="${pageContext.request.contextPath}/${user.username}/profile.htm"><img url="${photoProfile}"/></a>
+            ${photoProfile}
+             
         </div>
 
     </div>

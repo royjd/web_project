@@ -87,8 +87,6 @@ public class UserDAOImpl implements UserDAO {
         this.em.merge(friend);
         this.em.merge(owner);
     }*/
-
-
     @Transactional(readOnly = true)
     @Override
     public List<UserEntity> findBysearch(String param) {
@@ -105,8 +103,6 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-  
-
-
+   
 
 }

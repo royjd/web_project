@@ -8,6 +8,7 @@ package controllers;
 import dao.CommentEntity;
 import dao.FriendEntity;
 import dao.PostEntity;
+import dao.ProfileEntity;
 import dao.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import services.MessageService;
 import services.PostService;
+import services.ProfileService;
 import services.UserService;
 
 /**
@@ -42,6 +44,9 @@ public class AppController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private ProfileService profileService;
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String init() {
@@ -101,14 +106,21 @@ public class AppController {
         m.addAttribute("content", "home");
         UserEntity ue = (UserEntity) session.getAttribute("user");
         m.addAttribute("friendsToAccept", this.userService.getFriendToAccept(ue.getId()));
-        m.addAttribute("friends", this.userService.getFriends(ue.getId()));
+        m.addAttribute("friends", this.userService.getFriendsListFriendByUserID(ue.getId()));
+        ProfileEntity pe = this.profileService.findByUserId(ue.getId());
+        m.addAttribute("physical", pe.getPhysical());
+        m.addAttribute("photoProfile", "pe.getMedia().getPhoto()");
+        m.addAttribute("experience", this.profileService.getLastExperienceByProfile(pe.getId()));
+        m.addAttribute("post", this.postService.getRecentPostFromFriendAndMe(ue.getId()));
+        CommentEntity ce = new CommentEntity();
+        m.addAttribute("newComment", ce);
         return "page";
     }
 
     @RequestMapping(value = "notification", method = RequestMethod.GET)
-    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView model = new ModelAndView("page");
-        model.addObject("notifs", this.messageService.getNotificationByUser(((UserEntity)session.getAttribute("user")).getId()));
+        model.addObject("notifs", this.messageService.getNotificationByUser(((UserEntity) session.getAttribute("user")).getId()));
         model.addObject("content", "notification");
         return model;
     }

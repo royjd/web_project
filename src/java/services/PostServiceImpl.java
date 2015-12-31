@@ -15,6 +15,7 @@ import dao.NotificationEntity;
 import dao.PostDAO;
 import dao.PostEntity;
 import dao.RecomendationEntity;
+import dao.UserDAO;
 import dao.UserEntity;
 import java.sql.Date;
 import java.sql.Time;
@@ -42,6 +43,9 @@ public class PostServiceImpl implements PostService {
     @Autowired
     MessageService messageService;
 
+    @Resource
+    UserDAO userDao;
+
     private PostEntity createPost(PostEntity p, UserEntity ue, UserEntity target) {
         Calendar c = Calendar.getInstance();
         p.setCreatedDate(new Date(c.getTimeInMillis()));
@@ -53,7 +57,7 @@ public class PostServiceImpl implements PostService {
         Long id = postDao.save(p);
         p.setId(id);
         NotificationEntity not = messageService.addNotification(p, "notification", ue);
-        List<FriendEntity > fe = friendDAO.findFriendsByUserID(ue.getId());
+        List<FriendEntity> fe = friendDAO.findFriendsByUserID(ue.getId());
         messageService.sendNotifToFriends(not, fe);
         return p;
     }
@@ -111,6 +115,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostEntity> getPostFromUserAndType(String username, String type) {
         return postDao.findByUsernameAndType(username, type);
+    }
+
+    @Override
+    public List<PostEntity> getRecentPostFromFriendAndMe(Long userID) {
+        List<Long> l = this.friendDAO.findUsersIdOfFriends(userID);
+        l.add(userID);//we add he friend owner into it
+        return this.postDao.getRecentPostFromUsersID(l);
     }
 
 }

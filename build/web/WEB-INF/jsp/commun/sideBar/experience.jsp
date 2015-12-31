@@ -7,7 +7,7 @@
     <div class="col-sm-12">
         <div class="bg-prim${pageContext.request.contextPath}/ary">
             <h3><a href="${pageContext.request.contextPath}/${user.username}/experience.htm">Experience</a></h3>
-                
+            <p>${experience}</p>
         </div>
 
     </div>

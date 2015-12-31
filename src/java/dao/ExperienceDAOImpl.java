@@ -7,6 +7,7 @@ package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -18,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class ExperienceDAOImpl implements ExperienceDAO {
-    
+
     @PersistenceContext(unitName = "fanfareFinalPU")
     private EntityManager em;
-    
+
     public EntityManager getEm() {
         return em;
     }
@@ -37,7 +38,7 @@ public class ExperienceDAOImpl implements ExperienceDAO {
         this.em.persist(e);
         return e.getId();
     }
-    
+
     @Transactional
     @Override
     public void update(ExperienceEntity e) {
@@ -55,7 +56,7 @@ public class ExperienceDAOImpl implements ExperienceDAO {
     public List<ExperienceEntity> findExperiencesForProfil(Long profileId) {
         Query q;
         q = this.em.createQuery("SELECT e FROM ExperienceEntity e WHERE e.profile.id = ?");
-        q.setParameter(1,profileId);
+        q.setParameter(1, profileId);
         return q.getResultList();
     }
 
@@ -68,10 +69,37 @@ public class ExperienceDAOImpl implements ExperienceDAO {
     public List<ExperienceEntity> findExperiencesForProfil(Long profileId, int limit) {
         Query q;
         q = this.em.createQuery("SELECT e FROM ExperienceEntity e WHERE e.profile.id = ?");
-        q.setParameter(1,profileId);
+        q.setParameter(1, profileId);
         q.setMaxResults(limit);
         return q.getResultList();
     }
-    
-    
+
+    @Override
+    public ExperienceEntity findLastExperienceForUser(Long userID) {
+        try {
+
+            Query q;
+            q = this.em.createQuery("SELECT e FROM ExperienceEntity e WHERE e.profile.profileOwner.id = ? order by e.id desc");
+            q.setParameter(1, userID);
+            q.setMaxResults(1);
+            return (ExperienceEntity) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public ExperienceEntity findLastExperienceForProfile(Long profileID) {
+        try {
+
+            Query q;
+            q = this.em.createQuery("SELECT e FROM ExperienceEntity e WHERE e.profile.id = ? order by e.id desc");
+            q.setParameter(1, profileID);
+            q.setMaxResults(1);
+            return (ExperienceEntity) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
 }

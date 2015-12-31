@@ -6,8 +6,8 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="bg-primary">
-            <h2>Friend List</h2>
+        <div class="bg">
+            <h3><a href="${pageContext.request.contextPath}/${user.username}/friends.htm">Friend List</a></h3>
             <c:forEach items="${friends}" var="tier" >
                 <c:if test="${tier.accepted}">
                     <c:choose> 

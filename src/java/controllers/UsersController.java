@@ -155,7 +155,7 @@ public class UsersController {
 
         }
         
-        mv.addObject("friends", this.userService.getFriends(user.getId()));      
+        mv.addObject("friends", this.userService.getFriendsListFriendByUserID(user.getId()));      
         mv.addObject("canRemove", canRemove);
         return mv;
     }

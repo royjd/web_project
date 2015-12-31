@@ -48,11 +48,16 @@ public class PostsController {
     
  
         
-    @RequestMapping(value = "{username}/addNews", method = RequestMethod.POST)
-    public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
-        ModelAndView model = new ModelAndView("redirect:/" + username + ".htm");
+    @RequestMapping(value = {"{username}/addNews","addNews"}, method = RequestMethod.POST)
+    public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session,@PathVariable Map<String, String> pathVariables) {
+        ModelAndView model;
+        if (pathVariables.containsKey("username")) {
+            model = new ModelAndView("redirect:/"+ pathVariables.get("username") + ".htm");
+        } else {
+            model = new ModelAndView("redirect:/home.htm");
+        }
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        UserEntity target = userService.findByUsername(username);
+        UserEntity target = userService.findByUsername(pathVariables.get("username"));
         postService.createNews(news, ue, target);
         return model;
     }
@@ -90,13 +95,15 @@ public class PostsController {
         return model;
     }
 
-    @RequestMapping(value = {"{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
-    public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username, @PathVariable Map<String, String> pathVariables) {
+    @RequestMapping(value = {"addComment","{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
+    public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
-        if (pathVariables.containsKey("pathVar")) {
-            model = new ModelAndView("redirect:/" + username + "/" + pathVariables.get("pathVar") + ".htm");
-        } else {
-            model = new ModelAndView("redirect:/" + username + ".htm");
+        if (pathVariables.containsKey("pathVar") && pathVariables.containsKey("username")) {
+            model = new ModelAndView("redirect:/" + pathVariables.get("username") + "/" + pathVariables.get("pathVar") + ".htm");
+        }else if (pathVariables.containsKey("username")){
+            model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
+        }else{
+            model = new ModelAndView("redirect:/home.htm");
         }
         UserEntity ue = (UserEntity) session.getAttribute("user");
         if (comment.getPostMain() == null) {

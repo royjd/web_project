@@ -4,32 +4,23 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/AppController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/UserServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/ProfileDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/PostDAO.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home/post.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/UserDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/PostsController.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/FriendDAOImpl.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/UsersController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/FriendEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/UserDAO.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/PostDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserDAO.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/ProfileController.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/ExperienceDAOImpl.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/PostServiceImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/dispatcher-servlet.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/sideBar/friendList.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageServiceImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/FriendDAO.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/PostService.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/PostEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/PostDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/PostsController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/UserDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/UserEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/FriendDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/PostDAOImpl.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/UserService.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/applicationContext.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/commun/sideBar/friendRequest.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/ProfileEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MediaEntity.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/FriendDAO.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall/recommendation/post.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageService.java</file>
         </group>
     </open-files>
 </project-private>

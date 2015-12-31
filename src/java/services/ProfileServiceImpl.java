@@ -5,6 +5,8 @@
  */
 package services;
 
+import dao.ExperienceDAO;
+import dao.ExperienceEntity;
 import dao.ProfileDAO;
 import dao.ProfileEntity;
 import javax.annotation.Resource;
@@ -19,7 +21,10 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Resource
     ProfileDAO profileDao;
-    
+
+    @Resource
+    ExperienceDAO experienceDao;
+
     @Override
     public Long save(ProfileEntity p) {
         return profileDao.save(p);
@@ -39,5 +44,15 @@ public class ProfileServiceImpl implements ProfileService {
     public void delete(ProfileEntity p) {
         profileDao.delete(p);
     }
-    
+
+    @Override
+    public ExperienceEntity getLastExperienceByUser(Long userID) {
+        return this.experienceDao.findLastExperienceForUser(userID);
+    }
+
+    @Override
+    public ExperienceEntity getLastExperienceByProfile(Long profileID) {
+        return this.experienceDao.findLastExperienceForProfile(profileID);
+    }
+
 }

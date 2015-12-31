@@ -38,6 +38,8 @@ public interface PostService {
 
     public  List<PostEntity> getPostFromUserAndType(String username, String type);
 
+    public List<PostEntity> getRecentPostFromFriendAndMe(Long id);
+
 
     
 }

@@ -23,4 +23,7 @@ public interface PostDAO {
 
     public List<PostEntity> findByUsernameAndType(String username, String type);
 
+    public List<PostEntity> getRecentPostFromUsersID(List<Long> usersID) ;
+
+
 }

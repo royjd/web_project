@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -94,10 +95,42 @@ public class FriendDAOImpl implements FriendDAO {
     public FriendEntity findByFriendShip(Long acceptedBy, Long acceptedFrom) {
         try {
 
-            FriendEntity friendEntity = (FriendEntity)this.em.createQuery("SELECT t FROM FriendEntity t where t.friend.id = :value1 AND t.owner.id = :value2")
+            FriendEntity friendEntity = (FriendEntity) this.em.createQuery("SELECT t FROM FriendEntity t where t.friend.id = :value1 AND t.owner.id = :value2")
                     .setParameter("value1", acceptedBy).setParameter("value2", acceptedFrom).getSingleResult();
 
             return friendEntity;
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Long> findUsersIdOfFriends(Long userID) {
+        try {
+
+            List<Long> list = this.em.createQuery
+                    (" SELECT t.id "
+                    + " FROM UserEntity t "
+                    + " WHERE t.id IN"
+                    + "("
+                    +   " SELECT fe.friend.id"
+                    +   " FROM FriendEntity fe"
+                    +   " WHERE fe.owner.id = :value1"
+                    + ")"
+                    +   " OR t.id IN"
+                    + "("
+                    +   " SELECT fe2.owner.id"
+                    +   " FROM FriendEntity fe2"
+                    +   " WHERE fe2.friend.id = :value1"
+                    + ")"
+                    )
+                    .setParameter("value1", userID).getResultList();
+            
+            
+            
+
+            return list;
 
         } catch (NoResultException e) {
             return null;

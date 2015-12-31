@@ -5,6 +5,7 @@
  */
 package services;
 
+import dao.ExperienceEntity;
 import dao.ProfileEntity;
 
 /**
@@ -16,4 +17,7 @@ public interface ProfileService {
     public void update(ProfileEntity p);
     public void delete(ProfileEntity p);
     public ProfileEntity findByUserId(Long userId);
+
+    public ExperienceEntity getLastExperienceByUser(Long id);
+    public ExperienceEntity getLastExperienceByProfile(Long id);
 }

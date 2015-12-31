@@ -79,29 +79,31 @@ public class PostDAOImpl implements PostDAO {
         try {
             switch (type) {
                 case "photo":
-                case "video":
-                {
+                case "video": {
                     List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM MediaEntity t where t.author.username = :value1 ")//t.type = photo when photo and video added
                             .setParameter("value1", username).getResultList();
-                    
+
                     return postEntities;
                 }
-                case "recommendation":
-                {
+                case "recommendation": {
                     List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM RecomendationEntity t where t.target.username = :value1 ")//target here 
                             .setParameter("value1", username).getResultList();
-                    
+
                     return postEntities;
                 }
-                case "news":
-                {
+                case "news": {
                     List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM NewsEntity t where t.author.username = :value1 OR t.target.username")//target or author
                             .setParameter("value1", username).getResultList();
-                    
+
                     return postEntities;
                 }
-                default:
-                {
+                case "album": {
+                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM AlbumEntity t where t.author.username = :value1")//target or author
+                            .setParameter("value1", username).getResultList();
+
+                    return postEntities;
+                }
+                default: {
                     List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
                             + "TYPE(t) <> CommentEntity "
                             + "AND ("
@@ -109,7 +111,7 @@ public class PostDAOImpl implements PostDAO {
                             + " OR (t.target.username = :value1 AND TYPE(t) = RecomendationEntity)"
                             + ")")
                             .setParameter("value1", username).getResultList();
-                    
+
                     return postEntities;
                 }
             }
@@ -117,5 +119,18 @@ public class PostDAOImpl implements PostDAO {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<PostEntity> getRecentPostFromUsersID(List<Long> usersID) {
+        List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
+                + "TYPE(t) <> CommentEntity "
+                + "AND ("
+                + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND (TYPE(t) = MediaEntity OR TYPE(t) = NewsEntity))"
+                + " OR (t.target.id IN (:inclList) AND TYPE(t) = RecomendationEntity)"
+                + ")")
+                .setParameter("inclList",usersID ).getResultList();
+
+        return postEntities;
     }
 }

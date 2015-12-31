@@ -28,4 +28,6 @@ public interface FriendDAO {
     public List<FriendEntity> findFriendsByUserID(Long userID);
 
     public FriendEntity findByFriendShip(Long acceptedBy, Long acceptedFrom);
+    
+    public List<Long> findUsersIdOfFriends(Long userID);
 }

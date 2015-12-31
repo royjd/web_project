@@ -32,4 +32,5 @@ public interface UserDAO {
     public List<UserEntity> findBysearch(String param);
 
 
+
 }

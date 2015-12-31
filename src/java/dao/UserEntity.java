@@ -49,28 +49,27 @@ public class UserEntity implements Serializable {
     @OneToOne(mappedBy = "profileOwner")
     private ProfileEntity profile;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")//super heavy useless to charge it all the time
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageUserEntity> messageR = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sendBy")//super heavy useless to charge it all the time
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sendBy")//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<MessageEntity> messageS = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")//super heavy useless to charge it all the time
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")//super heavy useless to charge it all the time
     private List<FriendEntity> friends = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "friend")//super heavy useless to charge it all the time
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "friend")//super heavy useless to charge it all the time
     private List<FriendEntity> friendedBy = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")//super heavy useless to charge it all the time
-    @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")//super heavy useless to charge it all the time
+    //@Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<PostEntity> postsS = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "target" )//super heavy useless to charge it all the time
     @Fetch(FetchMode.SELECT)//Fix for BUG DE HIBERNATE maybe :D
     private List<PostEntity> postsR = new ArrayList<>();
-
 
     public UserEntity() {
         this.email = null;
@@ -216,19 +215,7 @@ public class UserEntity implements Serializable {
         this.profile = profile;
     }
 
-    public boolean hasFriend(UserEntity friend) {
-        for (FriendEntity fe : this.friends) {
-            if (fe.getFriend().equals(friend)) {
-                return true;
-            }
-        }
-        for (FriendEntity fe : this.friendedBy) {
-            if (fe.getOwner().equals(friend)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
 
     public List<UserEntity> getFriendToAccept() {
         List<UserEntity> lue = new ArrayList<>();

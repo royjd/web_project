@@ -7,14 +7,17 @@ package controllers;
 
 import dao.AlbumEntity;
 import dao.CommentEntity;
+import dao.FriendEntity;
 import dao.MediaEntity;
 import dao.NewsEntity;
+import dao.NotificationEntity;
 import dao.PostEntity;
 import dao.RecomendationEntity;
 import dao.UserEntity;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +45,9 @@ public class PostsController {
     @Autowired
     private UserService userService;
 
+    
+ 
+        
     @RequestMapping(value = "{username}/addNews", method = RequestMethod.POST)
     public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
         ModelAndView model = new ModelAndView("redirect:/" + username + ".htm");

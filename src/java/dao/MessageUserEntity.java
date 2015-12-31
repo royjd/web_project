@@ -80,7 +80,7 @@ public class MessageUserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.MessageUser[ id=" + id + " ]";
+        return "dao.MessageUser[ id=" + id + "message=" + message.getContent() + " ]";
     }
 
     public UserEntity getUser() {

@@ -55,8 +55,14 @@ public class MessageUserDAOImpl implements MessageUserDAO {
     }
 
     @Override
-    public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(UserEntity ue, String groupMessage) {
-       return /* List<MessageUserEntity> messageUserEntities = */this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1 AND t.newMessage = true AND t.message.groupName = :value2")
-                .setParameter("value1", ue.getId()).setParameter("value2" , groupMessage).getResultList();
+    public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(Long userID, String groupMessage) {
+       return this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1 AND t.newMessage = true AND t.message.groupName = :value2")
+                .setParameter("value1", userID).setParameter("value2" , groupMessage).getResultList();
+    }
+
+    @Override
+    public List<MessageUserEntity> findAllMessageRByUserID(Long userID) {
+        return this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1")
+                .setParameter("value1", userID).getResultList();
     }
 }

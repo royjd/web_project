@@ -20,7 +20,7 @@ public interface UserService {
 
     public boolean delete(UserEntity u);
 
-    public boolean isValidUser(String username, String password);
+    public UserEntity isValidUser(String username, String password);
 
     public UserEntity findByID(Long id);
 
@@ -32,7 +32,7 @@ public interface UserService {
 
     public List<UserEntity> search(String param);
 
-    public List<UserEntity> getFriendToAccept(Long id);
+    public List<FriendEntity> getFriendToAccept(Long id);
 
     public boolean acceptFriendship(Long acceptedBy, Long acceptedFrom);
     public boolean deniedFriendship(Long deniedBy, Long deniedFrom);

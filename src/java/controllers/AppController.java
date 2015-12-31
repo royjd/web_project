@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import services.MessageService;
 import services.PostService;
 import services.UserService;
 
@@ -39,6 +40,9 @@ public class AppController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private MessageService messageService;
+
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String init() {
         return "index";
@@ -50,7 +54,7 @@ public class AppController {
         model.addObject("content", "wall");
         model.addObject("wallContent", "post");
         model.addObject("username", username);
-        model.addObject("post", postService.getPostFromUserAndType(username,"post")); 
+        model.addObject("post", postService.getPostFromUserAndType(username, "post"));
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
         return model;
@@ -59,15 +63,15 @@ public class AppController {
     @RequestMapping(value = "{username}/recommendation", method = RequestMethod.GET)
     public ModelAndView recommendation(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
         ModelAndView model = new ModelAndView("page");
-        
+
         model.addObject("content", "wall");
         model.addObject("wallContent", "recommendation/recommendation");
         model.addObject("username", username);
-        model.addObject("post", postService.getPostFromUserAndType(username,"recommendation")); 
-        
+        model.addObject("post", postService.getPostFromUserAndType(username, "recommendation"));
+
         CommentEntity ce = new CommentEntity();//userfull for the form:form object in jtsl //jsp
         model.addObject("newComment", ce);
-        
+
         return model;
     }
 
@@ -77,15 +81,15 @@ public class AppController {
         ModelAndView model = new ModelAndView("page");
         if (pathVariables.containsKey("varPath")) {
             model.addObject("mediaContent", pathVariables.get("varPath"));
-            model.addObject("post", postService.getPostFromUserAndType(username,pathVariables.get("varPath")));       
+            model.addObject("post", postService.getPostFromUserAndType(username, pathVariables.get("varPath")));
         } else {
             model.addObject("mediaContent", "photo");
-            model.addObject("post", postService.getPostFromUserAndType(username,"photo"));   
+            model.addObject("post", postService.getPostFromUserAndType(username, "photo"));
         }
 
         model.addObject("content", "wall");
         model.addObject("wallContent", "media/media");
-        
+
         model.addObject("username", username);
         CommentEntity ce = new CommentEntity();//userfull for the form:form object in jtsl //jsp
         model.addObject("newComment", ce);
@@ -96,10 +100,16 @@ public class AppController {
     public String home(HttpSession session, Model m) {
         m.addAttribute("content", "home");
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        ue = userService.findByID(ue.getId());
-        m.addAttribute("friendToAccept", this.userService.getFriendToAccept(ue));
-        m.addAttribute("friends", this.userService.getFriends(ue));
-
+        m.addAttribute("friendsToAccept", this.userService.getFriendToAccept(ue.getId()));
+        m.addAttribute("friends", this.userService.getFriends(ue.getId()));
         return "page";
+    }
+
+    @RequestMapping(value = "notification", method = RequestMethod.GET)
+    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+        ModelAndView model = new ModelAndView("page");
+        model.addObject("notifs", this.messageService.getNotificationByUser(((UserEntity)session.getAttribute("user")).getId()));
+        model.addObject("content", "notification");
+        return model;
     }
 }

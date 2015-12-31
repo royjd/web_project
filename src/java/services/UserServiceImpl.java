@@ -7,7 +7,6 @@ package services;
 
 import commun.PasswordManager;
 import dao.ExperienceDAO;
-import dao.ExperienceEntity;
 import dao.FriendDAO;
 import dao.FriendEntity;
 import dao.PhysicalDAO;
@@ -25,7 +24,6 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -101,22 +99,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isValidUser(String email, String password) {
+    public UserEntity isValidUser(String email, String password) {
         UserEntity ue = this.userDao.findByEmail(email);
         if (ue != null) {
             try {
-                return ue.isValidPassword(password);
+                if(ue.isValidPassword(password)){
+                    return ue;
+                }
+                    return null;
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
+                return null;
             } catch (InvalidKeySpecException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
+                return null;
             }
         } else {
-            return false;
+            return null;
         }
-
     }
 
     @Override
@@ -126,11 +126,12 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity friend = this.userDao.findByID(friendId);
         UserEntity owner = this.userDao.findByID(ownerId);
-        if (friend != null && owner != null && !owner.hasFriend(friend)) {
-            FriendEntity fe = new FriendEntity(owner, friend);
-            fe = this.friendDao.save(fe);
-            fe = this.friendDao.findByID(fe.getId());
-            this.userDao.addFriend(friend, owner, fe);
+        FriendEntity fe = this.friendDao.findByFriendShip(friendId, ownerId);
+        if (friend != null && owner != null && fe == null) {
+            fe = new FriendEntity(owner, friend);
+            this.friendDao.save(fe);
+            //fe = this.friendDao.findByID(fe.getId());//TODO HERE NOT SURE THAT THIS IS NEEDED
+            //this.userDao.addFriend(friend, owner, fe);
             return true;
         }
         return false;
@@ -140,9 +141,7 @@ public class UserServiceImpl implements UserService {
     public boolean removeFriend(Long friendId) {
         FriendEntity fe = this.friendDao.findByID(friendId);
         if (fe != null) {
-            UserEntity friend = this.userDao.findByID(fe.getFriend().getId());
-            UserEntity owner = this.userDao.findByID(fe.getOwner().getId());
-            this.userDao.removeFriend(owner, friend, fe);
+            this.friendDao.delete(fe);
             return true;
         }
         return false;
@@ -154,9 +153,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> getFriendToAccept(Long id) {
-        UserEntity ue = this.userDao.findByID(id);
-        return ue.getFriendToAccept();
+    public List<FriendEntity> getFriendToAccept(Long userId) {
+
+        return friendDao.findFriendToAcceptFromUserID(userId);
     }
 
     @Override
@@ -164,16 +163,13 @@ public class UserServiceImpl implements UserService {
         if (acceptedBy.equals(acceptedFrom)) {
             return false;
         }
-        UserEntity by = this.userDao.findByID(acceptedBy);
-        UserEntity from = this.userDao.findByID(acceptedFrom);
-        if (by != null && from != null && from.hasFriend(by)) {
-            FriendEntity fe = from.getFriend(by);
+        FriendEntity fe = this.friendDao.findByFriendShip(acceptedBy,acceptedFrom );
+        if (fe != null) {
             fe.setAccepted(Boolean.TRUE);
             this.friendDao.update(fe);
             return true;
         }
         return false;
-
     }
 
     @Override
@@ -181,36 +177,20 @@ public class UserServiceImpl implements UserService {
         if (deniedBy.equals(deniedFrom)) {
             return false;
         }
-        UserEntity by = this.userDao.findByID(deniedBy);
-        UserEntity from = this.userDao.findByID(deniedFrom);
-        if (by != null && from != null && from.hasFriend(by)) {
-            FriendEntity fe = from.getFriend(by);
-            if (fe != null) {
-                this.userDao.removeFriend(from, by, fe);
-            } else {
-                return false;
-            }
-            return true;
+        FriendEntity fe = this.friendDao.findByFriendShip(deniedBy, deniedFrom);
+        if (fe != null) {
+            this.friendDao.delete(fe);
         }
         return false;
 
     }
 
     @Override
-    @Transactional
-    public List<FriendEntity> getFriends(Long id) {
-        UserEntity ue = this.userDao.findByID(id);
-        if (ue.getId() != null) {
-            List<FriendEntity> friends = new ArrayList<>();
-            friends.addAll(ue.getFriends());
-            friends.addAll(ue.getFriendedBy());
-            return friends;
-        }
-        return null;
+    public List<FriendEntity> getFriends(Long userID) {
+        return this.friendDao.findFriendsByUserID(userID);
     }
 
     @Override
-    @Transactional
     public List<UserEntity> getFriendToAccept(UserEntity ue) {
         ue.getFriendToAccept().size();
         if (ue.getId() != null && ue.getFriendToAccept() != null) {
@@ -222,7 +202,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public List<FriendEntity> getFriends(UserEntity ue) {
         if (ue.getId() != null) {
             List<FriendEntity> friends = new ArrayList<>();

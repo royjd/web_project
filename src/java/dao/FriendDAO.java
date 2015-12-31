@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.List;
+
 /**
  *
  * @author Karl Lauret
@@ -20,4 +22,10 @@ public interface FriendDAO {
     public FriendEntity findByID(Long friendId);
 
     public void acceptFriendship(FriendEntity fe);
+    
+    public List<FriendEntity> findFriendToAcceptFromUserID(Long userID);
+
+    public List<FriendEntity> findFriendsByUserID(Long userID);
+
+    public FriendEntity findByFriendShip(Long acceptedBy, Long acceptedFrom);
 }

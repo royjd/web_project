@@ -73,4 +73,9 @@ public class MessageDAOImpl implements MessageDAO {
             return null;
         }
     }
+
+    @Override
+    public MessageEntity findNotifByID(Long id) {
+        return (MessageEntity) this.em.find(MessageEntity.class, id);
+    }
 }

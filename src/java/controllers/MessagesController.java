@@ -71,17 +71,13 @@ public class MessagesController {
     @RequestMapping(value = "sendMessage", method = RequestMethod.POST)
     public ModelAndView send(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/message.htm");
-        /*List<Long> lr = new ArrayList<>();
-        lr.add(Long.parseLong(request.getParameter("targets")));
-        MessageEntity mId = this.messageService.add(request.getParameter("message"), request.getParameter("subject"), Long.parseLong(request.getParameter("sender")));
-        this.messageService.send(mId, lr);*/
-        //TEST
+
         UserEntity ue = (UserEntity) session.getAttribute("user");
         String emails = (String) request.getParameter("emails");
         List<String> lr = new ArrayList<>();
         lr = Arrays.asList(emails.split("\\s*,\\s*"));
         MessageEntity mId = this.messageService.add(request.getParameter("message"), request.getParameter("subject"), ue.getId());
-        this.messageService.send(mId, lr);
+        this.messageService.sendToMails(mId, lr);
         return model;
     }
 
@@ -90,26 +86,10 @@ public class MessagesController {
         ModelAndView model = new ModelAndView("page");
         model.addObject("content", "message");
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        ue = userService.findByID(ue.getId());
-        List<MessageUserEntity> fta = ue.getMessageR();
-        HashMap<String, List<MessageUserEntity>> hmmue = new HashMap<>();
-        HashMap<String, Boolean> newMessages = new HashMap<>();
-        for (MessageUserEntity mue : fta) {
-            if (!newMessages.containsKey(mue.getMessage().getGroupName())) {
-                newMessages.put(mue.getMessage().getGroupName(), mue.isNewMessage());
-            } else if (mue.isNewMessage() == true) {
-                newMessages.put(mue.getMessage().getGroupName(), mue.isNewMessage());
-            }
-            if (!hmmue.containsKey(mue.getMessage().getGroupName())) {
-                hmmue.put(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
-            }
+        List<Object> l = messageService.getGListPlusNewListFromUserID(ue.getId());
 
-        }
-
-        //List<FriendEntity> friends = ue.getFriends();
-        /*friends.addAll(ue.getFriendedBy());*/
-        model.addObject("groupList", hmmue);
-        model.addObject("newMessageGroupList", newMessages);
+        model.addObject("groupList", l.get(0));
+        model.addObject("newMessageGroupList", l.get(1));
         return model;
     }
 
@@ -121,31 +101,12 @@ public class MessagesController {
         UserEntity ue = (UserEntity) session.getAttribute("user");
         ue = userService.findByID(ue.getId());
         messageService.messageRead(ue,groupMessage);
-        List<MessageUserEntity> fta = ue.getMessageR();
-        HashMap<String, List<MessageUserEntity>> hmmue = new HashMap<>();
-        List<MessageEntity> me = new ArrayList<>();
-        HashMap<String, Boolean> newMessages = new HashMap<>();
-        for (MessageUserEntity mue : fta) {
-            if (!newMessages.containsKey(mue.getMessage().getGroupName())) {
-                newMessages.put(mue.getMessage().getGroupName(), mue.isNewMessage());
-            } else if (mue.isNewMessage() == true) {
-                newMessages.put(mue.getMessage().getGroupName(), mue.isNewMessage());
-            }
-            if (mue.getMessage().getGroupName().equals(groupMessage)) {
-                me.add(mue.getMessage());
-            }
-            if (!hmmue.containsKey(mue.getMessage().getGroupName())) {
-                hmmue.put(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
-            }
+        List<Object> l = messageService.getGListPlusNewListFromUserID(ue.getId(),groupMessage);
 
-        }
-
-        //List<FriendEntity> friends = ue.getFriends();
-        /*friends.addAll(ue.getFriendedBy());*/
-        model.addObject("groupList", hmmue);
-        model.addObject("messages", me);
-        model.addObject("newMessageGroupList", newMessages);
-
+        model.addObject("groupList", l.get(0));
+        model.addObject("newMessageGroupList", l.get(1));
+        model.addObject("messages", l.get(2));
+        
         return model;
     }
 }

@@ -72,7 +72,7 @@ public class ProfileController {
 
     @RequestMapping(value = "{username}/profile", method = RequestMethod.GET)
     public ModelAndView init(@PathVariable String username, HttpSession session) {
-
+        
         ModelAndView mv = new ModelAndView("page");
 
         UserEntity u = userService.findByUsername(username);

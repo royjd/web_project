@@ -23,4 +23,6 @@ public interface MessageDAO {
     
     public MessageEntity findByMessageGroup(String messageGroup);
 
+    public MessageEntity findNotifByID(Long id);
+
 }

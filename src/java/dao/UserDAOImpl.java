@@ -67,6 +67,7 @@ public class UserDAOImpl implements UserDAO {
             return null;
         }
     }
+
     @Override
     public UserEntity findByUsername(String username) {
         try {
@@ -77,39 +78,22 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    @Transactional
-    @Override
-    public void addMessageR(UserEntity u, MessageUserEntity mue) {
 
-        u.addMessageR(mue);
-        em.merge(u);
-    }
-
-    @Transactional
+    /*@Transactional
     @Override
     public void addFriend(UserEntity friend, UserEntity owner, FriendEntity fe) {
         friend.addFriendedBy(fe);
         owner.addFriend(fe);
         this.em.merge(friend);
         this.em.merge(owner);
-    }
+    }*/
 
-    @Transactional
-    @Override
-    public void removeFriend(UserEntity owner, UserEntity friend, FriendEntity fe) {
-        fe = this.em.merge(fe);
-        owner.removeFriend(fe);
-        friend.removeFriendedBy(fe);
-        this.em.merge(owner);
-        this.em.merge(friend);
-        this.em.remove(fe);
-    }
 
     @Transactional(readOnly = true)
     @Override
     public List<UserEntity> findBysearch(String param) {
         try {
-    
+
             List<UserEntity> userEntities = this.em.createQuery("SELECT t FROM UserEntity t where t.email LIKE :value1 OR t.username LIKE :value1")
                     .setParameter("value1", "%" + param + "%").getResultList();
 
@@ -120,6 +104,8 @@ public class UserDAOImpl implements UserDAO {
         }
 
     }
+
+  
 
 
 

@@ -12,50 +12,46 @@
             <li><a href="#">Birth Day</a></li>
         </ul>
     </div>
-    <div class="panel-content">
+    <div class="panel-body">
+            <c:forEach items="${friends}" var="var">
+                <div class="col-sm-4">
 
-        <c:forEach items="${friends}" var="var">
-            <c:choose> 
-                <c:when test="${var.friend.username == username}"> 
-                    <c:set var="friend" scope="session" value="${var.owner}"/>
-                </c:when>
-                <c:otherwise>
-                    <c:set var="friend" scope="session" value="${var.friend}"/>
-                </c:otherwise>
-            </c:choose>
-            <div class="panel panel-default" id="friend">
-                <div class="col-sm-4 btn-info">
-                    <br><br><br>Photo de profile<br><br><br><br>
-                </div>
-                <div class="col-sm-8">
-                    <h3> 
-                        <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="" >${friend.profile.firstName} ${friend.profile.lastName}</a><br/>
-                        <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="" ><small>@${friend.username}</small></a>
+                    <c:choose> 
+                        <c:when test="${var.friend.username == username}"> 
+                            <c:set var="friend" scope="session" value="${var.owner}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="friend" scope="session" value="${var.friend}"/>
+                        </c:otherwise>
+                    </c:choose>
 
-                    </h3>
-                    <p class="text-muted">
+                    <div class="panel panel-default" id="friend">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4 btn-info">
+                                    <br><br><br>Photo de profile<br><br><br><br>
+                                </div>
+                                <div class="col-sm-8">
+                                    <h3> 
+                                        <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="" >${friend.profile.firstName} ${friend.profile.lastName}</a><br/>
+                                        <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="" ><small>@${friend.username}</small></a>
 
-                        <% int nbFriend = 0;
-                            request.setAttribute("nbFriend", nbFriend);%>
-                        <c:forEach items="${var.friend.friends}" var="aFriend">
-                            <c:forEach items="${user.friends}" var="me">
-                                <c:if test="${me.friend.id == aFriend.friend.id}">
-                                    <% nbFriend += 1;%>
-                                </c:if>
-                            </c:forEach>
-                        </c:forEach>
-                        <%= nbFriend%> friend(s) on common
-                    </p>
-                    <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="btn btn-info" >See wall</a>
-                    <c:if test="${canRemove}">
-                        <a href="${pageContext.request.contextPath}/${friend.username}/removeFriend.htm?id=${friend.id}"  class="pull-right btn btn-danger" >Remove</a>
-                    </c:if>
+                                    </h3>
+
+                                    <a href="${pageContext.request.contextPath}/${friend.username}.htm"  class="btn btn-info btn-sm pull-left" >See wall</a>
+                                    <c:if test="${canRemove}">
+                                        <a href="${pageContext.request.contextPath}/${user.username}/removeFriend.htm?id=${var.id}"  class="pull-right btn btn-sm btn-danger" >Remove</a>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
 
 
-        </c:forEach>
+            </c:forEach>
+        </div>
 
     </div>
 </div>

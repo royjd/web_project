@@ -10,6 +10,7 @@ import dao.ProfileEntity;
 import dao.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +36,6 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    
-
-
-
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("page");
@@ -55,8 +52,6 @@ public class UsersController {
         ModelAndView mv = new ModelAndView("index");
         if (userService.add(user, profile)) {
             mv = new ModelAndView("redirect:/home.htm");
-            // session.setAttribute("lastName", request.getParameter("lastName"));
-            // session.setAttribute("lastName", request.getParameter("email"));
             session.setAttribute("user", user);
 
         }
@@ -76,9 +71,14 @@ public class UsersController {
         return mv;
     }
 
-    @RequestMapping(value = "{username}/removeFriend", method = RequestMethod.GET)
-    public ModelAndView removeFriend(@PathVariable String username , HttpSession session, @RequestParam("id") Long id) {
-        ModelAndView mv = new ModelAndView("redirect:/{username}/friends.htm");
+    @RequestMapping(value = {"{username}/removeFriend","removeFriend"}, method = RequestMethod.GET)
+    public ModelAndView removeFriend(HttpSession session, @RequestParam("id") Long id,@PathVariable Map<String, String> pathVariables) {
+        ModelAndView mv;
+        if (pathVariables.containsKey("username")) {
+            mv = new ModelAndView("redirect:/" + pathVariables.get("username") + "/friends.htm");
+        } else {
+            mv = new ModelAndView("redirect:/home.htm");
+        }
         userService.removeFriend(id);
 
         return mv;
@@ -92,11 +92,11 @@ public class UsersController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ModelAndView executeLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        ModelAndView model = null;
-        boolean isValidUser = userService.isValidUser(request.getParameter("email"), request.getParameter("pwd"));
-        if (isValidUser) {
+        ModelAndView model;
+        UserEntity isValidUser = userService.isValidUser(request.getParameter("email"), request.getParameter("pwd"));
+        if (isValidUser != null) {
             model = new ModelAndView("redirect:/home.htm");
-            session.setAttribute("user", this.userService.findByEmail(request.getParameter("email")));
+            session.setAttribute("user", isValidUser);
         } else {
             model = new ModelAndView("index");
             model.addObject("message", "Invalid credentials!!");
@@ -134,32 +134,28 @@ public class UsersController {
         }
         return mv;
     }
-    
+
     //========
-    @RequestMapping(value="{username}/friends" , method = RequestMethod.GET)
-    public ModelAndView displayFriends(@PathVariable String username , HttpSession session ){
-        UserEntity user = userService.findByID(((UserEntity)session.getAttribute("user")).getId());
-        if( Objects.equals(user, null) ){
-            return new ModelAndView("redirect:/index.htm") ;
-        }
-        Boolean canRemove = true;
+    @RequestMapping(value = "{username}/friends", method = RequestMethod.GET)
+    public ModelAndView displayFriends(@PathVariable String username, HttpSession session) {      
         ModelAndView mv = new ModelAndView("page");
         mv.addObject("content", "wall");
-        if( !user.getUsername().equals(username)){ // I want to see friends of a user
-            
+        mv.addObject("wallContent", "friend/friend");
+        
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        Boolean canRemove = true;
+        if (Objects.equals(user, null) || !user.getUsername().equals(username)) { // I want to see friends of a user
+
             user = userService.findByUsername(username);
-            if(Objects.equals(user, null)){ // Bad username
-                mv.addObject("wallContent","friend/error");            
-                return mv; 
+            if (Objects.equals(user, null)) { // Bad username
+                mv.addObject("wallContent", "friend/error");
+                return mv;
             }
             canRemove = false;
-            
+
         }
-        List<FriendEntity> friends= new ArrayList<>();
-        friends.addAll(user.getFriends());
-        friends.addAll(user.getFriendedBy());
-        mv.addObject("friends", friends); 
-        mv.addObject("wallContent", "friend/friend");
+        
+        mv.addObject("friends", this.userService.getFriends(user.getId()));      
         mv.addObject("canRemove", canRemove);
         return mv;
     }

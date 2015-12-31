@@ -21,5 +21,10 @@ public interface MessageUserDAO {
     
     public MessageUserEntity findByID(Long id);
 
-    public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(UserEntity ue, String groupMessage);
+    public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(Long userID, String groupMessage);
+    
+
+    public List<MessageUserEntity> findAllMessageRByUserID(Long userID);
+    
+    
 }

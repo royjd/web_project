@@ -5,7 +5,11 @@
  */
 package services;
 
+import dao.FriendEntity;
 import dao.MessageEntity;
+import dao.MessageUserEntity;
+import dao.NotificationEntity;
+import dao.PostEntity;
 import dao.UserEntity;
 import java.util.List;
 
@@ -15,9 +19,20 @@ import java.util.List;
  */
 public interface MessageService{
     
-    public boolean send(MessageEntity m, List<String> r);
+    public boolean sendToMails(MessageEntity m, List<String> emais);
+    
+    public boolean sendNotifToFriends(NotificationEntity m, List<FriendEntity> friends);
+    
     public MessageEntity add(String content,String subject,Long sender_id);
+    
+    public NotificationEntity addNotification(PostEntity p,String subject,UserEntity ue);
 
     public void messageRead(UserEntity ue, String groupMessage);
+
+    public List<Object> getGListPlusNewListFromUserID(Long userID);
+
+    public List<Object> getGListPlusNewListFromUserID(Long userID, String groupMessage);
+
+    public  List<MessageUserEntity> getNotificationByUser(Long userID);
 
 }

@@ -7,8 +7,11 @@ package services;
 
 import dao.AlbumEntity;
 import dao.CommentEntity;
+import dao.FriendDAO;
+import dao.FriendEntity;
 import dao.MediaEntity;
 import dao.NewsEntity;
+import dao.NotificationEntity;
 import dao.PostDAO;
 import dao.PostEntity;
 import dao.RecomendationEntity;
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.management.Notification;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,7 +36,12 @@ public class PostServiceImpl implements PostService {
     @Resource
     PostDAO postDao;
 
-    
+    @Resource
+    FriendDAO friendDAO;
+
+    @Autowired
+    MessageService messageService;
+
     private PostEntity createPost(PostEntity p, UserEntity ue, UserEntity target) {
         Calendar c = Calendar.getInstance();
         p.setCreatedDate(new Date(c.getTimeInMillis()));
@@ -42,6 +52,9 @@ public class PostServiceImpl implements PostService {
 
         Long id = postDao.save(p);
         p.setId(id);
+        NotificationEntity not = messageService.addNotification(p, "notification", ue);
+        List<FriendEntity > fe = friendDAO.findFriendsByUserID(ue.getId());
+        messageService.sendNotifToFriends(not, fe);
         return p;
     }
 
@@ -49,7 +62,6 @@ public class PostServiceImpl implements PostService {
     public PostEntity findByID(Long postID) {
         return postDao.findByPostId(postID);
     }
-
 
     @Override
     public PostEntity createComment(String body, UserEntity ue, long parentId, long mainId) {
@@ -73,7 +85,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity createNews(NewsEntity news, UserEntity author, UserEntity target) {
-        return this.createPost(news, author,author);
+        return this.createPost(news, author, author);
     }
 
     @Override
@@ -96,11 +108,9 @@ public class PostServiceImpl implements PostService {
         return this.createPost(album, author, author);
     }
 
-
     @Override
     public List<PostEntity> getPostFromUserAndType(String username, String type) {
-        return postDao.findByUsernameAndType(username,type);
+        return postDao.findByUsernameAndType(username, type);
     }
-
 
 }

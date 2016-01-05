@@ -6,6 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<div class="container">
 <c:if test="${post.getClass().name != 'dao.CommentEntity'}"> 
     <div id="${post.id}" class="post">
         <div id="${post.id}" class="post col-sm-12">
@@ -46,7 +47,7 @@
         </form:form>
     </div>
 </c:if> 
-
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.repplyCommentBtn').click(function () {

@@ -45,6 +45,8 @@ public class NotificationEntity extends MessageEntity {
             return this.getAlbumContent();
         } else if (this.post instanceof CommentEntity) {
             return this.getCommentContent();
+        } else if (this.post instanceof RecomendationEntity) {
+            return this.getRecomendationContent();
         } else {
             return null;
         }
@@ -61,6 +63,8 @@ public class NotificationEntity extends MessageEntity {
             return "Album";
         } else if (this.post instanceof CommentEntity) {
             return "Comment";
+        } else if (this.post instanceof RecomendationEntity) {
+            return "Recomendation";
         } else {
             return null;
         }
@@ -90,4 +94,7 @@ public class NotificationEntity extends MessageEntity {
         return "<h2>Comment OMG</h2>" + this.post.getBody();
     }
 
+    private String getRecomendationContent() {
+        return "<h2>Recomendation OMG</h2>" + this.post.getBody();
+    }
 }

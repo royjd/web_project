@@ -4,24 +4,28 @@
     Author     : Karl Lauret
 --%>
 
-<div class="row">
+<div class="row sideBarBlock">
     <div class="col-sm-12">
-        <div class="bg">
-            <h3><a href="${pageContext.request.contextPath}/${user.username}/friends.htm">Friend List</a></h3>
-            <c:forEach items="${friends}" var="tier" >
-                <c:if test="${tier.accepted}">
-                    <c:choose> 
-                        <c:when test="${tier.friend.email == user.email}"> 
-                            <a href="#" class="bg-info"> ${tier.owner.email} </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="#" class="bg-info"> ${tier.friend.email} </a>
-                        </c:otherwise>
-                    </c:choose>
-                    <a href="removeFriend.htm?id=${tier.id}" class="bg-info"> Remove </a>
-                </c:if>
+        <div class="border-bot">
+            <h2><a href="${pageContext.request.contextPath}/${user.username}/friends.htm">Friend List</a></h2>
+            <div class="row">
+                <c:forEach items="${friends}" var="tier" >
+                    <c:if test="${tier.accepted}">
+                        <div class="col-sm-12">
+                            <c:choose> 
+                                <c:when test="${tier.friend.email == user.email}"> 
+                                    <a href="${tier.owner.username}.htm" class=""> @${tier.owner.username} </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${tier.friend.username}.htm" class=""> @${tier.friend.username} </a>
+                                </c:otherwise>
+                            </c:choose>
+                            <a href="removeFriend.htm?id=${tier.id}" class="btn btn-xs btn-danger glyphicon glyphicon-remove pull-right"></a>
+                        </div>
+                    </c:if>
 
-            </c:forEach>  
+                </c:forEach>  
+            </div>
 
         </div>
 

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import services.PostService;
 import services.UserService;
@@ -45,19 +46,48 @@ public class PostsController {
     @Autowired
     private UserService userService;
 
-    
- 
-        
-    @RequestMapping(value = {"{username}/addNews","addNews"}, method = RequestMethod.POST)
-    public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session,@PathVariable Map<String, String> pathVariables) {
+    @RequestMapping(value = {"ajax_home_post/{postId}"}, method = RequestMethod.GET)
+    public @ResponseBody
+    ModelAndView ajax_home_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId) {
         ModelAndView model;
+        model = new ModelAndView("/commun/ajax/post");
+
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        List<PostEntity> p = postService.getNextPostFromFriendAndMe(ue.getId(), postId);
+        model.addObject("posts", p);
+        model.addObject("newComment", new CommentEntity());
+
+        return model;
+    }
+
+    @RequestMapping(value = {"ajax_wall_post/{username}/{postId}"}, method = RequestMethod.GET)
+    public @ResponseBody
+    ModelAndView ajax_wall_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId,@PathVariable String username) {
+        ModelAndView model;
+        model = new ModelAndView("/commun/ajax/post");
+
+        UserEntity ue = (UserEntity) session.getAttribute("user");
+        List<PostEntity> p = postService.getNextPostFromUserID(username, postId);
+        model.addObject("posts", p);
+        model.addObject("newComment", new CommentEntity());
+
+        return model;
+    }
+
+    @RequestMapping(value = {"{username}/addNews", "addNews"}, method = RequestMethod.POST)
+    public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
+        ModelAndView model;
+        UserEntity target ;
+        UserEntity ue = (UserEntity) session.getAttribute("user");
         if (pathVariables.containsKey("username")) {
-            model = new ModelAndView("redirect:/"+ pathVariables.get("username") + ".htm");
+            model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
+            target = userService.findByUsername(pathVariables.get("username"));
         } else {
             model = new ModelAndView("redirect:/home.htm");
+            target = ue;
         }
-        UserEntity ue = (UserEntity) session.getAttribute("user");
-        UserEntity target = userService.findByUsername(pathVariables.get("username"));
+        
+        
         postService.createNews(news, ue, target);
         return model;
     }
@@ -95,24 +125,24 @@ public class PostsController {
         return model;
     }
 
-    @RequestMapping(value = {"addComment","{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"addComment", "{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
     public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
         if (pathVariables.containsKey("pathVar") && pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + "/" + pathVariables.get("pathVar") + ".htm");
-        }else if (pathVariables.containsKey("username")){
+        } else if (pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
-        }else{
+        } else {
             model = new ModelAndView("redirect:/home.htm");
         }
         UserEntity ue = (UserEntity) session.getAttribute("user");
         if (comment.getPostMain() == null) {
-            postService.createComment(request.getParameter("bodyCommet"), ue,Long.valueOf(request.getParameter("postParentId")).longValue(),Long.valueOf(request.getParameter("postMainId")).longValue());
+            postService.createComment(request.getParameter("bodyCommet"), ue, Long.valueOf(request.getParameter("postParentId")).longValue(), Long.valueOf(request.getParameter("postMainId")).longValue());
 
-        }else{
+        } else {
             postService.createComment(comment, ue);
         }
-        
+
         return model;
     }
 

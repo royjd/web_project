@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/comment.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/post.css"/>
+                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/general.css"/>
     <script src="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.js"></script>
 
     <head>

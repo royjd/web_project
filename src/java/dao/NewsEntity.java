@@ -43,7 +43,7 @@ public class NewsEntity extends PostEntity {
     @Override
     public String getHomeBootstrapDisplay() {
         return  "<div>"+this.getWallBootstrapHeaderDisplay()+
-                "<p>"+this.getBody() + "<p>"+
+                "<div class='row body-post'><p>"+this.getBody() + "<p></div>"+
                 "</div>";
                 
     }

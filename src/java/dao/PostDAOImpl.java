@@ -128,8 +128,27 @@ public class PostDAOImpl implements PostDAO {
                 + "AND ("
                 + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND (TYPE(t) = MediaEntity OR TYPE(t) = NewsEntity))"
                 + " OR (t.target.id IN (:inclList) AND TYPE(t) = RecomendationEntity)"
-                + ")")
-                .setParameter("inclList",usersID ).getResultList();
+                + ")"
+                + " order by t.id desc")
+                .setMaxResults(5)
+                .setParameter("inclList", usersID).getResultList();
+
+        return postEntities;
+    }
+
+    @Override
+    public List<PostEntity> getNextPostFromUsersID(List<Long> usersID, Long postID) {
+        List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
+                + "TYPE(t) <> CommentEntity "
+                + "AND (t.id < :postID ) AND ("
+                + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND (TYPE(t) = MediaEntity OR TYPE(t) = NewsEntity))"
+                + " OR (t.target.id IN (:inclList) AND TYPE(t) = RecomendationEntity)"
+                + ")"
+                + " order by t.id desc")
+                .setParameter("postID", postID)
+                .setParameter("inclList", usersID)
+                .setMaxResults(5)
+                .getResultList();
 
         return postEntities;
     }

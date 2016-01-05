@@ -89,7 +89,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity createNews(NewsEntity news, UserEntity author, UserEntity target) {
-        return this.createPost(news, author, author);
+        return this.createPost(news, author, target);
     }
 
     @Override
@@ -122,6 +122,29 @@ public class PostServiceImpl implements PostService {
         List<Long> l = this.friendDAO.findUsersIdOfFriends(userID);
         l.add(userID);//we add he friend owner into it
         return this.postDao.getRecentPostFromUsersID(l);
+    }
+
+    @Override
+    public List<PostEntity> getNextPostFromFriendAndMe(Long userID, Long postID) {
+        List<Long> l = this.friendDAO.findUsersIdOfFriends(userID);
+        l.add(userID);//we add he friend owner into it
+        return postDao.getNextPostFromUsersID(l, postID);
+    }
+
+    @Override
+    public List<PostEntity> getRecentPostFromMe(String username) {
+        UserEntity ue = this.userDao.findByUsername(username);
+        List<Long> l = new ArrayList<>();
+        l.add(ue.getId());
+        return postDao.getRecentPostFromUsersID(l);
+    }
+
+    @Override
+    public List<PostEntity> getNextPostFromUserID(String username, Long postID) {
+        UserEntity ue = this.userDao.findByUsername(username);
+        List<Long> l = new ArrayList<>();
+        l.add(ue.getId());
+        return postDao.getNextPostFromUsersID(l, postID);
     }
 
 }

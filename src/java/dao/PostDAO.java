@@ -25,5 +25,7 @@ public interface PostDAO {
 
     public List<PostEntity> getRecentPostFromUsersID(List<Long> usersID) ;
 
+    public List<PostEntity> getNextPostFromUsersID(List<Long> userID, Long postID);
+
 
 }

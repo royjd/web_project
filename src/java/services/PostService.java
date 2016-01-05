@@ -40,6 +40,12 @@ public interface PostService {
 
     public List<PostEntity> getRecentPostFromFriendAndMe(Long id);
 
+    public List<PostEntity> getNextPostFromFriendAndMe(Long id, Long postId);
+
+    public List<PostEntity> getRecentPostFromMe(String username);
+
+    public List<PostEntity> getNextPostFromUserID(String id, Long postId);
+
 
     
 }

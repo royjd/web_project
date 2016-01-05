@@ -1,7 +1,7 @@
 
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container bg-danger">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
 
         <div class="row">
             <div class="col-sm-6">
@@ -33,3 +33,56 @@
         </div>
     </div>
 </nav>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#friendSearch')
+                // don't navigate away from the field on tab when selecting an item
+                .bind("keydown", function (event) {
+                    if (event.keyCode === $.ui.keyCode.TAB &&
+                            $(this).autocomplete("instance").menu.active) {
+                        event.preventDefault();
+                    }
+                })
+                .autocomplete({
+                    minLength: 0,
+                    source: function (request, response) {
+                        // delegate back to autocomplete, but extract the last term
+                        // get the form values
+                        $.ajax({
+                            type: "POST",
+                            url: "/fanfare/messageajaxTest.htm",
+                            data: "email=" + request.term,
+                            success: function (resp) {
+                                availableTags = [];
+                                console.log(resp);
+                                resp = JSON.parse(resp);
+                                console.log(resp);
+                                $.each(resp.user, function (i, item) {
+                                    availableTags.push(item);
+                                });
+
+                                response(availableTags);
+                            },
+                            error: function (e) {
+                                alert('Error: ' + e);
+                                console.log(e);
+                            }
+                        });
+                    },
+                    focus: function (event, ui) {
+                        // prevent value inserted on focus
+                        //$("#name").val(ui.item.email);
+                        return false;
+                    },
+                    select: function (event, ui) {
+                    }
+                })
+                //to personalise the display in the list        
+                .autocomplete("instance")._renderItem = function (ul, item) {
+            //alert('OMG');
+            return $("<li>")
+                    .append("<a href='"+item.username+".htm'>" + item.email + "<br>" + item.username + "</a>")
+                    .appendTo(ul);
+        };
+    });
+</script>

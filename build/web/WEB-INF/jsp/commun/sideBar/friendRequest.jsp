@@ -3,16 +3,22 @@
     Created on : Dec 10, 2015, 4:18:29 PM
     Author     : Karl Lauret
 --%>
-<div class="row">
+<div class="row sideBarBlock first">
     <div class="col-sm-12">
-        <div class="bg-primary">
+        <div class="border-bot">
+           
             <h2>Friend Request</h2>
+             <div class="row">
             <c:forEach items="${friendsToAccept}" var="tier" >
-                <a href="#" class="bg-info"> @${tier.owner.username} </a>
-                <a href="acceptFriendship.htm?id=${tier.owner.id}" class="bg-info"> Accept </a>
-                <a href="deniedFriendship.htm?id=${tier.owner.id}" class="bg-info"> Denied </a>
-
+                <div class="col-sm-12">
+                <a href="${tier.owner.username}.htm" class=""> @${tier.owner.username} </a>
+                <div class="pull-right">
+                <a href="acceptFriendship.htm?id=${tier.owner.id}" class="btn btn-xs btn-success glyphicon glyphicon-ok"> </a>
+                <a href="deniedFriendship.htm?id=${tier.owner.id}" class="btn btn-xs btn-danger glyphicon glyphicon-remove"> </a>
+                </div>
+                </div>
             </c:forEach>  
+            </div>
         </div>
     </div>
 </div>

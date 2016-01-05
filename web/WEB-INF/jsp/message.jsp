@@ -24,14 +24,14 @@
                                     </c:forEach>
                                 </div>
                                 <c:forEach items="${groupMessage.value}" var="tier" >
-                                    -${tier.user.username}
+                                    @${tier.user.username}
                                 </c:forEach>
                             </h3>
                         </c:when>
                         <c:otherwise>
                             <h4 id="${groupMessage.key}" class="bg-danger"> 
                                 <c:forEach items="${groupMessage.value}" var="tier" >
-                                    -${tier.user.username}
+                                    @${tier.user.username}
                                 <!--${tier.user.getClass().name}-->
                                 </c:forEach>
                                 <c:if test="${newMessageGroupList[groupMessage.key]}"> 

@@ -5,6 +5,7 @@
  */
 package services;
 
+import commun.MessageDisplayList;
 import dao.FriendEntity;
 import dao.MessageDAO;
 import dao.MessageEntity;
@@ -18,11 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  *
@@ -91,8 +89,16 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Object> getGListPlusNewListFromUserID(Long userID) {
-        List<Object> l = new ArrayList<>();
+    public void messageRead(Long messageID) {
+        MessageUserEntity mue = mgUserDao.findByID(messageID);
+        
+            mue.setNewMessage(false);
+            mgUserDao.update(mue);
+        
+    }
+
+    @Override
+    public MessageDisplayList getGListPlusNewListFromUserID(Long userID) {
         List<MessageUserEntity> fta = this.mgUserDao.findAllMessageRByUserID(userID);
         HashMap<String, List<MessageUserEntity>> hmmue = new HashMap<>();
         HashMap<String, Boolean> newMessages = new HashMap<>();
@@ -107,14 +113,12 @@ public class MessageServiceImpl implements MessageService {
             }
 
         }
-        l.add(hmmue);
-        l.add(newMessages);
-        return l;
+        MessageDisplayList mdl = new MessageDisplayList(hmmue, newMessages);
+        return mdl;
     }
 
     @Override
-    public List<Object> getGListPlusNewListFromUserID(Long userID, String groupMessage) {
-        List<Object> l = new ArrayList<>();
+    public MessageDisplayList getGListPlusNewListFromUserID(Long userID, String groupMessage) {
         List<MessageUserEntity> fta = this.mgUserDao.findAllMessageRByUserID(userID);
         HashMap<String, List<MessageUserEntity>> hmmue = new HashMap<>();
         HashMap<String, Boolean> newMessages = new HashMap<>();
@@ -132,10 +136,8 @@ public class MessageServiceImpl implements MessageService {
                 hmmue.put(mue.getMessage().getGroupName(), mue.getMessage().getTarget());
             }
         }
-        l.add(hmmue);
-        l.add(newMessages);
-        l.add(me);
-        return l;
+        MessageDisplayList mdl = new MessageDisplayList(hmmue, newMessages, me);
+        return mdl;
     }
 
     @Override
@@ -173,11 +175,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public NotificationEntity addNotification(PostEntity p, String subject, UserEntity ue) {
-        
+
         if (ue.getId() != null && ue != null) {
             MessageEntity me = new NotificationEntity(p, "notif", ue);
             me = mgDao.save(me);
-            return (NotificationEntity)me;
+            return (NotificationEntity) me;
         }
         return null;
     }

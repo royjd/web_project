@@ -7,16 +7,11 @@ package controllers;
 
 import dao.AlbumEntity;
 import dao.CommentEntity;
-import dao.FriendEntity;
 import dao.MediaEntity;
 import dao.NewsEntity;
-import dao.NotificationEntity;
 import dao.PostEntity;
 import dao.RecomendationEntity;
 import dao.UserEntity;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +57,7 @@ public class PostsController {
 
     @RequestMapping(value = {"ajax_wall_post/{username}/{postId}"}, method = RequestMethod.GET)
     public @ResponseBody
-    ModelAndView ajax_wall_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId,@PathVariable String username) {
+    ModelAndView ajax_wall_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId, @PathVariable String username) {
         ModelAndView model;
         model = new ModelAndView("/commun/ajax/post");
 
@@ -77,7 +72,7 @@ public class PostsController {
     @RequestMapping(value = {"{username}/addNews", "addNews"}, method = RequestMethod.POST)
     public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
-        UserEntity target ;
+        UserEntity target;
         UserEntity ue = (UserEntity) session.getAttribute("user");
         if (pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
@@ -86,8 +81,7 @@ public class PostsController {
             model = new ModelAndView("redirect:/home.htm");
             target = ue;
         }
-        
-        
+
         postService.createNews(news, ue, target);
         return model;
     }
@@ -125,13 +119,15 @@ public class PostsController {
         return model;
     }
 
-    @RequestMapping(value = {"addComment", "{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"addComment", "notification/{postType}/{postID}/addComment", "{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
     public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
         if (pathVariables.containsKey("pathVar") && pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + "/" + pathVariables.get("pathVar") + ".htm");
         } else if (pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
+        } else if(pathVariables.containsKey("postType") && pathVariables.containsKey("postID") ) {
+            model = new ModelAndView("redirect:/notification/"+pathVariables.get("postType")+"/"+pathVariables.get("postID")+".htm");
         } else {
             model = new ModelAndView("redirect:/home.htm");
         }

@@ -13,6 +13,7 @@ import dao.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -125,6 +126,27 @@ public class AppController {
         ModelAndView model = new ModelAndView("page");
         model.addObject("notifs", this.messageService.getNotificationByUser(((UserEntity) session.getAttribute("user")).getId()));
         model.addObject("content", "notification");
+        return model;
+    }
+
+    @RequestMapping(value = {"notification/{type}/{id}","notification/{type}/{id}/{messageID}"}, method = RequestMethod.GET)
+    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String type, @PathVariable Long id,@PathVariable Map<String, String> pathVariables) {
+        ModelAndView model = new ModelAndView("page");
+        Long postID;
+        if (type.equals("Comment")) {
+            postID = ((CommentEntity) this.postService.findByID(id)).getPostMain().getId();
+        } else {
+            postID = id;
+        }
+        
+        if(pathVariables.containsKey("messageID")){
+            this.messageService.messageRead(Long.parseLong(pathVariables.get("messageID")));
+        }
+        model.addObject("post", this.postService.findByID(postID));
+        model.addObject("urlForComment", type+"/"+id);
+        model.addObject("content", "onePost");
+        CommentEntity ce = new CommentEntity();
+        model.addObject("newComment", ce);
         return model;
     }
 }

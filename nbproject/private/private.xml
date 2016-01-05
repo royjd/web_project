@@ -3,16 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/applicationContext.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/home/post.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserEntity.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/PostsController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/ProfileController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/dispatcher-servlet.xml</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/AppController.java</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/page.jsp</file>
-            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/PostDAOImpl.java</file>
             <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/controllers/MessagesController.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserDAOImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/FriendEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MessageUserDAO.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/MediaEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/page.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/dao/NotificationEntity.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/wall.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageServiceImpl.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/PhysicalService.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/web/WEB-INF/jsp/onePost.jsp</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/services/MessageService.java</file>
+            <file>file:/C:/Users/Karl%20Lauret/Documents/GitHub/web_project/src/java/commun/MessageDisplayList.java</file>
         </group>
     </open-files>
 </project-private>

@@ -190,7 +190,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-<<<<<<< HEAD
     public List<PostEntity> getNextRecommendationFromUserID(String username, Long postID) {
         UserEntity ue = this.userDao.findByUsername(username);
         List<Long> l = new ArrayList<>();
@@ -204,15 +203,16 @@ public class PostServiceImpl implements PostService {
         List<Long> l = new ArrayList<>();
         l.add(ue.getId());
         return postDao.getRecentRecommendationFromUsersID(l);
-=======
+    }
+    
     public PostEntity findAlbum(Long id , String type) {
         return postDao.findAlbum(id,type);
     }
 
-    @Override
+
     public PostEntity findAlbum(Long id, Long albumId) {
         return postDao.findAlbum(id,albumId);
->>>>>>> origin/Lazy-Fetch
+
     }
 
 }

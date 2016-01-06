@@ -53,13 +53,8 @@ public interface PostService {
 
     public List<PostEntity> getNextPostFromUserID(String id, Long postId);
 
-<<<<<<< HEAD
     public List<PostEntity> getNextRecommendationFromUserID(String username, Long postId);
 
     public Object getRecentRecommendationFromUserID(String username);
 
-
-    
-=======
->>>>>>> origin/Lazy-Fetch
 }

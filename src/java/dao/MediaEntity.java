@@ -54,15 +54,11 @@ public class MediaEntity extends PostEntity {
                 + "                <img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/>"
                 + "            </div>"
                 + "</a>"
-<<<<<<< HEAD
+
                 +"</div>";
         
     }*/
-=======
-                + "</div>";
 
-    }
->>>>>>> origin/Lazy-Fetch
 
     public String getPhotoDisplay() {
         return "            <div class=\"img-overlay\">"

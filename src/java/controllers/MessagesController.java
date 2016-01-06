@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import com.sun.xml.internal.ws.client.dispatch.MessageDispatch;
 import commun.MessageDisplayList;
 import dao.MessageEntity;
 import dao.MessageUserEntity;

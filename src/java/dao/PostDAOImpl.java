@@ -155,7 +155,6 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-<<<<<<< HEAD
     public List<PostEntity> getNextRecommendationFromUsersID(List<Long> usersID, Long postID) {
         List<PostEntity> postEntities;
         postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
@@ -182,7 +181,9 @@ public class PostDAOImpl implements PostDAO {
                 .setParameter("inclList", usersID).getResultList();
 
         return postEntities;
-=======
+    }
+
+    @Override
     public PostEntity findAlbum(Long userId, String type) {
         try {
             Query q = this.em.createQuery("SELECT p FROM PostEntity p where p.author.id = :userId and TYPE(p) = AlbumEntity and p.title=:type");
@@ -195,15 +196,14 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public PostEntity findAlbum(Long userId , Long albumId) {
+    public PostEntity findAlbum(Long userId, Long albumId) {
         try {
             Query q = this.em.createQuery("SELECT p FROM PostEntity p where p.author.id = :userId and p.id =:albumId");
             q.setParameter("userId", userId);
             q.setParameter("albumId", albumId);
-            return (PostEntity)q.getSingleResult();
+            return (PostEntity) q.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
->>>>>>> origin/Lazy-Fetch
     }
 }

@@ -40,13 +40,13 @@ public class NewsEntity extends PostEntity {
         this.medias.add(me);
     }
 
-    @Override
+    /*@Override
     public String getHomeBootstrapDisplay() {
         return  "<div>"+this.getWallBootstrapHeaderDisplay()+
                 "<div class='row body-post'><p>"+this.getBody() + "<p></div>"+
                 "</div>";
                 
-    }
+    }*/
 
 
     public List<MediaEntity> getMedias() {

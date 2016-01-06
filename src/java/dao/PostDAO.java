@@ -27,5 +27,9 @@ public interface PostDAO {
 
     public List<PostEntity> getNextPostFromUsersID(List<Long> userID, Long postID);
 
+    public List<PostEntity> getNextRecommendationFromUsersID(List<Long> l, Long postID);
+    
+    public List<PostEntity> getRecentRecommendationFromUsersID(List<Long> usersID);
+
 
 }

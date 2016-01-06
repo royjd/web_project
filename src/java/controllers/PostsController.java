@@ -45,7 +45,7 @@ public class PostsController {
     public @ResponseBody
     ModelAndView ajax_home_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId) {
         ModelAndView model;
-        model = new ModelAndView("/commun/ajax/post");
+        model = new ModelAndView("/commun/post/posts");
 
         UserEntity ue = (UserEntity) session.getAttribute("user");
         List<PostEntity> p = postService.getNextPostFromFriendAndMe(ue.getId(), postId);
@@ -59,10 +59,20 @@ public class PostsController {
     public @ResponseBody
     ModelAndView ajax_wall_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId, @PathVariable String username) {
         ModelAndView model;
-        model = new ModelAndView("/commun/ajax/post");
-
-        UserEntity ue = (UserEntity) session.getAttribute("user");
+        model = new ModelAndView("/commun/post/posts");
         List<PostEntity> p = postService.getNextPostFromUserID(username, postId);
+        model.addObject("posts", p);
+        model.addObject("newComment", new CommentEntity());
+
+        return model;
+    }
+
+    @RequestMapping(value = {"ajax_recommendation_post/{username}/{postId}"}, method = RequestMethod.GET)
+    public @ResponseBody
+    ModelAndView ajax_recommendation_post(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Long postId, @PathVariable String username) {
+        ModelAndView model;
+        model = new ModelAndView("/commun/post/posts");
+        List<PostEntity> p = postService.getNextRecommendationFromUserID(username, postId);
         model.addObject("posts", p);
         model.addObject("newComment", new CommentEntity());
 
@@ -126,8 +136,8 @@ public class PostsController {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + "/" + pathVariables.get("pathVar") + ".htm");
         } else if (pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
-        } else if(pathVariables.containsKey("postType") && pathVariables.containsKey("postID") ) {
-            model = new ModelAndView("redirect:/notification/"+pathVariables.get("postType")+"/"+pathVariables.get("postID")+".htm");
+        } else if (pathVariables.containsKey("postType") && pathVariables.containsKey("postID")) {
+            model = new ModelAndView("redirect:/notification/" + pathVariables.get("postType") + "/" + pathVariables.get("postID") + ".htm");
         } else {
             model = new ModelAndView("redirect:/home.htm");
         }

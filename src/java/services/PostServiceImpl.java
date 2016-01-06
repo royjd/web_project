@@ -147,4 +147,20 @@ public class PostServiceImpl implements PostService {
         return postDao.getNextPostFromUsersID(l, postID);
     }
 
+    @Override
+    public List<PostEntity> getNextRecommendationFromUserID(String username, Long postID) {
+        UserEntity ue = this.userDao.findByUsername(username);
+        List<Long> l = new ArrayList<>();
+        l.add(ue.getId());
+        return postDao.getNextRecommendationFromUsersID(l, postID);
+    }
+
+    @Override
+    public Object getRecentRecommendationFromUserID(String username) {
+        UserEntity ue = this.userDao.findByUsername(username);
+        List<Long> l = new ArrayList<>();
+        l.add(ue.getId());
+        return postDao.getRecentRecommendationFromUsersID(l);
+    }
+
 }

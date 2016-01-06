@@ -1,25 +1,31 @@
 <%-- 
-    Document   : post
-    Created on : Jan 4, 2016, 11:07:07 PM
+    Document   : posts
+    Created on : Jan 6, 2016, 11:20:56 AM
     Author     : Karl Lauret
 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <c:if test="${posts.size() !=0}"> 
-    <c:forEach var="i" begin="1" end="${posts.size()}" step="1">
-        <c:set var="tier" value="${posts[i-1]}" />
-
+    <c:forEach items="${posts}" var="tier">
         <c:if test="${tier.getClass().name != 'dao.CommentEntity'}"> 
             <div id="${tier.id}" class="post">
-                <div id="${tier.id}" class="post col-sm-12">
-                    ${tier.homeBootstrapDisplay}
+                <div  class= "col-sm-12">
+                    <c:set var="tier" value="${tier}" scope="request" />
+                    <jsp:include page="post.jsp" />
                 </div>
-                <div class="comment col-sm-12">
-                    ${tier.wallBootstrapCommentDisplay} 
+                <div class="postComment col-sm-12">
+                    <c:forEach items="${tier.comments}" var="tier">
+                        <c:set var="tier" value="${tier}" scope="request" />
+                        <jsp:include page="post.jsp" />
+                    </c:forEach>
                 </div>
-                <form:form action="${pageContext.request.contextPath}/addComment.htm" method="POST" modelAttribute="newComment" class="form-horizontal">
+                
+                <form:form action="${commentLinks}" method="POST" modelAttribute="newComment" class="form-horizontal">
 
                     <spring:bind path="postMain.id">
                         <form:hidden path="postMain.id" id="postMainId" value="${tier.id}"/>
@@ -52,4 +58,5 @@
             </div>
         </c:if> 
     </c:forEach>
+   
 </c:if>  

@@ -23,10 +23,10 @@ public class RecomendationEntity extends PostEntity {
     public RecomendationEntity(String title, String body, UserEntity author) {
         super(title, body, author, author);
     }
-    @Override
+    /*@Override
     public String getHomeBootstrapDisplay() {
         return "<div>"+this.getWallBootstrapHeaderDisplay()+
                 "<p>"+this.getBody() + "<p>"+
                 "</div>";
-    }
+    }*/
 }

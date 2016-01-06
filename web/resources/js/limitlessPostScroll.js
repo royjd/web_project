@@ -56,6 +56,10 @@ $(document).ready(function () {
                         last_id = $('.post:last').attr('id');
                     }
 
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                   // alert(xhr.status);
+                    //alert(thrownError);
                 }
             });
         }

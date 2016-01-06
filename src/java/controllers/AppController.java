@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -52,6 +53,9 @@ public class AppController {
     @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    private ServletContext servletContext;
+
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String init() {
         return "index";
@@ -63,7 +67,8 @@ public class AppController {
         model.addObject("content", "wall");
         model.addObject("wallContent", "post");
         model.addObject("username", username);
-        model.addObject("post", postService.getRecentPostFromMe(username));
+        model.addObject("posts", postService.getRecentPostFromMe(username));
+        model.addObject("commentLinks", servletContext.getContextPath() +"/"+ username+"/addComment.htm");
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
         return model;
@@ -76,9 +81,10 @@ public class AppController {
         model.addObject("content", "wall");
         model.addObject("wallContent", "recommendation/recommendation");
         model.addObject("username", username);
-        model.addObject("post", postService.getPostFromUserAndType(username, "recommendation"));
+        model.addObject("posts", postService.getRecentRecommendationFromUserID(username));
 
-        CommentEntity ce = new CommentEntity();//userfull for the form:form object in jtsl //jsp
+        model.addObject("commentLinks", servletContext.getContextPath() +username+"/recommendation/addComment.htm");//notification/{postType}/{postID}/addComment
+        CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
 
         return model;
@@ -115,7 +121,8 @@ public class AppController {
         m.addAttribute("physical", pe.getPhysical());
         m.addAttribute("photoProfile", "pe.getMedia().getPhoto()");
         m.addAttribute("experience", this.profileService.getLastExperienceByProfile(pe.getId()));
-        m.addAttribute("post", this.postService.getRecentPostFromFriendAndMe(ue.getId()));
+        m.addAttribute("posts", this.postService.getRecentPostFromFriendAndMe(ue.getId()));
+        m.addAttribute("commentLinks", servletContext.getContextPath() + "/addComment.htm");
         CommentEntity ce = new CommentEntity();
         m.addAttribute("newComment", ce);
         return "page";
@@ -129,8 +136,8 @@ public class AppController {
         return model;
     }
 
-    @RequestMapping(value = {"notification/{type}/{id}","notification/{type}/{id}/{messageID}"}, method = RequestMethod.GET)
-    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String type, @PathVariable Long id,@PathVariable Map<String, String> pathVariables) {
+    @RequestMapping(value = {"notification/{type}/{id}", "notification/{type}/{id}/{messageID}"}, method = RequestMethod.GET)
+    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String type, @PathVariable Long id, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model = new ModelAndView("page");
         Long postID;
         if (type.equals("Comment")) {
@@ -138,13 +145,15 @@ public class AppController {
         } else {
             postID = id;
         }
-        
-        if(pathVariables.containsKey("messageID")){
+
+        if (pathVariables.containsKey("messageID")) {
             this.messageService.messageRead(Long.parseLong(pathVariables.get("messageID")));
         }
-        model.addObject("post", this.postService.findByID(postID));
-        model.addObject("urlForComment", type+"/"+id);
+        List<PostEntity> posts = new ArrayList<>();
+        posts.add(this.postService.findByID(postID));
+        model.addObject("posts", posts);
         model.addObject("content", "onePost");
+        model.addObject("commentLinks", servletContext.getContextPath() + "/notification/"+type+"/"+id+"/addComment.htm");//notification/{postType}/{postID}/addComment
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
         return model;

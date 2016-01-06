@@ -46,7 +46,7 @@ public class AlbumEntity extends PostEntity {
         this.medias.add(me);
     }
 
-    @Override
+  /*  @Override
     public String getHomeBootstrapDisplay() {
         
         return  "<div>"+this.getWallBootstrapHeaderDisplay()
@@ -58,7 +58,7 @@ public class AlbumEntity extends PostEntity {
                 + "</a>"
                 +"</div>";
         
-    }
+    }*/
     public String getAlbumDisplay(){
         return    "            <div class=\"img-overlay\">"
                 + "                <img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/>"

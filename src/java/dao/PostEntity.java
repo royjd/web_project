@@ -132,14 +132,20 @@ public class PostEntity implements Serializable {
         return "POST";
     }
 
-    public String getWallBootstrapHeaderDisplay() {
+    public String getCreateDateFormated(){
+        
+        String DATE_FORMAT = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        return sdf.format(this.getCreatedDate());
+    }
+    /*public String getWallBootstrapHeaderDisplay() {
         if (this.title == null) {
             this.title = "";
         }
         String DATE_FORMAT = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         return "<div class='row postHeader'>"
-                + "<div class=\"pull-left \" style=\"\"><img class='img-postHeader' src='/fanfare/resources/img/1.jpg' /> </div>"
+                + "<div class=\"pull-left \" style=\"\"><img class='img-postHeader' src='${pageContext.request.contextPath}/resources/img/1.jpg' /> </div>"
                 + " <div class=\"col-md-7\">"
                 + "    <div class=\"row\">"
                 + "         <div class=\"col-md-12 \"><h2>" + this.title + "</h2></div>"
@@ -153,9 +159,9 @@ public class PostEntity implements Serializable {
                 + "     </div>"
                 + " </div>"
                 + " </div>";
-    }
+    }*/
 
-    public String getWallBootstrapCommentDisplay() {
+    /*public String getWallBootstrapCommentDisplay() {
         String tmp = "";
         String DATE_FORMAT = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -192,7 +198,7 @@ public class PostEntity implements Serializable {
             tmp += "</div>";
         }
         return tmp;
-    }
+    }*/
 
     public Date getCreatedDate() {
         return createdDate;

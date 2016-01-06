@@ -34,7 +34,7 @@ public class MediaEntity extends PostEntity {
         super(title, body, author, author);
     }
 
-    @Override
+   /* @Override
     public String getHomeBootstrapDisplay() {
         
         return  "<div>"+this.getWallBootstrapHeaderDisplay()
@@ -46,7 +46,7 @@ public class MediaEntity extends PostEntity {
                 + "</a>"
                 +"</div>";
         
-    }
+    }*/
 
     public String getPhotoDisplay() {
         return "            <div class=\"img-overlay\">"

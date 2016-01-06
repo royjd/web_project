@@ -80,25 +80,25 @@ public class PostDAOImpl implements PostDAO {
             switch (type) {
                 case "photo":
                 case "video": {
-                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM MediaEntity t where t.author.username = :value1 ")//t.type = photo when photo and video added
+                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM MediaEntity t where t.author.username = :value1 order by t.id desc")//t.type = photo when photo and video added
                             .setParameter("value1", username).getResultList();
 
                     return postEntities;
                 }
                 case "recommendation": {
-                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM RecomendationEntity t where t.target.username = :value1 ")//target here 
+                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM RecomendationEntity t where t.target.username = :value1 order by t.id desc")//target here 
                             .setParameter("value1", username).getResultList();
 
                     return postEntities;
                 }
                 case "news": {
-                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM NewsEntity t where t.author.username = :value1 OR t.target.username")//target or author
+                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM NewsEntity t where t.author.username = :value1 OR t.target.username order by t.id desc")//target or author
                             .setParameter("value1", username).getResultList();
 
                     return postEntities;
                 }
                 case "album": {
-                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM AlbumEntity t where t.author.username = :value1")//target or author
+                    List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM AlbumEntity t where t.author.username = :value1 order by t.id desc")//target or author
                             .setParameter("value1", username).getResultList();
 
                     return postEntities;
@@ -109,7 +109,7 @@ public class PostDAOImpl implements PostDAO {
                             + "AND ("
                             + "((t.author.username = :value1 OR t.target.username = :value1) AND (TYPE(t) = MediaEntity OR TYPE(t) = NewsEntity))"
                             + " OR (t.target.username = :value1 AND TYPE(t) = RecomendationEntity)"
-                            + ")")
+                            + ") order by t.id desc")
                             .setParameter("value1", username).getResultList();
 
                     return postEntities;
@@ -149,6 +149,35 @@ public class PostDAOImpl implements PostDAO {
                 .setParameter("inclList", usersID)
                 .setMaxResults(5)
                 .getResultList();
+
+        return postEntities;
+    }
+
+    @Override
+    public List<PostEntity> getNextRecommendationFromUsersID(List<Long> usersID, Long postID) {
+        List<PostEntity> postEntities;
+        postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
+                + " TYPE(t) = RecomendationEntity"
+                + " AND (t.id < :postID ) AND "
+                + " (t.target.id IN (:inclList))"
+                + " order by t.id desc")
+                .setParameter("postID", postID)
+                .setParameter("inclList", usersID)
+                .setMaxResults(5)
+                .getResultList();
+
+        return postEntities;
+    }
+
+    @Override
+    public List<PostEntity> getRecentRecommendationFromUsersID(List<Long> usersID) {
+        List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
+                + "TYPE(t) = RecomendationEntity "
+                + "AND"
+                + " (t.target.id IN (:inclList))"
+                + " order by t.id desc")
+                .setMaxResults(5)
+                .setParameter("inclList", usersID).getResultList();
 
         return postEntities;
     }

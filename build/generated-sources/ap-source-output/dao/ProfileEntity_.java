@@ -10,17 +10,19 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(ProfileEntity.class)
 public abstract class ProfileEntity_ {
 
-	public static volatile SingularAttribute<ProfileEntity, String> firstName;
 	public static volatile SingularAttribute<ProfileEntity, String> lastName;
 	public static volatile SingularAttribute<ProfileEntity, Date> birthDay;
 	public static volatile SingularAttribute<ProfileEntity, String> country;
-	public static volatile SingularAttribute<ProfileEntity, String> phone;
 	public static volatile SingularAttribute<ProfileEntity, String> city;
+	public static volatile SingularAttribute<ProfileEntity, MediaEntity> pictureCover;
 	public static volatile SingularAttribute<ProfileEntity, String> description;
+	public static volatile SingularAttribute<ProfileEntity, MediaEntity> pictureProfile;
+	public static volatile ListAttribute<ProfileEntity, ExperienceEntity> experiences;
+	public static volatile SingularAttribute<ProfileEntity, String> firstName;
+	public static volatile SingularAttribute<ProfileEntity, String> phone;
 	public static volatile SingularAttribute<ProfileEntity, UserEntity> profileOwner;
 	public static volatile SingularAttribute<ProfileEntity, Long> id;
 	public static volatile SingularAttribute<ProfileEntity, PhysicalEntity> physical;
-	public static volatile ListAttribute<ProfileEntity, ExperienceEntity> experiences;
 
 }
 

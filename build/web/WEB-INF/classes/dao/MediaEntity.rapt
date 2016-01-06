@@ -1,0 +1,7 @@
+dao/NewsEntity_.java
+dao/NotificationEntity_.java
+dao/AlbumEntity_.java
+dao/CommentEntity_.java
+dao/ProfileEntity_.java
+dao/MediaTypeEntity_.java
+dao/MediaEntity_.java

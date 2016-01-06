@@ -11,6 +11,7 @@ public abstract class AlbumEntity_ extends dao.PostEntity_ {
 
 	public static volatile SingularAttribute<AlbumEntity, MediaEntity> cover;
 	public static volatile ListAttribute<AlbumEntity, MediaEntity> medias;
+	public static volatile SingularAttribute<AlbumEntity, String> localisation;
 
 }
 

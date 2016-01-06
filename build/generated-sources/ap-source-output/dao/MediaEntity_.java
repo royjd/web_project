@@ -10,6 +10,9 @@ public abstract class MediaEntity_ extends dao.PostEntity_ {
 
 	public static volatile SingularAttribute<MediaEntity, NewsEntity> news;
 	public static volatile SingularAttribute<MediaEntity, AlbumEntity> album;
+	public static volatile SingularAttribute<MediaEntity, ProfileEntity> profile;
+	public static volatile SingularAttribute<MediaEntity, String> localisation;
+	public static volatile SingularAttribute<MediaEntity, MediaTypeEntity> mediaType;
 
 }
 

@@ -29,7 +29,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-4 btn-info">
-                                    <br><br><br>Photo de profile<br><br><br><br>
+                                    <img src="${pageContext.request.contextPath}/resources/img/${friend.profile.pictureProfile.mediaType.link}" class="img-responsive"></img>
                                 </div>
                                 <div class="col-sm-8">
                                     <h3> 

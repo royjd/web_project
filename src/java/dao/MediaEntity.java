@@ -23,8 +23,7 @@ public class MediaEntity extends PostEntity {
     @JoinColumn(name = "media_album_id")
     private AlbumEntity album;
 
-    @ManyToOne
-    @JoinColumn(name = "media_news_id")
+    @OneToOne(mappedBy = "media")
     private NewsEntity news;
 
     @OneToOne
@@ -42,6 +41,7 @@ public class MediaEntity extends PostEntity {
 
     public MediaEntity(String title, String body, UserEntity author) {
         super(title, body, author, author);
+          this.news =null;
     }
 
    /* @Override

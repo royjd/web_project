@@ -79,22 +79,22 @@ public class NotificationEntity extends MessageEntity {
     }
 
     private String getNewsContent() {
-        return "<h2>News OMG</h2>" + this.post.getTitle();
+        return "<h2>News OMG</h2>" + this.post.getTitle() + " @"+this.post.getAuthor().getUsername() + " To " + " @"+this.post.getTarget().getUsername();
     }
 
     private String getMediaContent() {
-        return "<h2>Media OMG</h2>" + this.post.getTitle();
+        return "<h2>Media OMG</h2>" + " @"+this.post.getAuthor().getUsername() + " Added a Photo";
     }
 
     private String getAlbumContent() {
-        return "<h2>Album OMG</h2>" + this.post.getTitle();
+        return "<h2>Album OMG</h2>" + this.post.getTitle() + " @"+this.post.getAuthor().getUsername() + " Added an Album";
     }
 
     private String getCommentContent() {
-        return "<h2>Comment OMG</h2>" + this.post.getBody();
+        return "<h2>Comment OMG</h2>" + this.post.getBody() + " @"+this.post.getAuthor().getUsername() + " Commented the post of @"+ this.post.getTarget().getUsername();
     }
 
     private String getRecomendationContent() {
-        return "<h2>Recomendation OMG</h2>" + this.post.getBody();
+        return "<h2>Recomendation OMG</h2>" + this.post.getBody()+ " @"+this.post.getAuthor().getUsername() + " Recommented @"+ this.post.getTarget().getUsername();
     }
 }

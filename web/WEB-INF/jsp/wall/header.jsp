@@ -5,7 +5,7 @@
 --%>
 
 <div class="row">
-    <div style="width:100%;height:315px; background-color: red">
+    <div style="width:100%;height:315px; background-color: black; background-image: url('${pageContext.request.contextPath}/resources/img/${u.profile.pictureCover.mediaType.link}');">
         <c:if test="${canModify}">
             <h4>Define profile picture Cover<button id="addCover" class="btn btn-primary btn-sm glyphicon glyphicon-plus"></button></h4>
         </c:if>
@@ -30,7 +30,7 @@
             </c:when>
             <c:otherwise>
                 <div class="img-overlay">
-                    <img src="${pageContext.request.contextPath}/resources/img/${user.profile.pictureCover.mediaType.link}" class="img-responsive"/>
+                    <img src="" class="img-responsive"/>
                 </div>
             </c:otherwise>
         </c:choose>

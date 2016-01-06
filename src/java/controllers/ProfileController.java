@@ -64,29 +64,33 @@ public class ProfileController {
 
     // To add attribute in all model in this controllers
     @ModelAttribute(value = "{username}")
-    public void common(Model mv , @PathVariable String username) {
+    public void common(Model mv, @PathVariable String username) {
         mv.addAttribute("wallContent", repertoryName + "profile");
         mv.addAttribute("username", username);
         mv.addAttribute("content", "wall");
+        UserEntity u = userService.findByUsername(username);
+        if (u != null) {
+            mv.addAttribute("u", u);
+        }
     }
 
     @RequestMapping(value = "{username}/profile", method = RequestMethod.GET)
     public ModelAndView init(@PathVariable String username, HttpSession session) {
-        
+
         ModelAndView mv = new ModelAndView("page");
 
         UserEntity u = userService.findByUsername(username);
 
         if (u != null) {
             UserEntity user = (UserEntity) session.getAttribute("user");
-            List<ExperienceEntity> l = experienceService.findExperiencesForProfil(u.getProfile().getId() , 3);
+            List<ExperienceEntity> l = experienceService.findExperiencesForProfil(u.getProfile().getId(), 3);
             u.getProfile().setExperiences(l);
             if (user == null || !Objects.equals(user.getId(), u.getId())) {  // Je visite le mur d'un autre utilisateur
                 mv.addObject("canModify", false);
             } else {   // Je visite mon mur
                 mv.addObject("canModify", true);
             }
-            mv.addObject("u", u);
+
             mv.addObject("profileContent", "displayProfile");
         } else {   // L'utilisateur n'existe pas dans la base de données.
             mv.addObject("profileContent", "NotFound");
@@ -174,7 +178,7 @@ public class ProfileController {
         if (u != null) {
             UserEntity user = (UserEntity) session.getAttribute("user");
             if (user != null && Objects.equals(user.getId(), u.getId())) {
-                
+
                 mv.addObject("msg", "");
                 if (id == 0) { // We want to add
                     ExperienceEntity e = new ExperienceEntity();
@@ -182,18 +186,17 @@ public class ProfileController {
                     mv.addObject("newExperience", e);
                     mv.addObject("submitValue", "Save experience");
                     mv.addObject("Title", "Add an experience");
-                    
+
                 } else {
                     ExperienceEntity experience = experienceService.findById(id);
-                    
+
                     if (experience != null) {
                         mv.addObject("profileContent", "editExperience");
                         mv.addObject("newExperience", experience);
                         mv.addObject("submitValue", "Save Changes");
                         mv.addObject("Title", "Edit your experience");
-                    }
-                    else{
-                        
+                    } else {
+
                     }
                 }
                 mv.addObject("profileContent", "manageExperience");
@@ -214,11 +217,10 @@ public class ProfileController {
             ModelAndView mv = new ModelAndView("page");
             mv.addObject("profileContent", "manageExperience");
             mv.addObject("msg", "There some erros, fix them");
-            if(newExperience.getId() == null){
+            if (newExperience.getId() == null) {
                 mv.addObject("submitValue", "Add experience");
                 mv.addObject("Title", "Add an experience");
-            }
-            else{
+            } else {
                 mv.addObject("submitValue", "Save Changes");
                 mv.addObject("Title", "Edit your experience");
             }
@@ -244,13 +246,12 @@ public class ProfileController {
         UserEntity user = (UserEntity) session.getAttribute("user");
         if (user != null) {
             ExperienceEntity experience = experienceService.findById(id);
-            if(experience != null){
+            if (experience != null) {
                 experienceService.delete(experience);
                 ModelAndView mv = new ModelAndView("redirect:/" + user.getUsername() + "/experience.htm");
                 return mv;
-            }
-            else{
-                
+            } else {
+
             }
 
         } else {

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.management.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -98,6 +97,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity createNews(NewsEntity news, UserEntity author, UserEntity target) {
         return this.createPost(news, author, target);
+    }
+
+    @Override
+    public PostEntity createNews(NewsEntity news, UserEntity author, UserEntity target, PostEntity mediaEntity) {
+        if (mediaEntity.getId() != null) {
+            news.setMedias((MediaEntity) mediaEntity);
+            return this.createPost(news, author, target);
+        }
+        return null;
     }
 
     @Override
@@ -204,14 +212,13 @@ public class PostServiceImpl implements PostService {
         l.add(ue.getId());
         return postDao.getRecentRecommendationFromUsersID(l);
     }
-    
-    public PostEntity findAlbum(Long id , String type) {
-        return postDao.findAlbum(id,type);
+
+    public PostEntity findAlbum(Long id, String type) {
+        return postDao.findAlbum(id, type);
     }
 
-
     public PostEntity findAlbum(Long id, Long albumId) {
-        return postDao.findAlbum(id,albumId);
+        return postDao.findAlbum(id, albumId);
 
     }
 

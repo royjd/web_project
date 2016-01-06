@@ -5,7 +5,7 @@
 --%>
 <div class="row sideBarBlock">
     <div class="col-sm-12">
-            <h2>PHOTO</h2>
+
                 
         </div>
 

@@ -8,7 +8,7 @@
     <div class="col-sm-12">
         <div class="">
             <a href="${pageContext.request.contextPath}/${user.username}/profile.htm">
-                <img id="profileHeaderPicture" src="/fanfare/resources/img/1.jpg" class="img-responsive center-block"/>
+                <img id="profileHeaderPicture" src="${pageContext.request.contextPath}/resources/img/${photoProfile}" class="img-responsive center-block"/>
             </a>
              
         </div>

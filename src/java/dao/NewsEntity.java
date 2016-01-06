@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.Fetch;
@@ -24,20 +25,17 @@ import org.hibernate.annotations.FetchMode;
 public class NewsEntity extends PostEntity {
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "news")
-    @Fetch(FetchMode.SELECT)//lol
-    private List<MediaEntity> medias = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "media_news_id")
+    private MediaEntity media;
 
     public NewsEntity() {
         super();
     }
 
-    public NewsEntity(String title, String body, UserEntity author, UserEntity target) {
+    public NewsEntity(String title, String body, UserEntity author, UserEntity target, MediaEntity media) {
         super(title, body, author, target);
-    }
-
-    public void addMedia(MediaEntity me) {
-        this.medias.add(me);
+        this.media = null;
     }
 
     /*@Override
@@ -49,12 +47,12 @@ public class NewsEntity extends PostEntity {
     }*/
 
 
-    public List<MediaEntity> getMedias() {
-        return medias;
+    public MediaEntity getMedia() {
+        return this.media;
     }
 
-    public void setMedias(List<MediaEntity> medias) {
-        this.medias = medias;
+    public void setMedias(MediaEntity media) {
+        this.media = media;
     }
 
 }

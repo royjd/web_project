@@ -127,7 +127,7 @@ public class PostDAOImpl implements PostDAO {
         List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
                 + "TYPE(t) <> CommentEntity "
                 + "AND ("
-                + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND (TYPE(t) = MediaEntity OR TYPE(t) = NewsEntity))"
+                + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND ((TYPE(t) = MediaEntity) OR TYPE(t) = NewsEntity))"
                 + " OR (t.target.id IN (:inclList) AND TYPE(t) = RecomendationEntity)"
                 + ")"
                 + " order by t.id desc")
@@ -142,7 +142,7 @@ public class PostDAOImpl implements PostDAO {
         List<PostEntity> postEntities = this.em.createQuery("SELECT t FROM PostEntity t where "
                 + "TYPE(t) <> CommentEntity "
                 + "AND (t.id < :postID ) AND ("
-                + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND (TYPE(t) = MediaEntity OR TYPE(t) = NewsEntity))"
+                + "((t.author.id IN (:inclList) OR t.target.id IN (:inclList)) AND ((TYPE(t) = MediaEntity ) OR TYPE(t) = NewsEntity))"
                 + " OR (t.target.id IN (:inclList) AND TYPE(t) = RecomendationEntity)"
                 + ")"
                 + " order by t.id desc")

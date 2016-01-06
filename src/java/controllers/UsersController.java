@@ -151,7 +151,10 @@ public class UsersController {
         ModelAndView mv = new ModelAndView("page");
         mv.addObject("content", "wall");
         mv.addObject("wallContent", "friend/friend");
-
+        UserEntity u = userService.findByUsername(username);
+        if (u != null) {
+            mv.addObject("u", u);
+        }
         UserEntity user = (UserEntity) session.getAttribute("user");
         Boolean canRemove = true;
         if (Objects.equals(user, null) || !user.getUsername().equals(username)) { // I want to see friends of a user

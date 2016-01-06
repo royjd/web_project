@@ -94,7 +94,7 @@ public class PostsController {
     }
 
     @RequestMapping(value = {"{username}/addNews", "addNews"}, method = RequestMethod.POST)
-    public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
+    public ModelAndView addNews(@ModelAttribute NewsEntity news, HttpServletRequest request,@RequestParam("file") CommonsMultipartFile file, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
         UserEntity target;
         UserEntity ue = (UserEntity) session.getAttribute("user");
@@ -105,8 +105,17 @@ public class PostsController {
             model = new ModelAndView("redirect:/home.htm");
             target = ue;
         }
-
-        postService.createNews(news, ue, target);
+        PostEntity post = postService.findAlbum(ue.getId(), "NewsAlbum");
+        AlbumEntity album = new AlbumEntity();
+        album.setId(post.getId());
+        album.setTitle("NewsAlbum");
+        post = postService.createPhoto(album, ue, file);
+         if (post != null && post.getId()!=null){
+             postService.createNews(news, ue, target , post);
+         }else{
+              postService.createNews(news, ue, target );
+         }
+       
         return model;
     }
 
@@ -174,11 +183,11 @@ public class PostsController {
                 PostEntity p = postService.createAlbum(album, ue);
                 album.setId(p.getId());
             } else if (album.getId() == -1) { // Add to the default album
-                PostEntity defaultAlbum = postService.findAlbum(ue.getId() , "DefaultAlbum");
+                PostEntity defaultAlbum = postService.findAlbum(ue.getId(), "DefaultAlbum");
                 album.setId(defaultAlbum.getId());
                 album.setTitle(defaultAlbum.getTitle());
             } else { // Album already exist
-                PostEntity post = postService.findAlbum(ue.getId() , album.getId());
+                PostEntity post = postService.findAlbum(ue.getId(), album.getId());
                 album.setTitle(post.getTitle());
             }
             postService.createPhoto(album, ue, files);
@@ -217,24 +226,23 @@ public class PostsController {
     }
 
     @RequestMapping(value = "{username}/media/addPicture", method = RequestMethod.POST)
-    public ModelAndView addPictureProfile(HttpSession session, @PathVariable String username, @RequestParam("file") CommonsMultipartFile file, @RequestParam("type") String type){
+    public ModelAndView addPictureProfile(HttpSession session, @PathVariable String username, @RequestParam("file") CommonsMultipartFile file, @RequestParam("type") String type) {
         UserEntity user = (UserEntity) session.getAttribute("user");
         if (user == null) {
             return new ModelAndView("redirect:/index.htm");
         }
         ModelAndView model = new ModelAndView("redirect:/" + username + "/profile.htm");
         if (file != null && !file.getOriginalFilename().equals("")) {
-            PostEntity post ;
+            PostEntity post;
             String typeAlbum;
-            if(type.equals("cover") || type.equals("profile")){
+            if (type.equals("cover") || type.equals("profile")) {
                 typeAlbum = "ProfileAlbum";
-            }else if(type.equals("news")){
+            } else if (type.equals("news")) {
                 typeAlbum = "NewsAlbum";
-            }
-            else{
+            } else {
                 typeAlbum = "DefaultAlbum";
             }
-            post = postService.findAlbum(user.getId() , typeAlbum);
+            post = postService.findAlbum(user.getId(), typeAlbum);
             AlbumEntity album = new AlbumEntity();
             album.setId(post.getId());
             album.setTitle(typeAlbum);
@@ -242,14 +250,13 @@ public class PostsController {
             if (post != null) {
                 MediaEntity media = new MediaEntity();
                 media.setId(post.getId());
-                media.setMediaType(((MediaEntity)post).getMediaType());
+                media.setMediaType(((MediaEntity) post).getMediaType());
                 ProfileEntity profileUser = user.getProfile();
-                if(type.equals("cover")){
+                if (type.equals("cover")) {
                     profileUser.setPictureCover(media);
                     profileService.update(profileUser);
                     profileUser.setPictureCover(media); // 
-                }
-                else if(type.equals("profile")){
+                } else if (type.equals("profile")) {
                     profileUser.setPictureProfile(media);
                     profileService.update(profileUser);
                     profileUser.setPictureProfile(media);

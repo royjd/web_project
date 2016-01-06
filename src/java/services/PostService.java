@@ -57,4 +57,6 @@ public interface PostService {
 
     public Object getRecentRecommendationFromUserID(String username);
 
+    public PostEntity createNews(NewsEntity news, UserEntity ue, UserEntity target, PostEntity mediaEntity);
+
 }

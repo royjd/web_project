@@ -7,6 +7,7 @@ package controllers;
 
 import dao.CommentEntity;
 import dao.FriendEntity;
+import dao.MediaEntity;
 import dao.PostEntity;
 import dao.ProfileEntity;
 import dao.UserEntity;
@@ -63,11 +64,15 @@ public class AppController {
     @RequestMapping(value = "{username}", method = RequestMethod.GET)
     public ModelAndView wallHome(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
         ModelAndView model = new ModelAndView("page");
+        UserEntity u = userService.findByUsername(username);
+        if (u != null) {
+            model.addObject("u", u);
+        }
         model.addObject("content", "wall");
         model.addObject("wallContent", "post");
         model.addObject("username", username);
         model.addObject("posts", postService.getRecentPostFromMe(username));
-        model.addObject("commentLinks", servletContext.getContextPath() +"/"+ username+"/addComment.htm");
+        model.addObject("commentLinks", servletContext.getContextPath() + "/" + username + "/addComment.htm");
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
         return model;
@@ -76,13 +81,16 @@ public class AppController {
     @RequestMapping(value = "{username}/recommendation", method = RequestMethod.GET)
     public ModelAndView recommendation(HttpServletRequest request, HttpServletResponse response, @PathVariable String username, HttpSession session) {
         ModelAndView model = new ModelAndView("page");
-
+        UserEntity u = userService.findByUsername(username);
+        if (u != null) {
+            model.addObject("u", u);
+        }
         model.addObject("content", "wall");
         model.addObject("wallContent", "recommendation/recommendation");
         model.addObject("username", username);
         model.addObject("posts", postService.getRecentRecommendationFromUserID(username));
 
-        model.addObject("commentLinks", servletContext.getContextPath() +username+"/recommendation/addComment.htm");//notification/{postType}/{postID}/addComment
+        model.addObject("commentLinks", servletContext.getContextPath() + username + "/recommendation/addComment.htm");//notification/{postType}/{postID}/addComment
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
 
@@ -100,7 +108,10 @@ public class AppController {
             model.addObject("mediaContent", "photo");
             model.addObject("post", postService.getPostFromUserAndType(username, "photo"));
         }
-
+        UserEntity u = userService.findByUsername(username);
+        if (u != null) {
+            model.addObject("u", u);
+        }
         model.addObject("content", "wall");
         model.addObject("wallContent", "media/media");
 
@@ -118,7 +129,9 @@ public class AppController {
         m.addAttribute("friends", this.userService.getFriendsListFriendByUserID(ue.getId()));
         ProfileEntity pe = this.profileService.findByUserId(ue.getId());
         m.addAttribute("physical", pe.getPhysical());
-        m.addAttribute("photoProfile", "pe.getMedia().getPhoto()");
+        if (pe.getPictureProfile() != null) {
+            m.addAttribute("photoProfile", ((MediaEntity) pe.getPictureProfile()).getMediaType().getLink());
+        }
         m.addAttribute("experience", this.profileService.getLastExperienceByProfile(pe.getId()));
         m.addAttribute("posts", this.postService.getRecentPostFromFriendAndMe(ue.getId()));
         m.addAttribute("commentLinks", servletContext.getContextPath() + "/addComment.htm");
@@ -152,7 +165,7 @@ public class AppController {
         posts.add(this.postService.findByID(postID));
         model.addObject("posts", posts);
         model.addObject("content", "onePost");
-        model.addObject("commentLinks", servletContext.getContextPath() + "/notification/"+type+"/"+id+"/addComment.htm");//notification/{postType}/{postID}/addComment
+        model.addObject("commentLinks", servletContext.getContextPath() + "/notification/" + type + "/" + id + "/addComment.htm");//notification/{postType}/{postID}/addComment
         CommentEntity ce = new CommentEntity();
         model.addObject("newComment", ce);
         return model;

@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class='row postHeader'>
-    <div class="pull-left "><img class='img-postHeader' src='${pageContext.request.contextPath}/resources/img/1.jpg' /> </div>
+    <div class="pull-left "><img class='img-postHeader' src='${pageContext.request.contextPath}/resources/img/${requestScope.tier.author.profile.pictureProfile.mediaType.link}' /> </div>
     <div class="col-md-7">
         <div class="row">
             <div class="col-md-12">

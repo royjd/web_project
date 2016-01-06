@@ -11,7 +11,7 @@
     <div class="col-sm-12">
         <h2>Add a news <button id="addAnews" class="btn btn-primary btn-sm glyphicon glyphicon-plus"></button></h2>
         <div id="addAnewsDiv" style="display:none;">
-            <form method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/addNews.htm">
+            <form enctype="multipart/form-data" method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/addNews.htm">
                 <div class="form-group">
                     <div class="col-sm-12">
                         <input  type="TEXT" class="form-control" name="title" rows="5" id="title" placeholder="Title here"></input>
@@ -22,6 +22,12 @@
                         <textarea  type="TEXT" class="form-control" name="body" rows="5" id="body" placeholder="Type your message here"></textarea>
                     </div>
                 </div> 
+                <div id="addPictureProfilDiv" style="">
+                    <span class="btn btn-default btn-file">
+                        Choose profile picture <input type="file" name="file"/>
+                    </span>
+                    <input name="type" type ="hidden" value="news"/>
+                </div>
                 <div class="form-group">        
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-success pull-right">Submit</button>

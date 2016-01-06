@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -56,13 +57,15 @@ public class MessageUserDAOImpl implements MessageUserDAO {
 
     @Override
     public List<MessageUserEntity> findNewMessageForUserAndGroupMessage(Long userID, String groupMessage) {
-       return this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1 AND t.newMessage = true AND t.message.groupName = :value2")
-                .setParameter("value1", userID).setParameter("value2" , groupMessage).getResultList();
+        return this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1 AND t.message.groupName = :value2 ORDER BY t.id DESC")
+                .setParameter("value1", userID).setParameter("value2", groupMessage).getResultList();
     }
 
     @Override
-    public List<MessageUserEntity> findAllMessageRByUserID(Long userID) {
-        return this.em.createQuery("SELECT t FROM MessageUserEntity t where t.user.id = :value1")
+    public List<MessageUserEntity> findAllMessageRByUserID(Long userID) {//DTYPE => descriminator value test
+        return this.em.createQuery("SELECT t FROM MessageUserEntity t JOIN t.message m where TYPE(m) <> NotificationEntity AND t.user.id = :value1")
                 .setParameter("value1", userID).getResultList();
     }
+
+
 }

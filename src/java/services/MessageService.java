@@ -5,6 +5,7 @@
  */
 package services;
 
+import commun.MessageDisplayList;
 import dao.FriendEntity;
 import dao.MessageEntity;
 import dao.MessageUserEntity;
@@ -29,10 +30,12 @@ public interface MessageService{
 
     public void messageRead(UserEntity ue, String groupMessage);
 
-    public List<Object> getGListPlusNewListFromUserID(Long userID);
+    public MessageDisplayList getGListPlusNewListFromUserID(Long userID);
 
-    public List<Object> getGListPlusNewListFromUserID(Long userID, String groupMessage);
+    public MessageDisplayList getGListPlusNewListFromUserID(Long userID, String groupMessage);
 
     public  List<MessageUserEntity> getNotificationByUser(Long userID);
+    
+    public void messageRead(Long messageID);
 
 }

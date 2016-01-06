@@ -7,11 +7,9 @@ package controllers;
 
 import dao.AlbumEntity;
 import dao.CommentEntity;
-import dao.FriendEntity;
 import dao.MediaEntity;
 import dao.MediaTypeEntity;
 import dao.NewsEntity;
-import dao.NotificationEntity;
 import dao.PostEntity;
 import dao.ProfileEntity;
 import dao.RecomendationEntity;
@@ -263,20 +261,15 @@ public class PostsController {
         return model;
     }
 
-    /*@RequestMapping(value = "{username}/media/addAlbum", method = RequestMethod.POST)
-     public ModelAndView addMedia(@ModelAttribute AlbumEntity album, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String username) {
-     ModelAndView model = new ModelAndView("redirect:/" + username + "/media/album.htm");
-     UserEntity ue = (UserEntity) session.getAttribute("user");
-     postService.createAlbum(album, ue);
-     return model;
-     }*/
-    @RequestMapping(value = {"addComment", "{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"addComment", "notification/{postType}/{postID}/addComment", "{username}/addComment", "{username}/{pathVar}/addComment"}, method = RequestMethod.POST)
     public ModelAndView addComment(@ModelAttribute("newComment") CommentEntity comment, HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable Map<String, String> pathVariables) {
         ModelAndView model;
         if (pathVariables.containsKey("pathVar") && pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + "/" + pathVariables.get("pathVar") + ".htm");
         } else if (pathVariables.containsKey("username")) {
             model = new ModelAndView("redirect:/" + pathVariables.get("username") + ".htm");
+        } else if(pathVariables.containsKey("postType") && pathVariables.containsKey("postID") ) {
+            model = new ModelAndView("redirect:/notification/"+pathVariables.get("postType")+"/"+pathVariables.get("postID")+".htm");
         } else {
             model = new ModelAndView("redirect:/home.htm");
         }

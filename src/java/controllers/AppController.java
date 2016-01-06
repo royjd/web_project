@@ -127,4 +127,25 @@ public class AppController {
         model.addObject("content", "notification");
         return model;
     }
+
+    @RequestMapping(value = {"notification/{type}/{id}","notification/{type}/{id}/{messageID}"}, method = RequestMethod.GET)
+    public ModelAndView notification(HttpServletRequest request, HttpServletResponse response, HttpSession session, @PathVariable String type, @PathVariable Long id,@PathVariable Map<String, String> pathVariables) {
+        ModelAndView model = new ModelAndView("page");
+        Long postID;
+        if (type.equals("Comment")) {
+            postID = ((CommentEntity) this.postService.findByID(id)).getPostMain().getId();
+        } else {
+            postID = id;
+        }
+        
+        if(pathVariables.containsKey("messageID")){
+            this.messageService.messageRead(Long.parseLong(pathVariables.get("messageID")));
+        }
+        model.addObject("post", this.postService.findByID(postID));
+        model.addObject("urlForComment", type+"/"+id);
+        model.addObject("content", "onePost");
+        CommentEntity ce = new CommentEntity();
+        model.addObject("newComment", ce);
+        return model;
+    }
 }

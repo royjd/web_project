@@ -50,4 +50,6 @@ public interface UserService {
 
     public UserEntity getUserSessionInfo(String email);
 
+    public boolean isFriend(Long ownerId, Long friendId);
+
 }

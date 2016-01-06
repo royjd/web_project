@@ -8,8 +8,8 @@
     <script src="${pageContext.request.contextPath}/resources/library/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/comment.css"/>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/post.css"/>
-                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/general.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/post/post.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/general.css"/>
     <script src="${pageContext.request.contextPath}/resources/library/jquery-ui/jquery-ui.js"></script>
 
     <head>
@@ -19,5 +19,5 @@
         <%@ include file="commun/header.jsp" %>
 
         <jsp:include page="${content}.jsp" flush="true" />
-</body>
+    </body>
 </html>

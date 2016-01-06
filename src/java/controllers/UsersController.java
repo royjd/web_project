@@ -9,6 +9,7 @@ import dao.FriendEntity;
 import dao.ProfileEntity;
 import dao.UserEntity;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,10 +38,19 @@ public class UsersController {
     private UserService userService;
 
     @RequestMapping(value = "search", method = RequestMethod.POST)
-    public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView search(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mv = new ModelAndView("page");
         mv.addObject("content", "search");
         List<UserEntity> lue = this.userService.search((String) request.getParameter("searchParam"));
+
+        UserEntity sue = ((UserEntity) session.getAttribute("user"));
+        if (sue != null) {
+            HashMap<UserEntity, Boolean> lueFriend = new HashMap<>();
+            for (UserEntity ue : lue) {
+                lueFriend.put(ue, this.userService.isFriend(sue.getId(), ue.getId()));
+            }
+            mv.addObject("isFriendOrNot", lueFriend);
+        }
         mv.addObject("searchResult", lue);
         return mv;
     }
@@ -71,8 +81,8 @@ public class UsersController {
         return mv;
     }
 
-    @RequestMapping(value = {"{username}/removeFriend","removeFriend"}, method = RequestMethod.GET)
-    public ModelAndView removeFriend(HttpSession session, @RequestParam("id") Long id,@PathVariable Map<String, String> pathVariables) {
+    @RequestMapping(value = {"{username}/removeFriend", "removeFriend"}, method = RequestMethod.GET)
+    public ModelAndView removeFriend(HttpSession session, @RequestParam("id") Long id, @PathVariable Map<String, String> pathVariables) {
         ModelAndView mv;
         if (pathVariables.containsKey("username")) {
             mv = new ModelAndView("redirect:/" + pathVariables.get("username") + "/friends.htm");
@@ -137,11 +147,11 @@ public class UsersController {
 
     //========
     @RequestMapping(value = "{username}/friends", method = RequestMethod.GET)
-    public ModelAndView displayFriends(@PathVariable String username, HttpSession session) {      
+    public ModelAndView displayFriends(@PathVariable String username, HttpSession session) {
         ModelAndView mv = new ModelAndView("page");
         mv.addObject("content", "wall");
         mv.addObject("wallContent", "friend/friend");
-        
+
         UserEntity user = (UserEntity) session.getAttribute("user");
         Boolean canRemove = true;
         if (Objects.equals(user, null) || !user.getUsername().equals(username)) { // I want to see friends of a user
@@ -154,8 +164,8 @@ public class UsersController {
             canRemove = false;
 
         }
-        
-        mv.addObject("friends", this.userService.getFriendsListFriendByUserID(user.getId()));      
+
+        mv.addObject("friends", this.userService.getFriendsListFriendByUserID(user.getId()));
         mv.addObject("canRemove", canRemove);
         return mv;
     }

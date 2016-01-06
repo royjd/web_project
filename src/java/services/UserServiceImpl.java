@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity friend = this.userDao.findByID(friendId);
         UserEntity owner = this.userDao.findByID(ownerId);
-        FriendEntity fe = this.friendDao.findByFriendShip(friendId, ownerId);
+        FriendEntity fe = this.friendDao.findByFriendShip(friendId, ownerId);//Variables have bad Name the order doesn't matter for the find
         if (friend != null && owner != null && fe == null) {
             fe = new FriendEntity(owner, friend);
             this.friendDao.save(fe);
@@ -146,6 +146,17 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isFriend(Long ownerId, Long friendId) {
+        if (ownerId.equals(friendId)) {
+            return false;
+        }
+        UserEntity friend = this.userDao.findByID(friendId);
+        UserEntity owner = this.userDao.findByID(ownerId);
+        FriendEntity fe = this.friendDao.findByFriendShip(friendId, ownerId);//Variables have bad Name the order doesn't matter for the find
+        return friend != null && owner != null && fe != null;
     }
 
     @Override
@@ -205,15 +216,15 @@ public class UserServiceImpl implements UserService {
     public List<UserEntity> getFriendsListUserByUserID(Long userID) {
         List<UserEntity> lue = new ArrayList<>();
         List<FriendEntity> lfe = this.friendDao.findFriendsByUserID(userID);
-        for(FriendEntity fe : lfe){
-            if(fe.getFriend().getId().equals(userID)){
+        for (FriendEntity fe : lfe) {
+            if (fe.getFriend().getId().equals(userID)) {
                 lue.add(fe.getOwner());
-            }else{
+            } else {
                 lue.add(fe.getFriend());
             }
         }
         return lue;
-                
+
     }
 
     @Override

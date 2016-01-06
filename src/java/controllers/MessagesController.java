@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import com.sun.xml.internal.ws.client.dispatch.MessageDispatch;
+import commun.MessageDisplayList;
 import dao.MessageEntity;
 import dao.MessageUserEntity;
 import dao.UserEntity;
@@ -86,10 +88,10 @@ public class MessagesController {
         ModelAndView model = new ModelAndView("page");
         model.addObject("content", "message");
         UserEntity ue = (UserEntity) session.getAttribute("user");
-        List<Object> l = messageService.getGListPlusNewListFromUserID(ue.getId());
+        MessageDisplayList  mdl = messageService.getGListPlusNewListFromUserID(ue.getId());
 
-        model.addObject("groupList", l.get(0));
-        model.addObject("newMessageGroupList", l.get(1));
+        model.addObject("groupList", mdl.getHmmue());
+        model.addObject("newMessageGroupList", mdl.getNewMessages());
         return model;
     }
 
@@ -101,11 +103,11 @@ public class MessagesController {
         UserEntity ue = (UserEntity) session.getAttribute("user");
         ue = userService.findByID(ue.getId());
         messageService.messageRead(ue,groupMessage);
-        List<Object> l = messageService.getGListPlusNewListFromUserID(ue.getId(),groupMessage);
+        MessageDisplayList  mdl = messageService.getGListPlusNewListFromUserID(ue.getId(),groupMessage);
 
-        model.addObject("groupList", l.get(0));
-        model.addObject("newMessageGroupList", l.get(1));
-        model.addObject("messages", l.get(2));
+        model.addObject("groupList", mdl.getHmmue());
+        model.addObject("newMessageGroupList", mdl.getNewMessages());
+        model.addObject("messages", mdl.getMe());
         
         return model;
     }

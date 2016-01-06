@@ -15,58 +15,94 @@
         </div>
     </c:if>
 
-    <h2>${user.profile.firstName} ${user.profile.lastName}</h2>       
+    <div class="row">
 
+        <div class="col-sm-4">
+            <c:if test="${canModify}">
+                <h4>Define profile picture<button id="addPicture" class="btn btn-primary btn-sm glyphicon glyphicon-plus"></button></h4>
+                </c:if>
 
-    <h3>
-        Gender :  
-
-        <small>
+            <div id="addPictureProfilDiv" style="display:none">
+                <form enctype="multipart/form-data" method="post" class="form-horizontal" role="form" id="pictureProfileForm" action="${pageContext.request.contextPath}/${username}/media/addPicture.htm">
+                    <span class="btn btn-default btn-file">
+                        Choose profile picture <input type="file" name="file"/>
+                    </span>
+                    <input name="type" type ="hidden" value="profile"/>
+                    <div class="form-group">        
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <c:choose>
-                <c:when test="${empty user.profile.physical.gender}">
-                    Not define
-                </c:when>
-                <c:when test="${user.profile.physical.gender=='M'}">
-                    Male
+                <c:when test="${empty u.profile.pictureProfile}">
+
                 </c:when>
                 <c:otherwise>
-                    Female
+                    <div class="img-overlay">
+                        <img src="${pageContext.request.contextPath}/resources/img/${u.profile.pictureProfile.mediaType.link}" class="img-responsive"/>
+                    </div>
                 </c:otherwise>
             </c:choose>
-        </small>   
-    </h3>
+        </div>
+
+        <div class="col-sm-8">
+            <h2>${u.profile.firstName} ${u.profile.lastName}</h2>       
 
 
-    <h3>
-        Height : <small>${ empty user.profile.physical.height ? "Not define" : user.profile.physical.height}</small>
+            <h3>
+                Gender :  
 
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        Weight : <small>${ empty user.profile.physical.weight ? "Not define" : user.profile.physical.weight}</small>
-    </h3>
+                <small>
+                    <c:choose>
+                        <c:when test="${empty u.profile.physical.gender}">
+                            Not define
+                        </c:when>
+                        <c:when test="${u.profile.physical.gender=='M'}">
+                            Male
+                        </c:when>
+                        <c:otherwise>
+                            Female
+                        </c:otherwise>
+                    </c:choose>
+                </small>   
+            </h3>
 
-    <h3>
-        Live in : 
-        <small>
-            <c:choose>
-                <c:when test="${empty user.profile.country && empty user.profile.city}">
-                    Not define
-                </c:when>
-                <c:otherwise>
-                    ${user.profile.city} ${not empty user.profile.city && not empty user.profile.country ? " / " : ""}${user.profile.country}
-                </c:otherwise>
-            </c:choose>
-        </small> 
-    </h3>
+
+            <h3>
+                Height : <small>${ empty u.profile.physical.height ? "Not define" : u.profile.physical.height}</small>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Weight : <small>${ empty u.profile.physical.weight ? "Not define" : u.profile.physical.weight}</small>
+            </h3>
+
+            <h3>
+                Live in : 
+                <small>
+                    <c:choose>
+                        <c:when test="${empty u.profile.country && empty u.profile.city}">
+                            Not define
+                        </c:when>
+                        <c:otherwise>
+                            ${u.profile.city} ${not empty u.profile.city && not empty u.profile.country ? " / " : ""}${u.profile.country}
+                        </c:otherwise>
+                    </c:choose>
+                </small> 
+            </h3>
+        </div>
+
+    </div>
 
     <hr>
     <h3>Brief Description</h3>
     <p class="well">
-        ${ empty user.profile.description ? "No description" :user.profile.description}
+        ${ empty u.profile.description ? "No description" :u.profile.description}
     </p>
 
     <c:if  test="${canModify}">
         <div class="pull-right">
-            <a href="${pageContext.request.contextPath}/${user.username}/profile/edit.htm"  class="btn btn-info" role="button">Edit profile</a>
+            <a href="${pageContext.request.contextPath}/${u.username}/profile/edit.htm"  class="btn btn-info" role="button">Edit profile</a>
         </div>
         <div class='clearfix'>
 
@@ -77,7 +113,7 @@
     <h3>Experiences</h3>
     <hr>
 
-    <c:forEach items="${user.profile.experiences}" var="experience" >
+    <c:forEach items="${u.profile.experiences}" var="experience" >
         <div class="media">
             <div class="media-body">
                 <h3 class="media-heading">${experience.title}</h3>
@@ -97,7 +133,7 @@
 
             <c:if test="${canModify}">
                 <div class="pull-right">
-                    <a href="${pageContext.request.contextPath}/${user.username}/experience/manage/${experience.id}.htm"  class="btn btn-info" role="button">Edit</a>
+                    <a href="${pageContext.request.contextPath}/${u.username}/experience/manage/${experience.id}.htm"  class="btn btn-info" role="button">Edit</a>
                 </div>
             </c:if>
             <div class="clearfix"></div>
@@ -105,12 +141,12 @@
         </div>
     </c:forEach>
 
-    <c:if test="${not empty user.profile.experiences}">
-        <a href="${pageContext.request.contextPath}/${user.username}/experience.htm"  class="btn btn-info" role="button">See more</a>
+    <c:if test="${not empty u.profile.experiences}">
+        <a href="${pageContext.request.contextPath}/${u.username}/experience.htm"  class="btn btn-info" role="button">See more</a>
     </c:if>
 
     <c:if test="${canModify}">
-        <a href="${pageContext.request.contextPath}/${user.username}/experience/manage/0.htm"  class="pull-right btn btn-success" role="button">Add experience</a>
+        <a href="${pageContext.request.contextPath}/${u.username}/experience/manage/0.htm"  class="pull-right btn btn-success" role="button">Add experience</a>
     </c:if>
 
 </div>
@@ -118,17 +154,17 @@
 <div class="col-sm-3 padding-25">
 
     <h4>
-        Email : <small>${user.email}</small>
+        Email : <small>${u.email}</small>
     </h4>
     <hr>
 
     <h4>
-        @<small>${user.username}</small>
+        @<small>${u.username}</small>
     </h4>
     <hr>
 
     <h4>
-        Mobile Number : <small>${ empty user.profile.phone ? "Not define" : user.profile.phone}</small>
+        Mobile Number : <small>${ empty u.profile.phone ? "Not define" : u.profile.phone}</small>
     </h4>
     <hr>
 
@@ -136,4 +172,4 @@
         Birth day : <small>Not define</small>
     </h4>
 
-</div>
+</div> 

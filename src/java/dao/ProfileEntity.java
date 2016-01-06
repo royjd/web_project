@@ -37,21 +37,29 @@ public class ProfileEntity implements Serializable {
     private String firstName;
 
     private String lastName;
-    
+
     @Temporal(TemporalType.DATE)
     private Date birthDay;
 
     private String phone;
 
     private String description;
-    
+
     private String country;
-    
+
     private String city;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity profileOwner;
+
+    @OneToOne
+    @JoinColumn(name = "pictureProfile_id")
+    private MediaEntity pictureProfile;
+    
+    @OneToOne
+    @JoinColumn(name = "pictureCover_id")
+    private MediaEntity pictureCover;
 
     @OneToMany(mappedBy = "profile")
     private List<ExperienceEntity> experiences = new ArrayList<>();
@@ -121,6 +129,15 @@ public class ProfileEntity implements Serializable {
         return id;
     }
 
+    public MediaEntity getPictureProfile() {
+        return pictureProfile;
+    }
+
+    public void setPictureProfile(MediaEntity pictureProfile) {
+        this.pictureProfile = pictureProfile;
+    }
+
+    
     public void setId(Long id) {
         this.id = id;
     }
@@ -156,8 +173,6 @@ public class ProfileEntity implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -191,5 +206,15 @@ public class ProfileEntity implements Serializable {
     public void setPhysical(PhysicalEntity physical) {
         this.physical = physical;
     }
+
+    public MediaEntity getPictureCover() {
+        return pictureCover;
+    }
+
+    public void setPictureCover(MediaEntity pictureCover) {
+        this.pictureCover = pictureCover;
+    }
+    
+    
 
 }

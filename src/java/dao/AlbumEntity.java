@@ -34,6 +34,8 @@ public class AlbumEntity extends PostEntity {
     @Fetch(FetchMode.SELECT)
     private List<MediaEntity> medias = new ArrayList<>();
 
+    private String localisation;
+    
     public AlbumEntity() {
         super();
     }
@@ -83,5 +85,15 @@ public class AlbumEntity extends PostEntity {
     public void setMedias(List<MediaEntity> medias) {
         this.medias = medias;
     }
+
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+    
+    
 
 }

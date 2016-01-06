@@ -29,10 +29,43 @@
 
                 </div>
             </div>
-            <div class="col-sm-10 padding-25">
-                <jsp:include page="${mediaContent}.jsp"/>
-            </div>
+            <div   class="col-sm-10 padding-25">
+                <div class="pull-right">
+                    <a href="${pageContext.request.contextPath}/${username}/media/add.htm?val=0" class="btn btn-primary"> + Create album</a>
+                    <a href="${pageContext.request.contextPath}/${username}/media/add.htm?val=${empty albumId ? -1 : albumId}" class="btn btn-primary"> Add photo</a>
+                    <a href="#" class="btn btn-primary"> Add video</a>
+                </div>
+                <div class="clearfix">
+                    <c:if test="${not empty album_header}">
+                        <div class="col-sm-offset-2">
+                            <h3>Create a album</h3>
+                            <hr>
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty photo_header}">
+                        <div class="col-sm-offset-2">
+                            <h3>Add photo
+                                <c:if test="${albumId!=0}">
+                                    <c:choose>
+                                        <c:when test="${empty titre}">
+                                            to your album
+                                        </c:when> 
+                                        <c:otherwise>
+                                            to ${titre} 
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </h3>
+                            <hr>
+                        </div>
+                    </c:if>
 
+                </div>
+                <div>
+                    <jsp:include page="${mediaContent}.jsp"/>
+                </div>
+
+            </div>
 
         </div>
     </div>

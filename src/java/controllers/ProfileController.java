@@ -78,21 +78,18 @@ public class ProfileController {
         UserEntity u = userService.findByUsername(username);
 
         if (u != null) {
-
             UserEntity user = (UserEntity) session.getAttribute("user");
             List<ExperienceEntity> l = experienceService.findExperiencesForProfil(u.getProfile().getId() , 3);
-
+            u.getProfile().setExperiences(l);
             if (user == null || !Objects.equals(user.getId(), u.getId())) {  // Je visite le mur d'un autre utilisateur
-                mv.addObject("user", u);
-                u.getProfile().setExperiences(l);
                 mv.addObject("canModify", false);
             } else {   // Je visite mon mur
                 mv.addObject("canModify", true);
-                user.getProfile().setExperiences(l);
             }
+            mv.addObject("u", u);
             mv.addObject("profileContent", "displayProfile");
         } else {   // L'utilisateur n'existe pas dans la base de données.
-
+            mv.addObject("profileContent", "NotFound");
         }
 
         return mv;

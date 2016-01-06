@@ -7,32 +7,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:if test="${user.username == username}"> 
-    <form method="post" class="form-horizontal" role="form" id="newsForm" action="${pageContext.request.contextPath}/${username}/media/addAlbum.htm">
-        <div class="form-group">
-            <div class="col-sm-12">
-                <input  type="TEXT" class="form-control" name="title" rows="5" id="title" placeholder="Title here"></input>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <textarea  type="TEXT" class="form-control" name="body" rows="5" id="body" placeholder="Type your description here"></textarea>
-            </div>
-        </div> 
-        <div class="form-group">        
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success pull-right">Submit</button>
-            </div>
-        </div>
-    </form>
-</c:if> 
+
 <div class="postMedia col-sm-12 bg-success">
     <c:forEach var="i" begin="1" end="${post.size()}" step="1">
         <c:set var="tier" value="${post[post.size()-i]}" />
 
         <c:if test="${tier.getClass().name == 'dao.AlbumEntity'}"> 
             <div class="col-xs-12 col-sm-6 col-md-3">
-                <a href="#">
+                <a href="${pageContext.request.contextPath}/${username}/media/displayAlbum.htm?albumId=${tier.id}">
                     ${tier.albumDisplay}
                 </a>
             </div>

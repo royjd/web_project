@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -151,5 +152,29 @@ public class PostDAOImpl implements PostDAO {
                 .getResultList();
 
         return postEntities;
+    }
+
+    @Override
+    public PostEntity findAlbum(Long userId, String type) {
+        try {
+            Query q = this.em.createQuery("SELECT p FROM PostEntity p where p.author.id = :userId and TYPE(p) = AlbumEntity and p.title=:type");
+            q.setParameter("userId", userId);
+            q.setParameter("type", type);
+            return (PostEntity) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public PostEntity findAlbum(Long userId , Long albumId) {
+        try {
+            Query q = this.em.createQuery("SELECT p FROM PostEntity p where p.author.id = :userId and p.id =:albumId");
+            q.setParameter("userId", userId);
+            q.setParameter("albumId", albumId);
+            return (PostEntity)q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

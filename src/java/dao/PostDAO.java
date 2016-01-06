@@ -20,6 +20,10 @@ public interface PostDAO {
     public void delete(PostEntity p);
 
     public PostEntity findByPostId(Long postId);
+    
+    public PostEntity findAlbum(Long userId , String type);
+    
+    public PostEntity findAlbum(Long userId, Long albumId);
 
     public List<PostEntity> findByUsernameAndType(String username, String type);
 

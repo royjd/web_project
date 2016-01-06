@@ -10,3 +10,26 @@
         <jsp:include page="wall/${wallContent}.jsp" flush="true" />
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#addPicture").click(function () {
+            $("#addPictureProfilDiv").toggle();
+            if ($(this).hasClass("glyphicon-plus")) {
+                $(this).removeClass("glyphicon-plus btn-primary").addClass("btn-danger glyphicon-remove");
+            } else {
+                $(this).removeClass("btn-danger glyphicon-remove").addClass("glyphicon-plus btn-primary");
+            }
+        });
+
+        $("#addCover").click(function () {
+            $("#addCoverDiv").toggle();
+            if ($(this).hasClass("glyphicon-plus")) {
+                $(this).removeClass("glyphicon-plus btn-primary").addClass("btn-danger glyphicon-remove");
+            } else {
+                $(this).removeClass("btn-danger glyphicon-remove").addClass("glyphicon-plus btn-primary");
+            }
+        });
+
+    });
+
+</script>    

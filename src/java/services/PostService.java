@@ -13,6 +13,7 @@ import dao.PostEntity;
 import dao.RecomendationEntity;
 import dao.UserEntity;
 import java.util.List;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
  *
@@ -22,6 +23,10 @@ public interface PostService {
 
     public PostEntity findByID(Long postID);
 
+    public PostEntity findAlbum(Long id , String type);
+    
+    public PostEntity findAlbum(Long userId , Long albumId);
+
     public PostEntity createComment(String parameter, UserEntity author, long parentId, long mainId);
 
     public PostEntity createComment(CommentEntity comment, UserEntity author);
@@ -29,14 +34,16 @@ public interface PostService {
     public PostEntity createNews(NewsEntity news, UserEntity author, UserEntity target);
 
     public PostEntity createRecommendation(RecomendationEntity recom, UserEntity author, UserEntity target);
+    
+    public PostEntity createPhoto(AlbumEntity album, UserEntity author, CommonsMultipartFile file);
 
-    public PostEntity createPhoto(MediaEntity media, UserEntity author);
+    public PostEntity createPhoto(AlbumEntity album, UserEntity author, CommonsMultipartFile[] files );
 
     public PostEntity createVideao(MediaEntity media, UserEntity author);
 
     public PostEntity createAlbum(AlbumEntity album, UserEntity author);
 
-    public  List<PostEntity> getPostFromUserAndType(String username, String type);
+    public List<PostEntity> getPostFromUserAndType(String username, String type);
 
     public List<PostEntity> getRecentPostFromFriendAndMe(Long id);
 
@@ -46,10 +53,13 @@ public interface PostService {
 
     public List<PostEntity> getNextPostFromUserID(String id, Long postId);
 
+<<<<<<< HEAD
     public List<PostEntity> getNextRecommendationFromUserID(String username, Long postId);
 
     public Object getRecentRecommendationFromUserID(String username);
 
 
     
+=======
+>>>>>>> origin/Lazy-Fetch
 }

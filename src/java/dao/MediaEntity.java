@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -26,6 +27,15 @@ public class MediaEntity extends PostEntity {
     @JoinColumn(name = "media_news_id")
     private NewsEntity news;
 
+    @OneToOne
+    @JoinColumn(name = "media_type_id")
+    private MediaTypeEntity mediaType;
+
+    @OneToOne(mappedBy = "pictureProfile")
+    private ProfileEntity profile;
+
+    private String localisation;
+
     public MediaEntity() {
         super();
     }
@@ -36,22 +46,28 @@ public class MediaEntity extends PostEntity {
 
    /* @Override
     public String getHomeBootstrapDisplay() {
-        
-        return  "<div>"+this.getWallBootstrapHeaderDisplay()
-                +"<p>"+this.getBody() + "<p>"
-                +"<a href=\"#\">"
-                +"            <div class=\"img-overlay\">"
+
+        return "<div>" + this.getWallBootstrapHeaderDisplay()
+                + "<p>" + this.getBody() + "<p>"
+                + "<a href=\"#\">"
+                + "            <div class=\"img-overlay\">"
                 + "                <img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/>"
                 + "            </div>"
                 + "</a>"
+<<<<<<< HEAD
                 +"</div>";
         
     }*/
+=======
+                + "</div>";
+
+    }
+>>>>>>> origin/Lazy-Fetch
 
     public String getPhotoDisplay() {
         return "            <div class=\"img-overlay\">"
                 + "                     <a href=\"#\"><img src=\"http://placehold.it/500x500\" class=\"img-responsive\"/></a>"
-                +"                      <div class=\"text project-overlay\" style=\"text-align:center;display:none;\">"
+                + "                      <div class=\"text project-overlay\" style=\"text-align:center;display:none;\">"
                 + "                         <a href=\"#\"><h4>this.getAlbum().getTitle()</h4></a>"
                 + "                         <p>" + this.getBody() + "</p>"
                 + "                     </div>"
@@ -70,12 +86,37 @@ public class MediaEntity extends PostEntity {
         return news;
     }
 
+    public ProfileEntity getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileEntity profile) {
+        this.profile = profile;
+    }
+
+    
     public void setNews(NewsEntity news) {
         this.news = news;
     }
 
     public boolean isPhoto() {
         return true;
+    }
+
+    public MediaTypeEntity getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaTypeEntity mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
     }
 
 }

@@ -12,20 +12,25 @@ import dao.FriendEntity;
 import dao.MediaEntity;
 import dao.NewsEntity;
 import dao.NotificationEntity;
+import dao.PhotoEntity;
 import dao.PostDAO;
 import dao.PostEntity;
 import dao.RecomendationEntity;
 import dao.UserDAO;
 import dao.UserEntity;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.management.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
  *
@@ -36,6 +41,9 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     PostDAO postDao;
+
+    @Autowired
+    PhotoService photoService;
 
     @Resource
     FriendDAO friendDAO;
@@ -98,8 +106,42 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostEntity createPhoto(MediaEntity media, UserEntity author) {
-        return this.createPost(media, author, author);
+    public PostEntity createPhoto(AlbumEntity album, UserEntity author, CommonsMultipartFile file) {
+        PostEntity post = null;
+        try {
+            PhotoEntity photo = photoService.upload(file, author.getUsername(), album);
+            if (photo != null) {
+                MediaEntity media = new MediaEntity();
+                if ("DefaulAlbum".equals(album.getTitle())) {
+                    media = new MediaEntity(album.getTitle(), album.getBody(), author);
+                }
+                media.setMediaType(photo);
+                media.setAlbum(album);
+                post = this.createPost(media, author, author);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PostServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return post;
+    }
+
+    @Override
+    public PostEntity createPhoto(AlbumEntity album, UserEntity author, CommonsMultipartFile[] files) {
+        PostEntity post = null;
+        int i = 0;
+        for (CommonsMultipartFile file : files) {
+            post = createPhoto(album, author, file);
+            if (post != null) {
+                MediaEntity media = new MediaEntity();
+                media.setId(post.getId());
+                if (i == files.length - 1) {
+                    album.setCover(media);
+//                    postDao.update(album);
+                }
+            }
+            i++;
+        }
+        return post;
     }
 
     @Override
@@ -148,6 +190,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+<<<<<<< HEAD
     public List<PostEntity> getNextRecommendationFromUserID(String username, Long postID) {
         UserEntity ue = this.userDao.findByUsername(username);
         List<Long> l = new ArrayList<>();
@@ -161,6 +204,15 @@ public class PostServiceImpl implements PostService {
         List<Long> l = new ArrayList<>();
         l.add(ue.getId());
         return postDao.getRecentRecommendationFromUsersID(l);
+=======
+    public PostEntity findAlbum(Long id , String type) {
+        return postDao.findAlbum(id,type);
+    }
+
+    @Override
+    public PostEntity findAlbum(Long id, Long albumId) {
+        return postDao.findAlbum(id,albumId);
+>>>>>>> origin/Lazy-Fetch
     }
 
 }

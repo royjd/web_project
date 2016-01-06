@@ -6,11 +6,13 @@
 package services;
 
 import commun.PasswordManager;
+import dao.AlbumEntity;
 import dao.ExperienceDAO;
 import dao.FriendDAO;
 import dao.FriendEntity;
 import dao.PhysicalDAO;
 import dao.PhysicalEntity;
+import dao.PostDAO;
 import dao.ProfileDAO;
 import dao.ProfileEntity;
 import dao.UserDAO;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDAO userDao;
+
+    @Autowired
+    PostDAO postDao;
 
     @Autowired
     FriendDAO friendDao;
@@ -63,6 +68,12 @@ public class UserServiceImpl implements UserService {
                 Long physicalId = physicalDao.save(physic);
                 physic.setId(physicalId);
                 p.setPhysical(physic);
+                AlbumEntity album = new AlbumEntity("DefaultAlbum", "default album", u);
+                postDao.save(album);
+                album = new AlbumEntity("NewsAlbum", "news album", u);
+                postDao.save(album);
+                album = new AlbumEntity("ProfileAlbum", "profile album", u);
+                postDao.save(album);
                 return true;
             } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
